@@ -19,7 +19,7 @@ electronTrigger='(HLT_Ele25_WPTight_Gsf || HLT_Ele27_eta2p1_WPLoose_Gsf || HLT_E
 
 #Preselection
 #presel='nJet>2'
-presel='1==1'
+presel='Jet_nElectrons==0 && Jet_nMuons==0 && Jet_puId>4 && Jet_jetId>0 && Jet_pt>30 && fabs(Jet_eta)<2.5 && nTau==0'
 
 #Composite Variables
 ZWindow="60 < invariantMass(Muon_pt[0], Muon_eta[0], Muon_phi[0], Muon_mass[0], Muon_pt[1], Muon_eta[1], Muon_phi[1], Muon_mass[1]) && invariantMass(Muon_pt[0], Muon_eta[0], Muon_phi[0], Muon_mass[0], Muon_pt[1], Muon_eta[1], Muon_phi[1], Muon_mass[1]) < 120"
@@ -29,8 +29,8 @@ INVMuE="invariantMass(Electron_pt[0], Electron_eta[0], Electron_phi[0], Electron
 #Lepton2.isLoose && Lepton2.pfIso04<0.25)||(Lepton1.pt>10 && Lepton1.isLoose && Lepton1.pfIso04<0.25 && Lepton2.pt>30 && Lepton2.isTight && Lepton2.pfIso04<0.15)) && V.mass > 70 && V.mass<110
 
 selection = {
-    'Trigger' : tAND(triggerMET,'1==1'),
-    'ZmmINC' : tAND(tAND(triggerMET,'nMuon>2 && Muon_pt[0]>30 && Muon_pt[1]>10 && Muon_pfRelIso04_all[0]<0.15 && Muon_pfRelIso04_all[0]<0.25'),ZWindow),
+    'Trigger' : tAND(muonTrigger,tAND(presel,'1==1')),
+    'ZmmINC' : tAND(tAND(presel,tAND(muonTrigger,'nMuon==2 && nElectron==0 && Muon_pt[0]>30 && Muon_pt[1]>10')),ZWindow),
 }
 
 weights = {

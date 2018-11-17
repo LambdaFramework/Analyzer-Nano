@@ -19,16 +19,16 @@ from samplesVH import samples
 from samplesVH import sample as tag
 from selections_SSLep import *
 
-#from samplesbbDM import samples as samplesbbDM
-#from samplesbbDM import sample as tagbbDM
-#from selections_bbDM import selection as selectionbbDM
+#from samplesbbDM import samples
+#from samplesbbDM import sample as tag
+#from selections_bbDM import *
 
 def ProjectDraw(var, cut, Lumi, samplelist, pd, ntupledir):
     
     histcarrier={}
     histlet={}
     
-    if var=="Zmass":        
+    if var=="Zmass":
         if 'mumu' in cut:
             print col.OKGREEN+"Zmass: "+col.ENDC+ \
                 "Inv( "+col.OKGREEN+"Muon^(+/-)"+col.ENDC+" , "+col.FAIL+"Muon^(-/+)"+col.ENDC+" )" if 'OS' in cut else \
@@ -49,7 +49,8 @@ def ProjectDraw(var, cut, Lumi, samplelist, pd, ntupledir):
     else:
         print col.OKGREEN+var+col.ENDC
         VAR=var
-        
+
+    print "VAR = ", VAR
     CUT=selection[cut]
     
     for TAG in samplelist:

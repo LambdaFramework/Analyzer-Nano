@@ -141,10 +141,10 @@ var_template = {
     # Jets
     "nJet": {
         "title" : "Number of jet",
-        "nbins" : 10,
+        "nbins" : 13,
         "min" : -0.5,
-        "max" : 9.5,
-        "log" : True,
+        "max" : 12.5,
+        "log" : False,
     },
     "Jet_pt[N]": {
       "title" : "jet [N] p_{T} (GeV)",
@@ -207,7 +207,7 @@ var_template = {
         "nbins" : 100,
         "min" : 0,
         "max" : 300,
-        "log" : True,
+        "log" : False,
     },
     "Zpt": {
         "title" : "Zpt (GeV)",

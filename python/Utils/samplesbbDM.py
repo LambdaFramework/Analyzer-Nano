@@ -350,6 +350,18 @@ sample = {
         'kfactor' : 1.,
     },
     # MC
+    'DYJetsToLL_M-10to50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8-v1': {
+        'nevents' : 26156930,
+        'xsec'    : 9000,
+        'matcheff': 1.0,
+        'kfactor' : 1,
+    },
+    'DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_ext1-v2': {
+        'nevents' : 49144270,
+        'xsec'    : 6025.,
+        'matcheff': 1.0,
+        'kfactor' : 1.0,
+    },
     ### DYJetsToLL_Pt
     # took from samples.py
  	'DYJetsToLL_Pt-100To250_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8-v2' : {
@@ -371,8 +383,8 @@ sample = {
         'kfactor' : 1.,
     },
     'DYJetsToLL_Pt-100To250_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_ext5-v1' : {
-        'nevents' : 75702951,
-        'xsec'    : 83.12 ,
+        'nevents' : 75457970,
+        'xsec'    : 0.013*6025.,
         'matcheff': 1.,
         'kfactor' : 1.,
     },
@@ -396,7 +408,7 @@ sample = {
     },
     'DYJetsToLL_Pt-250To400_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_ext5-v1' : {
         'nevents' : 19575946,
-        'xsec'    : 3.047 ,
+        'xsec'    : 3.31375,
         'matcheff': 1.,
         'kfactor' : 1.,
     },
@@ -414,7 +426,7 @@ sample = {
     },
     'DYJetsToLL_Pt-400To650_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_ext2-v1' : {
         'nevents' : 604038,
-        'xsec'    : 0.3921 ,
+        'xsec'    : 0.451875,
         'matcheff': 1.,
         'kfactor' : 1.,
     },
@@ -432,7 +444,7 @@ sample = {
     },
     'DYJetsToLL_Pt-650ToInf_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_ext2-v1' : {
         'nevents' : 597526,
-        'xsec'    : 0.03636 ,
+        'xsec'    : 0.054225,
         'matcheff': 1.,
         'kfactor' : 1.,
     },
@@ -593,6 +605,12 @@ sample = {
     	'matcheff': 1.,
     	'kfactor' : 1.,
     },
+    'WJetsToLNu_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8-v1': {
+        'nevents' : 21978040,
+        'xsec'    : 61530,
+        'matcheff': 1.0,
+        'kfactor' : 1.0,
+    },
     ## WJetsToLNu_Pt*
     'WJetsToLNu_Pt-100To250_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8-v1' : {
         'nevents' : 10089661,
@@ -650,6 +668,12 @@ sample = {
     },
     ## WJetsToLNu_HT* 
     ## Change to follow monojet, beware of the k-factor, how to calculate?
+    'WJetsToLNu_HT-70To100_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1': {
+        'nevents' : 10094300,
+        'xsec'    : 3691.18,
+        'matcheff': 1.0,
+        'kfactor' : 1.0,#1,                                                                                                                    
+    },
     'WJetsToLNu_HT-100To200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_ext1-v1' : {
         'nevents' : 29503700,
         'xsec'    : 1343,#1292.,
@@ -657,8 +681,8 @@ sample = {
         'kfactor' : 1.459,
     },
     'WJetsToLNu_HT-100To200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_ext2-v1' : {
-        'nevents' : 39617787,
-        'xsec'    : 1345,
+        'nevents' : 39617790,#39617787,
+        'xsec'    : 3384.15,#1345,
         'matcheff': 1.,
         'kfactor' : 1.459,
         },
@@ -670,25 +694,25 @@ sample = {
     },
     'WJetsToLNu_HT-200To400_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_ext2-v1' : {
         'nevents' : 19914590,
-        'xsec'    : 359.7,
+        'xsec'    : 738.36,#359.7,
         'matcheff': 1.,
         'kfactor' : 1.434,
     },
     'WJetsToLNu_HT-400To600_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_ext1-v1' : {
         'nevents' : 5796237,
-        'xsec'    : 48.85,#47.9,
+        'xsec'    : 92.295,#48.85,#47.9,
         'matcheff': 1.,
         'kfactor' : 1.532,
     },
     'WJetsToLNu_HT-600To800_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_ext1-v1' : {
-        'nevents' : 14908339,
-        'xsec'    : 12.05,#12.8,
+        'nevents' : 14908340,#14908339,
+        'xsec'    : 7.3836,#12.05,#12.8,
         'matcheff': 1.,
         'kfactor' : 1.004,
     },
     'WJetsToLNu_HT-800To1200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_ext1-v1' : {
         'nevents' : 6200954,
-        'xsec'    : 5.501,#5.261,
+        'xsec'    : 3.19956,#5.501,#5.261,
         'matcheff': 1.,
         'kfactor' : 1.004,
     },
@@ -706,8 +730,14 @@ sample = {
     },
     ## TT ##(taken from https://twiki.cern.ch/twiki/bin/view/LHCPhysics/TtbarNNLO)
     'TT_TuneCUETP8M2T4_13TeV-powheg-pythia8-v1' : {
-      	'nevents' : 77229341,
+      	'nevents' : (68676263./77081156.)*68676260,#77229341,
         'xsec'    : 831.76, #730.,#taken from McM: check from ichep!it is different!
+        'matcheff': 1.,
+        'kfactor' : 1.,
+    },
+    'TT_TuneCUETP8M2T4_13TeV-powheg-pythia8-v1_1':{
+        'nevents' : (8404893./77081156.)*68676260,#8421051,
+        'xsec'    : 831.76,
         'matcheff': 1.,
         'kfactor' : 1.,
     },
@@ -744,30 +774,36 @@ sample = {
         'kfactor' : 1.,
     },
     'ST_tW_top_5f_inclusiveDecays_13TeV-powheg-pythia8_TuneCUETP8M2T4-v1' : {
-        'nevents' : 992024,
-        'xsec'    : 35.6,
+        'nevents' : 5372991,#992024,
+        'xsec'    : 20,#35.6,
         'matcheff': 1.,
         'kfactor' : 1.,
     },
     'ST_s-channel_4f_leptonDecays_13TeV-amcatnlo-pythia8_TuneCUETP8M1-v1' : {
         'nevents' : 1000000.,
-        'xsec'    : 10.11,#10.32*(1.-0.6760),
+        'xsec'    : 3.45,#10.11,#10.32*(1.-0.6760),
         'kfactor' : 1.,
     },#
     'ST_t-channel_antitop_4f_inclusiveDecays_13TeV-powhegV2-madspin-pythia8_TuneCUETP8M1-v1' : {
-        'nevents' : 38811017.,
-        'xsec'    : 80.95, #https://twiki.cern.ch/twiki/bin/viewauth/CMS/SingleTopSigma
+        'nevents' : 5922361,#38811017.,
+        'xsec'    : 27.1,#80.95, #https://twiki.cern.ch/twiki/bin/viewauth/CMS/SingleTopSigma
         'kfactor' : 1.,
     },
     'ST_t-channel_top_4f_inclusiveDecays_13TeV-powhegV2-madspin-pythia8_TuneCUETP8M1-v1' : {
-        'nevents' : 67240808.,
-        'xsec'    : 136.02,
+        'nevents' : 11108070,#67240808.,
+        'xsec'    : 27.1,#136.02,
         'kfactor' : 1.,
+    },
+    'ST_tW_antitop_5f_inclusiveDecays_13TeV-powheg-pythia8_TuneCUETP8M2T4-v1': {
+        'nevents' : 5435134,
+        'xsec'    : 20,
+        'matcheff': 1.0,
+        'kfactor' : 1.0,
     },
     ## Diboson all taken from Monojet's
     ## WW
     'WW_TuneCUETP8M1_13TeV-pythia8-v1' : {
-        'nevents' : 994012,
+        'nevents' : 7981136,#994012,
         'xsec'    : 118.7,#63.21,#Taken from mcm!
         'matcheff': 1.,
         'kfactor' : 1.,
@@ -1325,6 +1361,21 @@ samples = {
         'weight': 1.,
         'plot': True,
         },
+    'DYJetsToLL' : {
+        'order' : 1,
+        'files' : [
+            'DYJetsToLL_M-10to50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8-v1',
+            'DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_ext1-v2'
+        ],
+        'fillcolor' : 418,
+        'fillstyle' : 1001,
+        'linecolor' : 418,
+        'linewidth' : 2,
+        'linestyle' : 1,
+        'label' : "Z(ll) + jets",
+        'weight': 1.,
+        'plot': True,
+    },
     'DYJetsToLL_HT' : {
         'order' : 0,
         'files' : [
@@ -1400,9 +1451,24 @@ samples = {
         'weight': 1.,
         'plot': True,
         },
+    'WJetsToLNu' : {
+        'order' : 3,
+        'files' : [
+            'WJetsToLNu_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8-v1'
+        ],
+        'fillcolor' : 881,
+        'fillstyle' : 1001,
+        'linecolor' : 881,
+        'linewidth' : 2,
+        'linestyle' : 1,
+        'label' : "W(l#nu) + jets",
+        'weight': 1.,
+        'plot': True,
+    },
     'WJetsToLNu_HT' : {
         'order' : 2,
         'files' : [
+            'WJetsToLNu_HT-70To100_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1',
             'WJetsToLNu_HT-100To200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_ext2-v1', 
             'WJetsToLNu_HT-200To400_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_ext2-v1', 
             'WJetsToLNu_HT-400To600_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_ext1-v1', 
@@ -1443,6 +1509,7 @@ samples = {
             #'TTWJetsToLNu_TuneCUETP8M1_13TeV-amcatnloFXFX-madspin-pythia8-v1',
             #'TTZToLLNuNu_M-10_TuneCUETP8M1_13TeV-amcatnlo-pythia8',
             'TT_TuneCUETP8M2T4_13TeV-powheg-pythia8-v1',
+            'TT_TuneCUETP8M2T4_13TeV-powheg-pythia8-v1_1',
             ],
         'fillcolor' : 798,
         'fillstyle' : 1001,
@@ -1456,8 +1523,11 @@ samples = {
     'ST' : {
         'order' : 4,
         'files' : [
-            #'ST_tW_top_5f_inclusiveDecays_13TeV-powheg-pythia8_TuneCUETP8M1_ext1-v1', 
-            'ST_t-channel_antitop_4f_inclusiveDecays_13TeV-powhegV2-madspin-pythia8_TuneCUETP8M1-v1', 
+            'ST_s-channel_4f_leptonDecays_13TeV-amcatnlo-pythia8_TuneCUETP8M1-v1',
+            'ST_t-channel_antitop_4f_inclusiveDecays_13TeV-powhegV2-madspin-pythia8_TuneCUETP8M1-v1',
+            'ST_t-channel_top_4f_inclusiveDecays_13TeV-powhegV2-madspin-pythia8_TuneCUETP8M1-v1',
+            'ST_tW_antitop_5f_inclusiveDecays_13TeV-powheg-pythia8_TuneCUETP8M2T4-v1',
+            'ST_tW_top_5f_inclusiveDecays_13TeV-powheg-pythia8_TuneCUETP8M2T4-v1'
             ],
         'fillcolor' : 801,
         'fillstyle' : 1001,
@@ -1470,8 +1540,9 @@ samples = {
     	},
     'VVIncl' : {
         'order' : 5,
-        'files' : ['WW_TuneCUETP8M1_13TeV-pythia8-v1', 
-                   #'WZ_TuneCUETP8M1_13TeV-pythia8-v1', 
+        'files' : [
+            'WW_TuneCUETP8M1_13TeV-pythia8-v1', 
+            #'WZ_TuneCUETP8M1_13TeV-pythia8-v1', 
                    #'ZZ_TuneCUETP8M1_13TeV-pythia8_ext1-v1'
                    ],
         'fillcolor' : 602,
