@@ -28,27 +28,39 @@ def ProjectDraw(var, cut, Lumi, samplelist, pd, ntupledir):
     histcarrier={}
     histlet={}
     
-    if var=="Zmass":
-        if 'mumu' in cut:
-            print col.OKGREEN+"Zmass: "+col.ENDC+ \
-                "Inv( "+col.OKGREEN+"Muon^(+/-)"+col.ENDC+" , "+col.FAIL+"Muon^(-/+)"+col.ENDC+" )" if 'OS' in cut else \
-                "Inv( "+col.OKGREEN+"Muon^(+/-)"+col.ENDC+" , "+col.OKGREEN+"Muon^(+/-)"+col.ENDC+" )"
+    if 'mumu' in cut:
+        print col.OKGREEN+"Zmass: "+col.ENDC+ \
+            "Inv( "+col.OKGREEN+"Muon^(+/-)"+col.ENDC+" , "+col.FAIL+"Muon^(-/+)"+col.ENDC+" )" if 'OS' in cut else \
+            "Inv( "+col.OKGREEN+"Muon^(+/-)"+col.ENDC+" , "+col.OKGREEN+"Muon^(+/-)"+col.ENDC+" )"
+        if var=="Zmass":
             VAR="invariantMass(Muon_pt[0], Muon_eta[0], Muon_phi[0], Muon_mass[0], Muon_pt[1], Muon_eta[1], Muon_phi[1], Muon_mass[1])"
-        elif 'ee' in cut:
-            print col.OKGREEN+"Zmass: "+col.ENDC+ \
-                "Inv( "+col.OKGREEN+"Electron^(+/-)"+col.ENDC+" , "+col.FAIL+"Electron^(-/+)"+col.ENDC+" )" if 'OS' in cut else \
-                "Inv( "+col.OKGREEN+"Electron^(+/-)"+col.ENDC+" , "+col.OKGREEN+"Electron^(+/-)"+col.ENDC+" )"
-            VAR="invariantMassPt(Electron_pt[0], Electron_eta[0], Electron_phi[0], Electron_mass[0], Electron_pt[1], Electron_eta[1], Electron_phi[1], Electron_mass[1])"
-        elif 'emu' in cut:
-            print col.OKGREEN+"Zmass: "+col.ENDC+ \
-		"Inv( "+col.OKGREEN+"Electron^(+/-)"+col.ENDC+" , "+col.FAIL+"Muon^(-/+)"+col.ENDC+" )" if 'OS' in cut else \
-                "Inv( "+col.OKGREEN+"Electron^(+/-)"+col.ENDC+" , "+col.OKGREEN+"Muon^(+/-)"+col.ENDC+" )"
-            VAR="invariantMass(Electron_pt[0], Electron_eta[0], Electron_phi[0], Electron_mass[0], Muon_pt[0], Muon_eta[0], Muon_phi[0], Muon_mass[0])"
+        if var=="Zpt":
+            VAR="invariantMassPt(Muon_pt[0], Muon_eta[0], Muon_phi[0], Muon_mass[0], Muon_pt[1], Muon_eta[1], Muon_phi[1], Muon_mass[1])"
         else:
-            VAR="invariantMass(Muon_pt[0], Muon_eta[0], Muon_phi[0], Muon_mass[0], Muon_pt[1], Muon_eta[1], Muon_phi[1], Muon_mass[1])"
-    else:
-        print col.OKGREEN+var+col.ENDC
-        VAR=var
+            print col.OKGREEN+var+col.ENDC
+            VAR=var
+    elif 'ee' in cut:
+        print col.OKGREEN+"Zmass: "+col.ENDC+ \
+            "Inv( "+col.OKGREEN+"Electron^(+/-)"+col.ENDC+" , "+col.FAIL+"Electron^(-/+)"+col.ENDC+" )" if 'OS' in cut else \
+            "Inv( "+col.OKGREEN+"Electron^(+/-)"+col.ENDC+" , "+col.OKGREEN+"Electron^(+/-)"+col.ENDC+" )"
+        if var=="Zmass":
+            VAR="invariantMass(Electron_pt[0], Electron_eta[0], Electron_phi[0], Electron_mass[0], Electron_pt[1], Electron_eta[1], Electron_phi[1], Electron_mass[1])"
+        if var=="Zpt":
+            VAR="invariantMassPt(Electron_pt[0], Electron_eta[0], Electron_phi[0], Electron_mass[0], Electron_pt[1], Electron_eta[1], Electron_phi[1], Electron_mass[1])"
+        else:
+            print col.OKGREEN+var+col.ENDC
+            VAR=var
+    elif 'emu' in cut:
+        print col.OKGREEN+"Zmass: "+col.ENDC+ \
+	    "Inv( "+col.OKGREEN+"Electron^(+/-)"+col.ENDC+" , "+col.FAIL+"Muon^(-/+)"+col.ENDC+" )" if 'OS' in cut else \
+            "Inv( "+col.OKGREEN+"Electron^(+/-)"+col.ENDC+" , "+col.OKGREEN+"Muon^(+/-)"+col.ENDC+" )"
+        if var=="Zmass":
+            VAR="invariantMass(Electron_pt[0], Electron_eta[0], Electron_phi[0], Electron_mass[0], Muon_pt[0], Muon_eta[0], Muon_phi[0], Muon_mass[0])"
+        elif var=="Zpt":
+            VAR="invariantMassPt(Electron_pt[0], Electron_eta[0], Electron_phi[0], Electron_mass[0], Muon_pt[0], Muon_eta[0], Muon_phi[0], Muon_mass[0])"
+        else:
+            print col.OKGREEN+var+col.ENDC
+            VAR=var
 
     print "VAR = ", VAR
     CUT=selection[cut]

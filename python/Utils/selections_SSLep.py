@@ -16,7 +16,8 @@ muonTrigger='(HLT_IsoMu22 || HLT_IsoMu22_eta2p1 || HLT_IsoTkMu22_eta2p1 || HLT_I
 electronTrigger='(HLT_Ele25_WPTight_Gsf || HLT_Ele27_eta2p1_WPLoose_Gsf || HLT_Ele105_CaloIdVT_GsfTrkIdT)'
 
 #Preselection
-presel='1==1' ## OSmumu, OSem show agreement
+#cleanedJet==1
+presel='1==1 && cleanedJet==1' ## OSmumu, OSem show agreement
 #presel='( (Jet_nElectrons>0 && Jet_nMuons>0) && ( (Jet_electronIdx1[0]!=-1) && Muon_mediumId[Jet_electronIdx1[0]]>0 && Muon_pt[Jet_electronIdx1[0]]>30 )   )'
 #presel='MHTju_pt>100'
 #presel='Jet_nElectrons==0 && Jet_nMuons==0 && Jet_puId>4 && Jet_jetId>0 && Jet_pt>30 && fabs(Jet_eta)<2.5'
@@ -36,7 +37,7 @@ selection = {
     ##DY+jets CR # this samples will be used both for Z+jets CR AND for di-muonic and di-electronic  tt CR )
     'OSmumu'    : tAND(muonTrigger,tAND(presel,'(Muon_charge[0]!=Muon_charge[1]) && Muon_pt[0]>17 && Muon_pt[1]>8 && Muon_mediumId[0]>0 && Muon_mediumId[1]>0 && Muon_pfRelIso03_all[0]<0.15 && Muon_pfRelIso03_all[1]<0.15')),
     #'OSmumuhighpt'    : tAND(muonTrigger,tAND(presel,'(Muon_charge[0]!=Muon_charge[1]) && Muon_pt[0]>25 && Muon_pt[1]>15 && Muon_pfRelIso03_all[0]<0.1')),
-    'OSee'    : tAND(electronTrigger,tAND(presel,'(Electron_charge[0]!=Electron_charge[1]) && Electron_pt[0]>25 && Electron_pt[1]>17 && Electron_pfRelIso03_all[0]<0.15 && Electron_pfRelIso03_all[1]<0.15')),
+    'OSee'    : tAND(electronTrigger,tAND(presel,'(Electron_charge[0]!=Electron_charge[1]) && Electron_pt[0]>25 && Electron_pt[1]>17 && Electron_pfRelIso03_all[0]<0.1 && Electron_pfRelIso03_all[1]<0.1')),
     'OSemu'    : tAND(muonTrigger,tAND(presel,'(Muon_charge[0]!=Electron_charge[0]) && Muon_pt[0]>27 && Electron_pt[0]>25 && Muon_pfRelIso03_all[0]<0.1 && Muon_mediumId[0]>0 && Electron_cutBased[0]>0 && Electron_pfRelIso03_all[0]<0.1')),
     ## Di-leptonic tt -> e mu 
     'DiLepTT' : tAND(tAND(muonTrigger,tAND(presel,'Muon_pt[0]>24 && Electron_pt[0]>20')),INVMuE), ##INVMuE
