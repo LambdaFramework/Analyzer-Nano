@@ -206,8 +206,8 @@ var_template = {
         "title" : "m_{Z} (GeV)",
         "nbins" : 100,
         "min" : 0,
-        "max" : 300,
-        "log" : False,
+        "max" : 200,
+        "log" : True,
     },
     "Zpt": {
         "title" : "Zpt (GeV)",

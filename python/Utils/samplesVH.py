@@ -815,7 +815,9 @@ samples = {
      'WW' : {
         'order' : 9,
         'files' : [
-            'WW_TuneCUETP8M1_13TeV-pythia8_ext1-v1',  
+            'WpWpJJ_13TeV-powheg-pythia8_TuneCUETP8M1-v1',
+            'WmWmJJ_13TeV-powheg-pythia8_TuneCUETP8M1-v1',
+            #'WW_TuneCUETP8M1_13TeV-pythia8_ext1-v1',  
             #'WW_TuneCUETP8M1_13TeV-pythia8-v1'
             ],
         'fillcolor' : 7,
@@ -823,7 +825,7 @@ samples = {
         'linecolor' : 602,
         'linewidth' : 2,
         'linestyle' : 1,
-        'label' : "WW",
+        'label' : "W+W-",
         'weight': 1.,
         'plot': True,
         },
@@ -848,7 +850,9 @@ samples = {
     'VV' : {
         'order' : 8,
         'files' : [
-            'WW_TuneCUETP8M1_13TeV-pythia8_ext1-v1',
+            #'WW_TuneCUETP8M1_13TeV-pythia8_ext1-v1',
+            'WpWpJJ_13TeV-powheg-pythia8_TuneCUETP8M1-v1',
+            'WmWmJJ_13TeV-powheg-pythia8_TuneCUETP8M1-v1',
             'WZTo3LNu_TuneCUETP8M1_13TeV-powheg-pythia8-v1',
             'ZZTo2L2Nu_13TeV_powheg_pythia8-v1',
             'ZZTo4L_13TeV-amcatnloFXFX-pythia8_ext1-v1',
