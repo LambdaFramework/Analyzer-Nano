@@ -53,13 +53,14 @@ gStyle.SetOptStat(0)
 
 ##############################
 #NTUPLEDIR   = "/Users/shoh/Projects/CMS/PhD/Analysis/SSL/datav8-skim/" if options.analysis is 'VH' else "/Users/shoh/Projects/CMS/PhD/Analysis/SSL/bbDMv2-skim/"
-NTUPLEDIR   = "/Users/shoh/Projects/CMS/PhD/Analysis/SSL/dataset-v10-VH/"
+NTUPLEDIR   = "/Users/shoh/Projects/CMS/PhD/Analysis/SSL/dataset-v12-VH/"
 PLOTDIR     = "plots/"
 LUMI        = 35800. # pb-1 Inquire via brilcalc lumi --begin 272007 --end 275376 -u /pb #https://twiki.cern.ch/twiki/bin/viewauth/CMS/PdmV2016Analysis
 data        = ["data_obs"]
 if options.analysis=='VH':
     #back        = [ "ttV" , "WW" ,"WZ" , "TTbar-SL", "ST", "TTbar-DiLep", "WJetsToLNu" , "DYJetsToLL" ]
-    back        = [ "ttV" , "VV" , "VVV" , "WJetsToLNu_HT" , "TTbar-SL", "ST", "TTbar-DiLep", "DYJetsToLL" ] 
+    #back        = [ "ttV" , "VV" , "VVV" , "WJetsToLNu_HT" , "TTbar-SL", "ST", "TTbar-DiLep", "DYJetsToLL" ]
+    back         = ["VVV", "ttV" , "WW", "WZ", "TTbar-SL", "ST", "TTbar-DiLep", "WJetsToLNu_HT", "DYJetsToLL" ] 
 elif options.analysis=='bbDM':
     back = ["QCD" ,"VVIncl", "ST", "TTbar", "DYJetsToLL_Pt", "WJetsToLNu_HT" ,"ZJetsToNuNu_HT"]
 sign        = []
@@ -200,7 +201,7 @@ def signal(var, cut):
     
 
 if options.all:
-    for region in ['OSemu','OSmumu','SSmumu']:
+    for region in [ 'OSemu' , 'OSmumu' , 'SSmumu' ]:
         print col.CYAN+"PLOTTING on : ",region+col.ENDC
         #for VARS in [ 'Zmass' , 'Zpt' , 'PV_npvs' , 'MHTju_pt' , \
         #              'nMuon' , 'Muon_pt[0]' , 'Muon_pt[1]' , 'Muon_pt[2]' , \
@@ -220,7 +221,12 @@ if options.all:
                       'Muon_pfRelIso03_all[0]' , 'Muon_pfRelIso03_all[1]' , 'Muon_pfRelIso03_all[2]', \
                       'Electron_pt[0]' , 'Electron_pt[1]' , 'Electron_pt[2]', \
                       'Electron_pfRelIso03_all[0]' , 'Electron_pfRelIso03_all[1]' , 'Electron_pfRelIso03_all[2]' , \
-                      'nJet' , 'Jet_pt[0]' , 'Jet_pt[1]' , 'Jet_pt[2]' ]:
+                      'nJet' , 'Jet_pt[0]' , 'Jet_pt[1]' , 'Jet_pt[2]' , 'nMuon', 'nElectron', \
+                      'MHTju_phi' , 'nGoodJet' , 'nGoodMuon' , 'nGoodElectron' , \
+                      'Jet_btagCSVV2[0]' , 'Jet_btagCSVV2[1]' , 'MuonJet_MindR[0]' , 'ElecJet_MindR[0]' , \
+                      'MuonJet_MindR[1]' , 'ElecJet_MindR[1]' , 'Muon_mediumId[0]' , 'Muon_mediumId[1]' , \
+                      'Electron_cutBased[0]' , 'Electron_cutBased[1]' , \
+        ]:
             start_time = time.time()
             print col.OKGREEN+"PLOTTING on : ",VARS+col.ENDC
             plot(VARS,region)
