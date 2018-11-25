@@ -37,16 +37,14 @@ selection = {
     'Trigger' : tAND(muonTrigger,'1==1'),
     #CONTROL REGION
     ##DY+jets CR # this samples will be used both for Z+jets CR AND for di-muonic and di-electronic  tt CR )
-    #'OSmumu'    : tAND(muonTrigger,tAND(presel,'(Muon_charge[0]!=Muon_charge[1]) && Muon_pt[0]>17 && Muon_pt[1]>8 && Muon_mediumId[0]>0 && Muon_mediumId[1]>0 && Muon_pfRelIso03_all[0]<0.15 && Muon_pfRelIso03_all[1]<0.15')),
-    #Muon_mediumId[0]>0 && Muon_mediumId[1]>0
-    'OSmumu'    : tAND(muonTrigger,tAND(presel,'(Muon_charge[0]!=Muon_charge[1]) && Muon_pt[0]>30 && Muon_pt[1]>15 && Muon_pfRelIso03_all[0]<0.15 && Muon_pfRelIso03_all[1]<0.15')),
+    'OSmumu'    : tAND(muonTrigger,tAND(presel,'nGoodMuon==2 && nGoodElectron==0 && Muon_mediumId[0]==1 && Muon_mediumId[1]==1 && MuonJet_MindR[0]>0.4 && MuonJet_MindR[1]>0.4 && (Muon_charge[0]!=Muon_charge[1]) && Muon_pt[0]>30 && Muon_pt[1]>15 && Muon_pfRelIso03_all[0]<0.15 && Muon_pfRelIso03_all[1]<0.15')),
     #'OSmumuhighpt'    : tAND(muonTrigger,tAND(presel,'(Muon_charge[0]!=Muon_charge[1]) && Muon_pt[0]>25 && Muon_pt[1]>15 && Muon_pfRelIso03_all[0]<0.1')),
     'OSee'    : tAND(electronTrigger,tAND(presel,'(Electron_charge[0]!=Electron_charge[1]) && Electron_pt[0]>25 && Electron_pt[1]>17 && Electron_pfRelIso03_all[0]<0.1 && Electron_pfRelIso03_all[1]<0.1')),
-    'OSemu'    : tAND(muonTrigger,tAND(presel,'(Muon_charge[0]!=Electron_charge[0]) && Muon_pt[0]>27 && Electron_pt[0]>25 && Muon_pfRelIso03_all[0]<0.1 && Muon_mediumId[0]>0 && Electron_cutBased[0]>0 && Electron_pfRelIso03_all[0]<0.1')),
+    'OSemu'    : tAND(muonTrigger,tAND(presel,'nGoodMuon==1 && nGoodElectron==1 && Muon_mediumId[0]==1 && Electron_cutBased[0]==4 && MuonJet_MindR[0]>0.4 && ElecJet_MindR[0]>0.4 && (Muon_charge[0]!=Electron_charge[0]) && Muon_pt[0]>27 && Electron_pt[0]>25 && Muon_pfRelIso03_all[0]<0.1 && Electron_pfRelIso03_all[0]<0.1')),
     ## Di-leptonic tt -> e mu 
     'DiLepTT' : tAND(tAND(muonTrigger,tAND(presel,'Muon_pt[0]>24 && Electron_pt[0]>20')),INVMuE), ##INVMuE
     #SS muon
-    'SSmumu'   : tAND(muonTrigger,tAND(presel,'(Muon_charge[0]==Muon_charge[1]) && Muon_pt[0]>25 && Muon_pt[1]>15 && Muon_pfRelIso03_all[0]<0.1')), #HT30 > 50 ?
+    'SSmumu'   : tAND(muonTrigger,tAND(presel,'nGoodMuon==2 && nGoodElectron==0 && Muon_mediumId[0]==1 && Muon_mediumId[1]==1 && MuonJet_MindR[0]>0.4 && MuonJet_MindR[1]>0.4 && (Muon_charge[0]==Muon_charge[1]) && Muon_pt[0]>25 && Muon_pt[1]>15 && Muon_pfRelIso03_all[0]<0.1')), #HT30 > 50 ?
     #'SSmumu'   : tAND(muonTrigger,tAND(presel,'(Muon_charge[0]==Muon_charge[1]) && Muon_mediumId[0]>0 && Muon_mediumId[1]>0 && Muon_pfRelIso03_all[0]<0.1')),
     'SSmumu1b'   : tAND(muonTrigger,tAND(presel,'(Muon_charge[0]==Muon_charge[1]) && Muon_pt[0]>25 && Muon_pt[1]>15 && Muon_pfRelIso03_all[0]<0.1 && Jet_btagCSVV2[0]>0.8')),
     'SSmumu2b'   : tAND(muonTrigger,tAND(presel,'(Muon_charge[0]==Muon_charge[1]) && Muon_pt[0]>25 && Muon_pt[1]>15 && Muon_pfRelIso03_all[0]<0.1 && Jet_btagCSVV2[1]>0.8')),
