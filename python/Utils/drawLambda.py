@@ -24,7 +24,7 @@ from selections_SSLep import *
 #from selections_bbDM import *
 
 def ProjectDraw(var, cut, Lumi, samplelist, pd, ntupledir):
-    
+
     histcarrier={}
     histlet={}
 
@@ -65,11 +65,11 @@ def ProjectDraw(var, cut, Lumi, samplelist, pd, ntupledir):
     else:
         print col.OKGREEN+var+col.ENDC
         VAR=var
-            
+
 
     print "VAR = ", VAR
     CUT=selection[cut]
-    
+
     for TAG in samplelist:
         ENUMLIST=[]
         if 'data' in TAG:
@@ -78,18 +78,18 @@ def ProjectDraw(var, cut, Lumi, samplelist, pd, ntupledir):
                     ENUMLIST.append(datalet)
         elif not 'data' in TAG:
             ENUMLIST=samples['%s' %TAG]['files']
-            
+
         for num, bkgs in enumerate(ENUMLIST):
             #print num, bkgs
             f = TFile.Open(ntupledir+bkgs+".root","READ")
             tree = f.Get("Events")
             gROOT.cd()
-            #Define histograms                                                               
+            #Define histograms
             nevents = tag[bkgs]['nevents']
             xs = tag[bkgs]['xsec']
             LumiMC = nevents/xs
             Weight = float(Lumi) / float(LumiMC)
-        
+
             if num==0:
                 if variable[var]['nbins']>0: histlet[TAG] = TH1F(bkgs, ";"+variable[var]['title'], variable[var]['nbins'], variable[var]['min'], variable[var]['max'])
                 else: histlet[TAG]=TH1F(bkgs,";"+variable[var]['title'], len(variable[var]['bins'])-1, array('f', variable[var]['bins']))
@@ -129,14 +129,14 @@ def ProjectDraw(var, cut, Lumi, samplelist, pd, ntupledir):
 
 
 def draw(hist, data, back, sign, snorm=1, ratio=0, poisson=False, log=False):
-    # If not present, create BkgSum                                                                         
+    # If not present, create BkgSum
     if not 'BkgSum' in hist.keys():
         hist['BkgSum'] = hist['data_obs'].Clone("BkgSum") if 'data_obs' in hist else hist[back[0]].Clone("BkgSum")
         hist['BkgSum'].Reset("MICES")
         for i, s in enumerate(back): hist['BkgSum'].Add(hist[s])
     hist['BkgSum'].SetMarkerStyle(0)
 
-    # Some style                                                                                            
+    # Some style
     for i, s in enumerate(data):
         hist[s].SetMarkerStyle(20)
         hist[s].SetMarkerSize(1.25)
@@ -146,9 +146,9 @@ def draw(hist, data, back, sign, snorm=1, ratio=0, poisson=False, log=False):
     for i, s in enumerate(data+back+sign+['BkgSum']):
         addOverflow(hist[s], False) # Add overflow
 
-    # Set Poisson error bars                                                                                
+    # Set Poisson error bars
     #if len(data) > 0: hist['data_obs'].SetBinErrorOption(1) # doesn't work
-    
+
     # Poisson error bars for data
     if poisson:
         alpha = 1 - 0.6827
@@ -167,18 +167,18 @@ def draw(hist, data, back, sign, snorm=1, ratio=0, poisson=False, log=False):
             res_graph.SetPoint(i, hist['data_obs'].GetXaxis().GetBinCenter(i+1), N/B if not B==0 and not N==0 else -1.e99)
             res_graph.SetPointError(i, hist['data_obs'].GetXaxis().GetBinWidth(i+1)/2., hist['data_obs'].GetXaxis().GetBinWidth(i+1)/2., (N-L)/B if not B==0 else -1.e99, (U-N)/B if not B==0 else -1.e99)
 
-    # Create stack                                                                                       
+    # Create stack
     bkg = THStack("Bkg", ";"+hist['BkgSum'].GetXaxis().GetTitle()+";Events")
     for i, s in enumerate(back): bkg.Add(hist[s])
 
-    # Legend                                                                                                
+    # Legend
     n = len([x for x in data+back+['BkgSum']+sign if samples[x]['plot']])
     for i, s in enumerate(sign):
         if 'sublabel' in samples[s]: n+=1
         if 'subsublabel' in samples[s]: n+=1
     leg = TLegend(0.7, 0.9-0.05*n, 0.95, 0.9)
     leg.SetBorderSize(0)
-    leg.SetFillStyle(0) #1001                                                                               
+    leg.SetFillStyle(0) #1001
     leg.SetFillColor(0)
     if len(data) > 0:
         leg.AddEntry(hist[data[0]], samples[data[0]]['label'], "pl")
@@ -186,19 +186,19 @@ def draw(hist, data, back, sign, snorm=1, ratio=0, poisson=False, log=False):
         leg.AddEntry(hist[s], samples[s]['label'], "f")
     for i, s in enumerate(sign):
         if samples[s]['plot']:
-            #leg.AddEntry(hist[s], samples[s]['label'].replace("m_{#Chi}=1 GeV", ""), "fl")                 
+            #leg.AddEntry(hist[s], samples[s]['label'].replace("m_{#Chi}=1 GeV", ""), "fl")
             leg.AddEntry(hist[s], samples[s]['label'], "fl")
             #leg.AddEntry(hist[s], "Scalar Mediator", "")
 
-            #print samples[s]                                                                               
+            #print samples[s]
             if 'sublabel' in samples[s]:
                 leg.AddEntry(hist[s], samples[s]['sublabel'].replace("m_{#Chi}=1 GeV", ""), "")
             if 'subsublabel' in samples[s]:
                 leg.AddEntry(hist[s], samples[s]['subsublabel'].replace("m_{#Chi}=1 GeV", ""), "")
 
-     # --- Display ---                                                                                       
+     # --- Display ---
     c1 = TCanvas("c1", hist.values()[-1].GetXaxis().GetTitle(), 800, 800 if ratio else 600)
-    
+
     if ratio:
         c1.Divide(1, 2)
         setTopPad(c1.GetPad(1), ratio)
@@ -210,14 +210,14 @@ def draw(hist, data, back, sign, snorm=1, ratio=0, poisson=False, log=False):
     if log:
         c1.GetPad(bool(ratio)).SetLogy()
 
-    # Draw                                                                                                  
-    bkg.Draw("HIST") # stack                                                                                
-    hist['BkgSum'].Draw("SAME, E2") # sum of bkg                                                            
+    # Draw
+    bkg.Draw("HIST") # stack
+    hist['BkgSum'].Draw("SAME, E2") # sum of bkg
     if poisson: data_graph.Draw("SAME, PE")
     elif len(data) > 0: hist['data_obs'].Draw("SAME, PE")
     for i, s in enumerate(sign):
         if samples[s]['plot']:
-            hist[s].DrawNormalized("SAME, HIST", hist[s].Integral()*snorm) # signals                        
+            hist[s].DrawNormalized("SAME, HIST", hist[s].Integral()*snorm) # signals
 
     bkg.GetYaxis().SetTitleOffset(bkg.GetYaxis().GetTitleOffset()*1.075)
 
@@ -231,7 +231,7 @@ def draw(hist, data, back, sign, snorm=1, ratio=0, poisson=False, log=False):
 #        bkg.GetYaxis().SetNoExponent(bkg.GetMaximum() < 1.e4)
 #        bkg.GetYaxis().SetMoreLogLabels(True)
 
-    #set range on stack                                                                                     
+    #set range on stack
     bkg.SetMinimum(1.0)
 
     leg.Draw()
@@ -253,8 +253,8 @@ def draw(hist, data, back, sign, snorm=1, ratio=0, poisson=False, log=False):
         errLine.SetLineWidth(1)
         errLine.SetFillStyle(0)
         errLine.SetLineColor(1)
-        #err.GetXaxis().SetLabelOffset(err.GetXaxis().GetLabelOffset()*5)                                   
-        #err.GetXaxis().SetTitleOffset(err.GetXaxis().GetTitleOffset()*2)                                   
+        #err.GetXaxis().SetLabelOffset(err.GetXaxis().GetLabelOffset()*5)
+        #err.GetXaxis().SetTitleOffset(err.GetXaxis().GetTitleOffset()*2)
         err.Draw("E2")
         errLine.Draw("SAME, HIST")
         if 'data_obs' in hist:
@@ -266,14 +266,14 @@ def draw(hist, data, back, sign, snorm=1, ratio=0, poisson=False, log=False):
             setBotStyle(res)
             if poisson: res_graph.Draw("SAME, PE0")
             else: res.Draw("SAME, PE0")
-            if len(err.GetXaxis().GetBinLabel(1))==0: # Bin labels: not a ordinary plot                     
+            if len(err.GetXaxis().GetBinLabel(1))==0: # Bin labels: not a ordinary plot
                 drawRatio(hist['data_obs'], hist['BkgSum'])
                 drawKolmogorov(hist['data_obs'], hist['BkgSum'])
                 drawRelativeYield(hist['data_obs'], hist['BkgSum'])
         else: res = None
     c1.Update()
 
-    # return list of objects created by the draw() function                                                 
+    # return list of objects created by the draw() function
     if not ratio:
         return [c1, bkg, leg, data_graph if poisson else None, res_graph if poisson else None]
     else:
@@ -320,7 +320,7 @@ def printTable(hist, sign=[]):
     print "-"*80
     for i, s in enumerate(['data_obs']+samplelist+['BkgSum']):
         if i==1 or i==len(samplelist)+1: print "-"*80
-        #Events                           #Entries                                                                                                              
+        #Events                           #Entries
         print "%-20s" % s, "\t%-10.2f" % hist[s].Integral(), "\t%-10.0f" % (hist[s].GetEntries()-2), "\t%-10.2f" % (100.*hist[s].Integral()/hist['BkgSum'].Integral()) if hist['BkgSum'].Integral() > 0 else 0, "%"
     print "-"*80
     for i, s in enumerate(sign):
@@ -343,10 +343,10 @@ def getPrimaryDataset(cut):
     return pd
 
 def getNm1Cut(var, cut):
-#    try:                                                                                                                                                                                        
-#        value = string(cut.split(var, 1)[1].split(" ")[0][1:])                                                                                                                                  
-#    except:                                                                                                                                                                                     
-#        print "n-1 cut value not found"                                                                                                                                                         
+#    try:
+#        value = string(cut.split(var, 1)[1].split(" ")[0][1:])
+#    except:
+#        print "n-1 cut value not found"
     if ' '+var+'>' in cut: cut = cut.replace(var, "1e99")
     elif ' '+var+'<' in cut: cut = cut.replace(var, "-1e99")
     elif ' '+var+'==' in cut: cut = cut.replace(var+'==', "-9!=")
@@ -387,7 +387,7 @@ def setHistStyle(hist, r=1.1):
     hist.GetXaxis().SetLabelOffset(hist.GetXaxis().GetLabelOffset()*r*r*r*r)
     hist.GetXaxis().SetTitleOffset(hist.GetXaxis().GetTitleOffset()*r)
     hist.GetYaxis().SetTitleOffset(hist.GetYaxis().GetTitleOffset())
-    if hist.GetXaxis().GetTitle().find("GeV") != -1: # and not hist.GetXaxis().IsVariableBinSize()                                                                                               
+    if hist.GetXaxis().GetTitle().find("GeV") != -1: # and not hist.GetXaxis().IsVariableBinSize()
         div = (hist.GetXaxis().GetXmax() - hist.GetXaxis().GetXmin()) / hist.GetXaxis().GetNbins()
         hist.GetYaxis().SetTitle("Events / %.1f GeV" % div)
 
@@ -431,10 +431,10 @@ def drawAnalysis(s, center=False):
     latex.SetNDC()
     latex.SetTextSize(0.04)
     latex.SetTextFont(42)
-    #latex.SetTextAlign(33)                                                                                                                                                                         
+    #latex.SetTextAlign(33)
     latex.DrawLatex(0.15 if not center else 0.3, 0.95, s if not s in analyses else analyses[s])
 
-    
+
 def drawRegion(channel, left=False):
     region = { "OSmumu" : "#mu^{+}#mu^{-}" , "OSee" : "e^{+}e^{-}" , "OSemu" : "e^{+}#mu^{-}" , "SSmumu" : "#mu^{+}#mu^{+} / #mu^{-}#mu^{-}" , "SSee" : "e^{+}e^{+} / e^{-}e^{-}" , "SSemu" : "e^{+}#mu^{+} / e^{-}#mu^{-}" }
     text = ""
@@ -457,26 +457,133 @@ def drawRegion(channel, left=False):
         elif 'l' in channel: text += "1l"
         elif 'nn' in channel: text += "0l"
         if 'Top' in channel: text += "top"
-        # b-tag                                                                                                                                
+        # b-tag
         if 'bb' in channel: text += ", 2 b-tag"
         elif 'b' in channel: text += ", 1 b-tag"
-        # purity                                                                                                
+        # purity
         if 'lp' in channel: text += ", low purity"
         elif 'hp' in channel: text += ", high purity"
-        # region                                          
+        # region
         if 'TR' in channel: text += ", top control region"
         elif 'Inc' in channel: text += ", inclusive region"
         elif 'SB' in channel: text += ", sidebands region"
         elif 'SR' in channel: text += ", signal region"
         elif 'NR' in channel: text += ", inclusive region"
         elif 'MC' in channel: text += ", simulation"
-        
+
     latex = TLatex()
     latex.SetNDC()
-    latex.SetTextFont(72) #52                                                                                                                                     
+    latex.SetTextFont(72) #52
     latex.SetTextSize(0.035)
     if left: latex.DrawLatex(0.15, 0.75, text)
     else:
         latex.SetTextAlign(22)
         latex.DrawLatex(0.5, 0.85, text)
 
+def getEntires(var, cut, Lumi, samplelist, pd, ntupledir):
+
+    VAR=var
+    hist0={}
+
+    for TAG in samplelist:
+        ENUMLIST=[]
+        if 'data' in TAG:
+            for datalet in (samples['%s' %TAG]['files']):
+                if datalet in pd:
+                    ENUMLIST.append(datalet)
+        elif not 'data' in TAG:
+            ENUMLIST=samples['%s' %TAG]['files']
+
+        cutseq=""
+        final=[]
+        logic=False
+        for cutstring in cut:
+            #dummy=hist
+
+            if len(cutseq)==0:
+                cutseq+=cutstring
+            else:
+                cutseq+=" && "+cutstring
+            #print "cutseq = ", cutseq
+
+            car=[]
+            NData=0.
+            NMC=0.
+            for num, bkgs in enumerate(ENUMLIST):
+                #print num, bkgs
+                f = TFile.Open(ntupledir+bkgs+".root","READ")
+                tree = f.Get("Events")
+                gROOT.cd()
+                #Define histograms
+                nevents = tag[bkgs]['nevents']
+                xs = tag[bkgs]['xsec']
+                LumiMC = nevents/xs
+                Weight = float(Lumi) / float(LumiMC)
+
+                if 'data' in TAG:
+                    subcut=cutseq.replace(cut[0],"(1==1)")
+                    NData+=tree.GetEntries("%s" %subcut)
+                elif not 'data' in TAG:
+                    zpt="1"
+                    NMC+=tree.GetEntries("%s*%s*(%s)" %(zpt,Weight,cutseq))
+
+            if 'HLT' in cutstring:
+                cutstring="HLT Trigger"
+            car.append(cutstring)
+            if 'data' in TAG:
+                car.append(NData)
+            elif not 'data' in TAG:
+                car.append(NMC)
+            final.append(car) #for cutstring in cut:
+        hist0[TAG]=final #for TAG in samplelist:
+    print (hist0)
+    return hist0
+
+def printTable_html(hist,sign=[]):
+    samplelist = [x for x in hist.keys() if not 'data' in x and not 'BkgSum' in x and not x in sign and not x=="files"]
+
+    yesdata=False
+    datalist=["0",1]
+    if 'data_obs' in hist.keys():
+        datalist=hist['data_obs']
+        yesdata=True
+
+    print '<!DOCTYPE html>'
+    print '<html>'
+    print '<head>'
+    print '<style>'
+    print 'table, th, td {'
+    print 'border: 1px solid black;}'
+    print 'background-color: lemonchiffon;'
+    print '</style>'
+    print '<table>'
+    print '<tr>'
+    print '<th></th>'
+
+    for i in samplelist:
+        print "<th>%s</th>" %i,
+    if not yesdata:
+        print "<th>MC</th>"
+    else:
+        print "<th>MC</th><th>DATA</th><th>DATA/MC</th>"
+    print '</tr>'
+
+    for l in range(0,len(hist[samplelist[0]])):
+        print '<tr>'
+        print "<th>%s</th>" %((hist[samplelist[0]][l])[0]) # order cut
+        count=0
+        MC=0
+        for i in range(0,len(samplelist)):
+            print "<th>%-10.2f</th>" %((hist[samplelist[i]][l])[1])
+            MC+=(hist[samplelist[i]][l])[1]
+        print "<th>%-10.2f</th>" %MC
+        if not yesdata:
+            print "<th>%-10.2f</th>" %datalist[1]
+            print "<th>%-10.2f</th>" %((datalist[1]/MC)*100)
+        else:
+            print "<th>%-10.2f</th>" %datalist[l][1]
+            print "<th>%-10.2f</th>" %((datalist[l][1]/MC)*100)
+        print '</tr>'
+    print '</table>'
+    print '</head>'
+    print '</html>'

@@ -15,8 +15,8 @@ sys.path.append(cwd+"/Utils/")
  
 from drawLambda import *
 from variables import *
-#from selections_SSLep import *
-#from samplesVH import *
+from selections_SSLep import *
+from samplesVH import *
 
 import color as col
 
@@ -36,6 +36,7 @@ parser.add_option("-l", "--all", action="store_true", default=False, dest="all")
 parser.add_option("-s", "--signal", action="store_true", default=False, dest="signal")
 parser.add_option("-d", "--debug", action="store_true", default=False, dest="debug")
 parser.add_option("-a", "--analysis", action="store", type="string",  dest="analysis", default="VH")
+parser.add_option("-u", "--User_cutflow", action="store_true", dest="cutflow", default=False)
 (options, args) = parser.parse_args()
 if options.bash: gROOT.SetBatch(True)
 
@@ -60,7 +61,7 @@ data        = ["data_obs"]
 if options.analysis=='VH':
     #back        = [ "ttV" , "WW" ,"WZ" , "TTbar-SL", "ST", "TTbar-DiLep", "WJetsToLNu" , "DYJetsToLL" ]
     #back        = [ "ttV" , "VV" , "VVV" , "WJetsToLNu_HT" , "TTbar-SL", "ST", "TTbar-DiLep", "DYJetsToLL" ]
-    back         = ["VVV", "ttV" , "WW", "WZ", "TTbar-SL", "ST", "TTbar-DiLep", "WJetsToLNu_HT", "DYJetsToLL" ] 
+    back         = ["VVV", "ttV" , "WW", "WZ", "TTbar-SL", "ST", "TTbar-DiLep", "WJetsToLNu_HT", "DYJetsToLL" ]
 elif options.analysis=='bbDM':
     back = ["QCD" ,"VVIncl", "ST", "TTbar", "DYJetsToLL_Pt", "WJetsToLNu_HT" ,"ZJetsToNuNu_HT"]
 sign        = []
@@ -199,6 +200,21 @@ def signal(var, cut):
     #if not options.runBash: raw_input("Press Enter to continue...")
 
     
+def cutflow(var, cut, norm=False):
+
+    PD = getPrimaryDataset(cut[0])
+    #if cut in selection: plotdir = cut
+    PROC=data+back if not BLIND else back
+    #print col.BOLD+"CUT : ", selection[cut]+col.ENDC
+    
+    if not sign:
+        Histlist=getEntires(var, cut, LUMI, PROC, PD, NTUPLEDIR)
+    else:
+        Histlist=getEntires(var, cut, LUMI, PROC+sign, PD, NTUPLEDIR)
+
+    if len(data+back)>0:
+        printTable_html(Histlist,sign)
+        
 
 if options.all:
     for region in [ 'OSemu' , 'OSmumu' , 'SSmumu' ]:
@@ -236,6 +252,25 @@ if options.all:
 elif options.signal:
     print "Signal Study"
     signal(options.variable,options.cut)
+elif options.cutflow:
+    print "Cutflow table"
+    if options.cut=="":
+        print "ERROR: Please specify cut , python lambdaPlot.py -u -v VAR -c CUT "
+        exit()
+    
+    if options.variable=="":
+        var="PV_npvs"
+    else:
+        var=options.variable
+        
+    cutlet=[]
+    tribit=[selection[options.cut].split(') && (')[0].split('((')[1]]
+    cutseq=selection[options.cut].split(') && (')[2].split('))')[0].split('&&')
+    cutlet = tribit + cutseq 
+    #print tribit
+    #print cutseq
+    #print cutlet
+    cutflow(var, cutlet)
 else:
     start_time = time.time()
     print col.OKGREEN+"PLOTTING: ", options.variable+col.ENDC
