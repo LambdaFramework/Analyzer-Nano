@@ -29,30 +29,20 @@ presel='1==1' ## OSmumu, OSem show agreement
 #presel='Jet_pt>30 && Jet_jetId>0 && Jet_neEmEF>0.2 && Jet_chHEF>0.1 && Jet_puId>4 && fabs(Jet_eta)<2.5'
 
 #Composite Variables
-ZWindow="60 < invariantMass(Muon_pt[0], Muon_eta[0], Muon_phi[0], Muon_mass[0], Muon_pt[1], Muon_eta[1], Muon_phi[1], Muon_mass[1]) && invariantMass(Muon_pt[0], Muon_eta[0], Muon_phi[0], Muon_mass[0], Muon_pt[1], Muon_eta[1], Muon_phi[1], Muon_mass[1]) < 120"
-INVMuE="invariantMass(Electron_pt[0], Electron_eta[0], Electron_phi[0], Electron_mass[0], Muon_pt[0], Muon_eta[0], Muon_phi[0], Muon_mass[0])>15"
+#ZWindow="60 < invariantMass(Muon_pt[0], Muon_eta[0], Muon_phi[0], Muon_mass[0], Muon_pt[1], Muon_eta[1], Muon_phi[1], Muon_mass[1]) && invariantMass(Muon_pt[0], Muon_eta[0], Muon_phi[0], Muon_mass[0], Muon_pt[1], Muon_eta[1], Muon_phi[1], Muon_mass[1]) < 120"
+#INVMuE="invariantMass(Electron_pt[0], Electron_eta[0], Electron_phi[0], Electron_mass[0], Muon_pt[0], Muon_eta[0], Muon_phi[0], Muon_mass[0])>15"
 #INVMWZ="(invariantMass(Muon_pt[0], Muon_eta[0], Muon_phi[0], Muon_mass[0], Muon_pt[1], Muon_eta[1], Muon_phi[1], Muon_mass[1]) - )"
 
 selection = {
     'Trigger' : tAND(muonTrigger,'1==1'),
     #CONTROL REGION
     ##DY+jets CR # this samples will be used both for Z+jets CR AND for di-muonic and di-electronic  tt CR )
-    'OSmumu'    : tAND(muonTrigger,tAND(presel,'nGoodMuon==2 && nGoodElectron==0 && Muon_mediumId[0]==1 && Muon_mediumId[1]==1 && MuonJet_MindR[0]>0.4 && MuonJet_MindR[1]>0.4 && (Muon_charge[0]!=Muon_charge[1]) && Muon_pt[0]>30 && Muon_pt[1]>15 && Muon_pfRelIso03_all[0]<0.15 && Muon_pfRelIso03_all[1]<0.15')),
-    #'OSmumuhighpt'    : tAND(muonTrigger,tAND(presel,'(Muon_charge[0]!=Muon_charge[1]) && Muon_pt[0]>25 && Muon_pt[1]>15 && Muon_pfRelIso03_all[0]<0.1')),
-    'OSee'    : tAND(electronTrigger,tAND(presel,'(Electron_charge[0]!=Electron_charge[1]) && Electron_pt[0]>25 && Electron_pt[1]>17 && Electron_pfRelIso03_all[0]<0.1 && Electron_pfRelIso03_all[1]<0.1')),
-    'OSemu'    : tAND(muonTrigger,tAND(presel,'nGoodMuon==1 && nGoodElectron==1 && Muon_mediumId[0]==1 && Electron_cutBased[0]==4 && MuonJet_MindR[0]>0.4 && ElecJet_MindR[0]>0.4 && (Muon_charge[0]!=Electron_charge[0]) && Muon_pt[0]>27 && Electron_pt[0]>25 && Muon_pfRelIso03_all[0]<0.1 && Electron_pfRelIso03_all[0]<0.1')),
-    ## Di-leptonic tt -> e mu 
-    'DiLepTT' : tAND(tAND(muonTrigger,tAND(presel,'Muon_pt[0]>24 && Electron_pt[0]>20')),INVMuE), ##INVMuE
-    #SS muon
-    'SSmumu'   : tAND(muonTrigger,tAND(presel,'nGoodMuon==2 && nGoodElectron==0 && Muon_mediumId[0]==1 && Muon_mediumId[1]==1 && MuonJet_MindR[0]>0.4 && MuonJet_MindR[1]>0.4 && (Muon_charge[0]==Muon_charge[1]) && Muon_pt[0]>25 && Muon_pt[1]>15 && Muon_pfRelIso03_all[0]<0.1')), #HT30 > 50 ?
-    #'SSmumu'   : tAND(muonTrigger,tAND(presel,'(Muon_charge[0]==Muon_charge[1]) && Muon_mediumId[0]>0 && Muon_mediumId[1]>0 && Muon_pfRelIso03_all[0]<0.1')),
-    'SSmumu1b'   : tAND(muonTrigger,tAND(presel,'(Muon_charge[0]==Muon_charge[1]) && Muon_pt[0]>25 && Muon_pt[1]>15 && Muon_pfRelIso03_all[0]<0.1 && Jet_btagCSVV2[0]>0.8')),
-    'SSmumu2b'   : tAND(muonTrigger,tAND(presel,'(Muon_charge[0]==Muon_charge[1]) && Muon_pt[0]>25 && Muon_pt[1]>15 && Muon_pfRelIso03_all[0]<0.1 && Jet_btagCSVV2[1]>0.8')),
-    ## WZ CR
-    #'WZ'      : tAND(tAND(muonTrigger,tAND(presel,'(nMuon > 2)'))),
-    ## ZZ, Zgamma, Wgamma CR
-    #'ZZ'      : tAND(muonTrigger,tAND(presel,'(nMuon==4 && Muon_pt[3]>5 && Muon_pfRelIso03_all[3]<0.2) || (nMuon==2 && nElectron>0 && Muon_pt[0]>20. && Muon_pfRelIso03_all[0]<0.1 && Muon_pt[1]>10 && Muon_pfRelIso03_all[1]<0.15 && Electron_pt[0]>25 && Electron_pfRelIso03_all[0]<0.1 )')),
+    'OSmumu'    : tAND(muonTrigger,tAND(presel,'nLepton==2 && abs(LepSign[0])+abs(LepSign[1])==26 && (LepSign[0]+LepSign[1])==0 && LepMediumId[0]==1 && LepMediumId[1]==1 && LepPt[0]>30 && LepPt[1]>15 && LepIso03[0]<0.15 && LepIso03[1]<0.15')),
+    'OSee'    : tAND(electronTrigger,tAND(presel,'nLepton==2 && abs(LepSign[0])+abs(LepSign[1])==22 && (LepSign[0]+LepSign[1])==4 && LepCutBased[0]==4 && LepCutBased[1]>3 && LepPt[0]>25 && LepPt[1]>17 && LepIso03[0]<0.1 && LepIso03[1]<0.1')),
+    'OSemu'   : tAND(muonTrigger,tAND(presel,'nLepton==2 && abs(LepSign[0])+abs(LepSign[1])==24 && abs(LepSign[0]-LepSign[1])==2 && LepCutBased[0]==4 && LepMediumId[1]==1 && LepPt[0]>25 && LepPt[1]>27 && LepIso03[0]<0.1 && LepIso03[1]<0.1')),
+    'SSmumu'   : tAND(muonTrigger,tAND(presel,'nLepton==2 && abs(LepSign[0]+LepSign[1])==26 && LepMediumId[0]==1 && LepMediumId[1]==1 && LepPt[0]>25 && LepPt[1]>15 && LepIso03[0]<0.1 && LepIso03[1]<0.1')),
 }
+
 
 weights = {
     
