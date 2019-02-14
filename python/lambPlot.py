@@ -217,32 +217,13 @@ def cutflow(var, cut, norm=False):
         
 
 if options.all:
-    for region in [ 'OSemu' , 'OSmumu' , 'SSmumu' ]:
+    for region in [ 'OSemu' , 'OSmumu' ,'OSee' , 'SSmumu' ]:
         print col.CYAN+"PLOTTING on : ",region+col.ENDC
-        #for VARS in [ 'Zmass' , 'Zpt' , 'PV_npvs' , 'MHTju_pt' , \
-        #              'nMuon' , 'Muon_pt[0]' , 'Muon_pt[1]' , 'Muon_pt[2]' , \
-        #              'nElectron' , 'Electron_pt[0]' , 'Electron_pt[1]' , 'Electron_pt[2]' , \
-        #              'nJet' , 'Jet_pt[0]' , 'Jet_pt[1]' , 'Jet_pt[2]' , \
-        #              #'Muon_eta[0]' , 'Muon_eta[1]' , 'Muon_eta[2]' , \
-        #              #'Electron_eta[0]' , 'Electron_eta[1]' , 'Electron_eta[2]' , \
-        #              #'Jet_eta[0]' , 'Jet_eta[1]'	, 'Jet_eta[2]' ,	\
-        #              'Muon_pfRelIso03_all[0]' , 'Muon_pfRelIso03_all[1]' , 'Muon_pfRelIso03_all[2]' , \
-        #              'Electron_pfRelIso03_all[0]' , 'Electron_pfRelIso03_all[1]' , 'Electron_pfRelIso03_all[2]' , \
-        #              'Jet_btagCSVV2[0]' , 'Jet_btagCSVV2[1]' , 'Jet_btagCSVV2[2]' , \
-        #              'Jet_btagCMVA[0]' , 'Jet_btagCMVA[1]' , 'Jet_btagCMVA[2]'  , \
-        #              'Electron_dxy[0]' , 'Electron_dxy[1]' , 'Electron_dxy[2]' , \
-        #              'Muon_dxy[0]' , 'Muon_dxy[1]' , 'Muon_dxy[2]' \
-        #]:
-        for VARS in [ 'Zmass' , 'Zpt' , 'PV_npvs' , 'MHTju_pt' , 'Muon_pt[0]' , 'Muon_pt[1]' , 'Muon_pt[2]' , \
-                      'Muon_pfRelIso03_all[0]' , 'Muon_pfRelIso03_all[1]' , 'Muon_pfRelIso03_all[2]', \
-                      'Electron_pt[0]' , 'Electron_pt[1]' , 'Electron_pt[2]', \
-                      'Electron_pfRelIso03_all[0]' , 'Electron_pfRelIso03_all[1]' , 'Electron_pfRelIso03_all[2]' , \
-                      'nJet' , 'Jet_pt[0]' , 'Jet_pt[1]' , 'Jet_pt[2]' , 'nMuon', 'nElectron', \
-                      'MHTju_phi' , 'nGoodJet' , 'nGoodMuon' , 'nGoodElectron' , \
-                      'Jet_btagCSVV2[0]' , 'Jet_btagCSVV2[1]' , 'MuonJet_MindR[0]' , 'ElecJet_MindR[0]' , \
-                      'MuonJet_MindR[1]' , 'ElecJet_MindR[1]' , 'Muon_mediumId[0]' , 'Muon_mediumId[1]' , \
-                      'Electron_cutBased[0]' , 'Electron_cutBased[1]' , \
-        ]:
+        for VARS in [ 'Vmass' , 'Vpt' , 'PV_npvs' , 'htpt' , 'htphi' , 'LepPt[0]' , 'LepPt[1]' , \
+                      'LepIso03[0]' , 'LepIso03[1]' , 'LepSign[0]' , 'LepSign[1]' , 'nJet' , 'JetPt[0]' , 'JetPt[1]' , 'JetPt[2]' , \
+                      'JetEta[0]' , 'JetEta[1]' , 'JetEta[2]' , 'isOSmumu' , 'isOSee' , 'isOSemu' , 'isSSmumu' , 'isSSee' , \
+                      'Zpt' , 'nLepton' ]:
+                      
             start_time = time.time()
             print col.OKGREEN+"PLOTTING on : ",VARS+col.ENDC
             plot(VARS,region)
