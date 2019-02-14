@@ -890,7 +890,7 @@ samples = {
             'TTWJetsToLNu_TuneCUETP8M1_13TeV-amcatnloFXFX-madspin-pythia8_ext1-v3',
             'TTZToLLNuNu_M-10_TuneCUETP8M1_13TeV-amcatnlo-pythia8_ext1-v1',
             #'ttHTobb_M125_13TeV_powheg_pythia8-v1',
-            #'ttHToNonbb_M125_TuneCUETP8M2_ttHtranche3_13TeV-powheg-pythia8-v1',
+            'ttHToNonbb_M125_TuneCUETP8M2_ttHtranche3_13TeV-powheg-pythia8-v1',
             #'tZq_ll_4f_13TeV-amcatnlo-pythia8_ext1-v1'
             ],
         'fillcolor' : 38,

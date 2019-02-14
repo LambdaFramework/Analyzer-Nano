@@ -37,10 +37,10 @@ selection = {
     'Trigger' : tAND(muonTrigger,'1==1'),
     #CONTROL REGION
     ##DY+jets CR # this samples will be used both for Z+jets CR AND for di-muonic and di-electronic  tt CR )
-    'OSmumu'    : tAND(muonTrigger,tAND(presel,'nLepton==2 && abs(LepSign[0])+abs(LepSign[1])==26 && (LepSign[0]+LepSign[1])==0 && LepMediumId[0]==1 && LepMediumId[1]==1 && LepPt[0]>30 && LepPt[1]>15 && LepIso03[0]<0.15 && LepIso03[1]<0.15')),
-    'OSee'    : tAND(electronTrigger,tAND(presel,'nLepton==2 && abs(LepSign[0])+abs(LepSign[1])==22 && (LepSign[0]+LepSign[1])==4 && LepCutBased[0]==4 && LepCutBased[1]>3 && LepPt[0]>25 && LepPt[1]>17 && LepIso03[0]<0.1 && LepIso03[1]<0.1')),
-    'OSemu'   : tAND(muonTrigger,tAND(presel,'nLepton==2 && abs(LepSign[0])+abs(LepSign[1])==24 && abs(LepSign[0]-LepSign[1])==2 && LepCutBased[0]==4 && LepMediumId[1]==1 && LepPt[0]>25 && LepPt[1]>27 && LepIso03[0]<0.1 && LepIso03[1]<0.1')),
-    'SSmumu'   : tAND(muonTrigger,tAND(presel,'nLepton==2 && abs(LepSign[0]+LepSign[1])==26 && LepMediumId[0]==1 && LepMediumId[1]==1 && LepPt[0]>25 && LepPt[1]>15 && LepIso03[0]<0.1 && LepIso03[1]<0.1')),
+    'OSmumu'    : tAND(muonTrigger,tAND(presel,'nLepton==2 && abs(LepSign[0])+abs(LepSign[1])==26 && (LepSign[0]+LepSign[1])==0 && LepPt[0]>17 && LepPt[1]>8 && LepIso03[0]<0.15 && LepIso03[1]<0.15')),
+    'OSee'    : tAND(electronTrigger,tAND(presel,'nLepton==2 && abs(LepSign[0])+abs(LepSign[1])==22 && (LepSign[0]+LepSign[1])==4 && LepPt[0]>25 && LepPt[1]>17 && LepIso03[0]<0.15 && LepIso03[1]<0.15')),
+    'OSemu'   : tAND(muonTrigger,tAND(presel,'nLepton==2 && abs(LepSign[0])+abs(LepSign[1])==24 && abs(LepSign[0]-LepSign[1])==2 && LepPt[0]>20 && LepPt[1]>24')),
+    'SSmumu'   : tAND(muonTrigger,tAND(presel,'nLepton==2 && abs(LepSign[0]+LepSign[1])==26 && LepPt[0]>25 && LepPt[1]>15 && LepIso03[0]<0.1')),
 }
 
 
