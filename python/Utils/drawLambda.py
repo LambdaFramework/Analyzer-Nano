@@ -101,8 +101,8 @@ def ProjectDraw(var, cut, Lumi, samplelist, pd, ntupledir):
                     tree.Draw("%s >> %s" %(VAR,bkgs),"%s" %subcut)
                 elif not 'data' in TAG:
                     print col.MAGENTA+"MC, With HLT : ", bkgs+col.ENDC
-                    #zpt="ZPtCorr"
-                    zpt="1"
+                    zpt="ZptCorr"
+                    #zpt="1"
                     tree.Draw("%s >> %s" %(VAR,bkgs),"%s*%s*(%s)" %(zpt,Weight,CUT))
             elif num>0:
                 if variable[var]['nbins']>0: histcarrier[bkgs] = TH1F(bkgs, ";"+variable[var]['title'], variable[var]['nbins'], variable[var]['min'], variable[var]['max'])
@@ -115,8 +115,8 @@ def ProjectDraw(var, cut, Lumi, samplelist, pd, ntupledir):
                     tree.Draw("%s >> %s" %(VAR,bkgs),"%s" %subcut)
                 elif not 'data' in TAG:
                     print col.MAGENTA+"MC, With HLT : ", bkgs+col.ENDC
-                    #zpt="ZPtCorr"
-                    zpt="1"
+                    zpt="ZptCorr"
+                    #zpt="1"
                     tree.Draw("%s >> %s" %(VAR,bkgs),"%s*%s*(%s)" %(zpt,Weight,CUT))
                 hnew = histcarrier[bkgs].Clone(bkgs)
                 histlet[TAG].Add(hnew)

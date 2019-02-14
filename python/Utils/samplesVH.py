@@ -833,10 +833,10 @@ samples = {
         'order' : 8,
         'files' : [
             #'ZZ_TuneCUETP8M1_13TeV-pythia8-v1',
-            #'ZZ_TuneCUETP8M1_13TeV-pythia8_ext1-v1'
-            'ZZTo2L2Nu_13TeV_powheg_pythia8-v1',
-            'ZZTo4L_13TeV-amcatnloFXFX-pythia8_ext1-v1',
-            'ZZTo2L2Q_13TeV_amcatnloFXFX_madspin_pythia8-v1',
+            'ZZ_TuneCUETP8M1_13TeV-pythia8_ext1-v1'
+            #'ZZTo2L2Nu_13TeV_powheg_pythia8-v1',
+            #'ZZTo4L_13TeV-amcatnloFXFX-pythia8_ext1-v1',
+            #'ZZTo2L2Q_13TeV_amcatnloFXFX_madspin_pythia8-v1',
             ],
         'fillcolor' : 9,
         'fillstyle' : 1001,

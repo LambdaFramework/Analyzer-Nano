@@ -61,7 +61,7 @@ data        = ["data_obs"]
 if options.analysis=='VH':
     #back        = [ "ttV" , "WW" ,"WZ" , "TTbar-SL", "ST", "TTbar-DiLep", "WJetsToLNu" , "DYJetsToLL" ]
     #back        = [ "ttV" , "VV" , "VVV" , "WJetsToLNu_HT" , "TTbar-SL", "ST", "TTbar-DiLep", "DYJetsToLL" ]
-    back         = ["VVV", "ttV" , "WW", "WZ", "TTbar-SL", "ST", "TTbar-DiLep", "WJetsToLNu_HT", "DYJetsToLL" ]
+    back         = ["VVV", "ttV" , "WW", "ZZ", "WZ", "TTbar-SL", "ST", "WJetsToLNu_HT", "TTbar-DiLep", "DYJetsToLL" ]
 elif options.analysis=='bbDM':
     back = ["QCD" ,"VVIncl", "ST", "TTbar", "DYJetsToLL_Pt", "WJetsToLNu_HT" ,"ZJetsToNuNu_HT"]
 sign        = []
