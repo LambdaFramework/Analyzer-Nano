@@ -468,26 +468,18 @@ samples = {
             'METRun2016H-03Feb2017_ver2-v1',
             'METRun2016H-03Feb2017_ver3-v1'
             ] + [
-            'SingleMuonRun2016B-03Feb2017_ver1-v1',
-            'SingleMuonRun2016B-03Feb2017_ver2-v2',
-            'SingleMuonRun2016C-03Feb2017-v1',
-            'SingleMuonRun2016D-03Feb2017-v1',
-            'SingleMuonRun2016E-03Feb2017-v1',
-            'SingleMuonRun2016F-03Feb2017-v1',
-            'SingleMuonRun2016G-03Feb2017-v1',
-            'SingleMuonRun2016H-03Feb2017_ver2-v1',
-            'SingleMuonRun2016H-03Feb2017_ver3-v1'
+                'SingleMuonRun2017B-17Nov2017-v1',
+                'SingleMuonRun2017C-17Nov2017-v1',
+                'SingleMuonRun2017D-17Nov2017-v1',
+                'SingleMuonRun2017E-17Nov2017-v1',
+                'SingleMuonRun2017F-17Nov2017-v1',
+                'SingleMuonRun2017F-17Nov2017-v1_1',
             ] + [
-            'SingleElectronRun2016B-03Feb2017_ver1-v1',
-            'SingleElectronRun2016B-03Feb2017_ver2-v2_1',
-            'SingleElectronRun2016B-03Feb2017_ver2-v2',
-            'SingleElectronRun2016C-03Feb2017-v1',
-            'SingleElectronRun2016D-03Feb2017-v1',
-            'SingleElectronRun2016E-03Feb2017-v1',
-            'SingleElectronRun2016F-03Feb2017-v1',
-            'SingleElectronRun2016G-03Feb2017-v1',
-            'SingleElectronRun2016H-03Feb2017_ver2-v1',
-            'SingleElectronRun2016H-03Feb2017_ver3-v1'
+                'SingleElectronRun2017B-17Nov2017-v1',
+                'SingleElectronRun2017C-17Nov2017-v1',
+                'SingleElectronRun2017D-17Nov2017-v1',
+                'SingleElectronRun2017E-17Nov2017-v1',
+                'SingleElectronRun2017F-17Nov2017-v1',
             ] + [
             'DoubleMuonRun2016B-03Feb2017_ver2-v2', 
             'DoubleMuonRun2016D-03Feb2017-v1',

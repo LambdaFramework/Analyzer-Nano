@@ -227,7 +227,7 @@ var_template = {
         "title" : "Hadronic Sum of Event Pt (GeV)",
         "nbins" : 50,
         "min" : 0,
-        "max" : 2000,
+        "max" : 1500,
         "log" : True,
         },
     "htphi": {
@@ -518,7 +518,51 @@ var_template = {
         "max" : 500,
         "log" : True,
     },
-
+    # signal study
+    ## RECO composite variables
+    "S_RecoL1L2DeltaPhi": {
+        "title" : "Match Reco #delta phi(l1,l2)",
+        "nbins" : 60,
+        "min" : -3.15,
+        "max" : 3.15,
+        "log" : True,
+    },
+    "S_RecoL1L2Mass": {
+        "title" : "Match Reco Inv M(l1,l2)",
+        "nbins" : 100,
+        "min" : 0,
+        "max" : 200,
+        "log" : True,
+    },
+    "S_RecoL1L2DeltaR": {
+        "title" : "Match Reco #delta R(l1,l2)",
+        "nbins" : 100,
+        "min" : 25,
+        "max" : 5,
+        "log" : True,
+    },
+    #GEN composite variables
+    "S_GenL1L2DeltaPhi": {
+        "title" : "Match Gen #delta phi(l1,l2)",
+        "nbins" : 60,
+        "min" : -3.15,
+        "max" : 3.15,
+        "log" : True,
+    },
+    "S_GenL1L2Mass": {
+        "title" : "Match Gen Inv M(l1,l2)",
+        "nbins" : 100,
+        "min" : 0,
+        "max" : 200,
+        "log" : True,
+    },
+    "S_GenL1L2DeltaR": {
+	"title" : "Match Gen #delta R(l1,l2)",
+        "nbins" : 100,
+        "min" : 25,
+        "max" : 5,
+        "log" : True,
+    },
 }
 
 for n, v in var_template.iteritems():

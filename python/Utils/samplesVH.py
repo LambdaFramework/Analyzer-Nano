@@ -605,13 +605,14 @@ sample = {
 	'matcheff': 1,
 	'kfactor' : 1,
 		},
-	'ttHTobb_M125_13TeV_powheg_pythia8-v1': {
+        'ttHTobb_M125_13TeV_powheg_pythia8-v1': {
 	'nevents' : 3236762,
 	'xsec'    : 0.0754,
 	'matcheff': 1,
-	'kfactor' : 1,
+        'kfactor' : 1,
 		},
 }
+
 #! /usr/bin/env python
 
 #voms-proxy-init -voms cms
@@ -952,10 +953,10 @@ samples = {
     'WHWW' : {
         'order' : 1001,
         'files' : [
-            #'HWminusJ_HToWW_M125_13TeV_powheg_pythia8-v1',
-            'HWminusJ_HToWWTo2L2Nu_WToLNu_M125_13TeV_powheg_pythia8-v1',
-            #'HWplusJ_HToWW_M125_13TeV_powheg_pythia8-v1',
-            'HWplusJ_HToWWTo2L2Nu_WToLNu_M125_13TeV_powheg_pythia8-v1'
+            'HWminusJ_HToWW_M125_13TeV_powheg_pythia8-v1',
+            #'HWminusJ_HToWWTo2L2Nu_WToLNu_M125_13TeV_powheg_pythia8-v1',
+            'HWplusJ_HToWW_M125_13TeV_powheg_pythia8-v1',
+            #'HWplusJ_HToWWTo2L2Nu_WToLNu_M125_13TeV_powheg_pythia8-v1'
             ],
         'fillcolor' : 623,
         'fillstyle' : 3005,
@@ -988,14 +989,39 @@ samples = {
         'weight': 1.,
         'plot': True,
     },
+    #signal
+    'wmhww': {
+        'order' : 0,
+        'files' : ['HWminusJ_HToWW_M125_13TeV_powheg_pythia8-v1_Skim'],
+        'fillcolor' : 1,
+        'fillstyle' : 3003,
+        'linecolor' : 1,
+        'linewidth' : 2,
+        'linestyle' : 1,
+        'label' : "WminusHWW",
+        'weight': 1.,
+        'plot': True,
+        },
+    'wphww' : {
+        'order' : 0,
+        'files' : ['HWplusJ_HToWW_M125_13TeV_powheg_pythia8-v1_Skim'],
+        'fillcolor' : 1,
+        'fillstyle' : 3003,
+        'linecolor' : 1,
+        'linewidth' : 2,
+        'linestyle' : 1,
+        'label' : "WplusHWW",
+        'weight': 1.,
+        'plot': True,
+    },
     
     # Dummy entry for background sum
     'BkgSum' : {
         'order' : 0,
         'files' : [],
-        'fillcolor' : 1,
-        'fillstyle' : 3003,
-        'linecolor' : 1,
+        'fillcolor' : 3,
+        'fillstyle' : 1001,
+        'linecolor' : 3,
         'linewidth' : 2,
         'linestyle' : 1,
         'label' : "MC stat.",

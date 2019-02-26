@@ -13,7 +13,7 @@ triggerIsoMuo24='HLT_IsoMu24'
 triggerIsoMuo27='HLT_IsoMu27'
 muonTrigger='(HLT_IsoMu22 || HLT_IsoMu22_eta2p1 || HLT_IsoTkMu22_eta2p1 || HLT_IsoMu24 || HLT_IsoTkMu24 || HLT_Mu45_eta2p1 || HLT_Mu50)'
 #muonTrigger='(HLT_IsoMu22 || HLT_IsoMu24 || HLT_IsoTkMu24 || HLT_Mu45_eta2p1 || HLT_Mu50)'
-electronTrigger='(HLT_Ele25_WPTight_Gsf || HLT_Ele27_eta2p1_WPLoose_Gsf || HLT_Ele105_CaloIdVT_GsfTrkIdT)'
+electronTrigger='(HLT_Ele25_WPTight_Gsf || HLT_Ele27_eta2p1_WPLoose_Gsf || HLT_Ele105_CaloIdVT_GsfTrkIdT || HLT_Ele27_eta2p1_WPLoose_Gsf )'
 
 #Preselection
 presel='1==1'
@@ -26,13 +26,35 @@ presel='1==1'
 selection = {
     'Trigger' : tAND(muonTrigger,'1==1'),
     #CONTROL REGION
-    'OSmumu'    : tAND(muonTrigger,tAND(presel,'isOSmumu && LepPt[0]>30 && LepPt[1]>15 && LepIso03[0]<0.15 && LepIso03[1]<0.15')),
-    'OSee'    : tAND(electronTrigger,tAND(presel,'isOSee && LepPt[0]>25 && LepPt[1]>17 && LepIso03[0]<0.15 && LepIso03[1]<0.15')),
-    'OSemu'   : tAND(muonTrigger,tAND(presel,'isOSemu && LepPt[0]>20 && LepPt[1]>24 && Vmass>15')),
-    'SSmumu'   : tAND(muonTrigger,tAND(presel,'isSSmumu && LepPt[0]>25 && LepPt[1]>15 && LepIso03[0]<0.1')),
+    'OSmumu'    : tAND(muonTrigger,tAND(presel,'isOSmumu && htpt>100 && LepPt[0]>30 && LepPt[1]>30 && LepIso03[0]<0.15 && LepIso03[1]<0.15 && Vmass>20')),
+    'OSee'    : tAND(electronTrigger,tAND(presel,'isOSee && htpt>100 && LepPt[0]>30 && LepPt[1]>30 && LepCutBased[0]>3 && LepCutBased[1]>3 && LepIso03[0]<0.15 && LepIso03[1]<0.15')),
+    'OSemu'   : tAND(muonTrigger,tAND(presel,'isOSemu && LepPt[0]>30 && LepPt[1]>24 && Vmass>30')),
+    'SSmumu'   : tAND(muonTrigger,tAND(presel,'isSSmumu && LepPt[0]>30 && LepPt[1]>30 && LepIso03[0]<0.1')),
+
+    #signal-study
+    'Reco-ee' : 'RecoLpt[0]>0 && RecoLpt[1]>0 && abs(RecoLsign[0])==11 && abs(RecoLsign[1])==11',
+    'Reco-mumu' : 'RecoLpt[0]>0 && RecoLpt[1]>0 && abs(RecoLsign[0])==13 && abs(RecoLsign[1])==13',
+    'Reco-emu' : 'RecoLpt[0]>0 && RecoLpt[1]>0 && abs(RecoLsign[0])==11 && abs(RecoLsign[1])==13',
+
+    'Gen-ee' : 'GenLpt[0]>0 && GenLpt[1]>0 && abs(GenLsign[0])==11 && abs(GenLsign[1])==11',
+    'Gen-mumu' : 'GenLpt[0]>0 && GenLpt[1]>0 && abs(GenLsign[0])==13 && abs(GenLsign[1])==13',
+    'Gen-emu' : 'GenLpt[0]>0 && GenLpt[1]>0 && abs(GenLsign[0])==11 && abs(GenLsign[1])==13',
 }
 
 
 weights = {
-    
+    'Trigger' : '1',
+    'OSmumu'  : '1*puWeight',
+    'OSee'    : '1*puWeight',
+    'OSemu'   : '1*puWeight',
+    'SSmumu'  : '1*puWeight',
+
+    #signal
+    'Reco-ee'   : '1',
+    'Reco-mumu' : '1',
+    'Reco-emu'  : '1',
+
+    'Gen-ee'    : '1',
+    'Gen-mumu'  : '1',
+    'Gen-emu'   : '1',
 }

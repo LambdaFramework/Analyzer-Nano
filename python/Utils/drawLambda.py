@@ -28,44 +28,38 @@ def ProjectDraw(var, cut, Lumi, samplelist, pd, ntupledir):
     histcarrier={}
     histlet={}
 
-    if var=="Zmass" or var=="Zpt":
-        if 'mumu' in cut:
-            print col.OKGREEN+var+" : "+col.ENDC+ \
-                "Inv( "+col.OKGREEN+"Muon^(+/-)"+col.ENDC+" , "+col.FAIL+"Muon^(-/+)"+col.ENDC+" )" if 'OS' in cut else \
-                "Inv( "+col.OKGREEN+"Muon^(+/-)"+col.ENDC+" , "+col.OKGREEN+"Muon^(+/-)"+col.ENDC+" )"
-            if var=="Zmass":
-                VAR="invariantMass(Muon_pt[0], Muon_eta[0], Muon_phi[0], Muon_mass[0], Muon_pt[1], Muon_eta[1], Muon_phi[1], Muon_mass[1])"
-            elif var=="Zpt":
-                VAR="invariantMassPt(Muon_pt[0], Muon_eta[0], Muon_phi[0], Muon_mass[0], Muon_pt[1], Muon_eta[1], Muon_phi[1], Muon_mass[1])"
-            else:
-                print col.OKGREEN+var+col.ENDC
-                VAR=var
-        elif 'ee' in cut:
-            print col.OKGREEN+var+" : "+col.ENDC+ \
-                "Inv( "+col.OKGREEN+"Electron^(+/-)"+col.ENDC+" , "+col.FAIL+"Electron^(-/+)"+col.ENDC+" )" if 'OS' in cut else \
-                "Inv( "+col.OKGREEN+"Electron^(+/-)"+col.ENDC+" , "+col.OKGREEN+"Electron^(+/-)"+col.ENDC+" )"
-            if var=="Zmass":
-                VAR="invariantMass(Electron_pt[0], Electron_eta[0], Electron_phi[0], Electron_mass[0], Electron_pt[1], Electron_eta[1], Electron_phi[1], Electron_mass[1])"
-            elif var=="Zpt":
-                VAR="invariantMassPt(Electron_pt[0], Electron_eta[0], Electron_phi[0], Electron_mass[0], Electron_pt[1], Electron_eta[1], Electron_phi[1], Electron_mass[1])"
-            else:
-                print col.OKGREEN+var+col.ENDC
-                VAR=var
-        elif 'emu' in cut:
-            print col.OKGREEN+var+" : "+col.ENDC+ \
-	        "Inv( "+col.OKGREEN+"Electron^(+/-)"+col.ENDC+" , "+col.FAIL+"Muon^(-/+)"+col.ENDC+" )" if 'OS' in cut else \
-                "Inv( "+col.OKGREEN+"Electron^(+/-)"+col.ENDC+" , "+col.OKGREEN+"Muon^(+/-)"+col.ENDC+" )"
-            if var=="Zmass":
-                VAR="invariantMass(Electron_pt[0], Electron_eta[0], Electron_phi[0], Electron_mass[0], Muon_pt[0], Muon_eta[0], Muon_phi[0], Muon_mass[0])"
-            elif var=="Zpt":
-                VAR="invariantMassPt(Electron_pt[0], Electron_eta[0], Electron_phi[0], Electron_mass[0], Muon_pt[0], Muon_eta[0], Muon_phi[0], Muon_mass[0])"
-            else:
-                print col.OKGREEN+var+col.ENDC
-                VAR=var
+    
+    if 'mumu' in cut:
+        print col.OKGREEN+var+" : "+col.ENDC+ \
+            "Inv( "+col.OKGREEN+"Muon^(+/-)"+col.ENDC+" , "+col.FAIL+"Muon^(-/+)"+col.ENDC+" )" if 'OS' in cut else \
+            "Inv( "+col.OKGREEN+"Muon^(+/-)"+col.ENDC+" , "+col.OKGREEN+"Muon^(+/-)"+col.ENDC+" )"
+    elif 'ee' in cut:
+        print col.OKGREEN+var+" : "+col.ENDC+ \
+            "Inv( "+col.OKGREEN+"Electron^(+/-)"+col.ENDC+" , "+col.FAIL+"Electron^(-/+)"+col.ENDC+" )" if 'OS' in cut else \
+            "Inv( "+col.OKGREEN+"Electron^(+/-)"+col.ENDC+" , "+col.OKGREEN+"Electron^(+/-)"+col.ENDC+" )"
+    elif 'emu' in cut:
+        print col.OKGREEN+var+" : "+col.ENDC+ \
+	    "Inv( "+col.OKGREEN+"Electron^(+/-)"+col.ENDC+" , "+col.FAIL+"Muon^(-/+)"+col.ENDC+" )" if 'OS' in cut else \
+            "Inv( "+col.OKGREEN+"Electron^(+/-)"+col.ENDC+" , "+col.OKGREEN+"Muon^(+/-)"+col.ENDC+" )"
+
+    if 'S_' in var:
+        if 'S_RecoL1L2' in var:
+            if 'DeltaPhi' in var:
+                VAR="deltaPhi(RecoLphi[0],RecoLphi[1])"
+            elif 'Mass' in var:
+                VAR="invariantMass(RecoLpt[0],RecoLeta[0],RecoLphi[0],RecoLmass[0],RecoLpt[1],RecoLeta[1],RecoLphi[1],RecoLmass[1])"
+            elif 'DeltaR' in var:
+                VAR="deltaR(RecoLphi[0],RecoLeta[0],RecoLphi[1],RecoLeta[1])"
+        elif 'S_GenL1L2' in var:
+            if 'DeltaPhi' in var:
+                VAR="deltaPhi(GenLphi[0],GenLphi[1])"
+            elif 'Mass' in var:
+                VAR="invariantMass(GenLpt[0],GenLeta[0],GenLphi[0],GenLmass[0],GenLpt[1],GenLeta[1],GenLphi[1],GenLmass[1])"
+            elif 'DeltaR' in var:
+                VAR="deltaR(GenLphi[0],GenLeta[0],GenLphi[1],GenLeta[1])"
     else:
         print col.OKGREEN+var+col.ENDC
         VAR=var
-
 
     print "VAR = ", VAR
     CUT=selection[cut]
@@ -101,9 +95,8 @@ def ProjectDraw(var, cut, Lumi, samplelist, pd, ntupledir):
                     tree.Draw("%s >> %s" %(VAR,bkgs),"%s" %subcut)
                 elif not 'data' in TAG:
                     print col.MAGENTA+"MC, With HLT : ", bkgs+col.ENDC
-                    zpt="ZptCorr"
-                    #zpt="1"
-                    tree.Draw("%s >> %s" %(VAR,bkgs),"%s*%s*(%s)" %(zpt,Weight,CUT))
+                    ExtW=weights[cut]
+                    tree.Draw("%s >> %s" %(VAR,bkgs),"%s*%s*(%s)" %(ExtW,Weight,CUT))
             elif num>0:
                 if variable[var]['nbins']>0: histcarrier[bkgs] = TH1F(bkgs, ";"+variable[var]['title'], variable[var]['nbins'], variable[var]['min'], variable[var]['max'])
                 else: histcarrier[bkgs]=TH1F(bkgs,";"+variable[var]['title'], len(variable[var]['bins'])-1, array('f', variable[var]['bins']))
@@ -115,9 +108,8 @@ def ProjectDraw(var, cut, Lumi, samplelist, pd, ntupledir):
                     tree.Draw("%s >> %s" %(VAR,bkgs),"%s" %subcut)
                 elif not 'data' in TAG:
                     print col.MAGENTA+"MC, With HLT : ", bkgs+col.ENDC
-                    zpt="ZptCorr"
-                    #zpt="1"
-                    tree.Draw("%s >> %s" %(VAR,bkgs),"%s*%s*(%s)" %(zpt,Weight,CUT))
+                    ExtW=weights[cut]
+                    tree.Draw("%s >> %s" %(VAR,bkgs),"%s*%s*(%s)" %(ExtW,Weight,CUT))
                 hnew = histcarrier[bkgs].Clone(bkgs)
                 histlet[TAG].Add(hnew)
         histlet[TAG].SetFillColor(samples[TAG]['fillcolor'])
@@ -587,3 +579,44 @@ def printTable_html(hist,sign=[]):
     print '</table>'
     print '</head>'
     print '</html>'
+
+def drawSignal(hist, sign, log=False):
+    #sign = [x for x in sign if samples[x]['plot']]
+    # Legend                                                                                                                                                                                                                                                             
+    n = len(sign)
+    leg = TLegend(0.7, 0.9-0.05*n, 0.95, 0.9)
+    leg.SetBorderSize(0)
+    leg.SetFillStyle(0) #1001                                                                                                                                                                                      
+    leg.SetFillColor(0)
+    for i, s in enumerate(sign): leg.AddEntry(hist[s], samples[s]['label'], "fl")
+    # --- Display ---                                                            
+    c1 = TCanvas("c1", hist.values()[-1].GetXaxis().GetTitle(), 800, 600)
+    if log:
+        c1.cd(1).SetLogy()
+    else:
+        c1.cd(1)
+    c1.GetPad(0).SetTopMargin(0.06)
+    c1.GetPad(0).SetRightMargin(0.05)
+    c1.GetPad(0).SetTicks(1, 1)
+    if log:
+        c1.GetPad(0).SetLogy()
+    # Draw                                                                       
+    for i, s in enumerate(sign):
+        hist[s].SetLineColor(i+1)
+        hist[s].Draw("SAME, HIST" if i>0 else "HIST") # signals
+
+    #hist[sign[0]].GetXaxis().SetRangeUser(0., 1500)                                                                                                                                                                                 
+    hist[sign[0]].GetYaxis().SetTitleOffset(hist[sign[-1]].GetYaxis().GetTitleOffset()*1.075)
+    hist[sign[0]].SetMaximum(max(hist[sign[0]].GetMaximum(), hist[sign[-1]].GetMaximum())*1.25)
+    #hist[sign[0]].SetMaximum(max(hist[sign[0]].GetMaximum(), hist[sign[-1]].GetMaximum())*3)  
+    hist[sign[0]].SetMinimum(0.)
+    #hist[sign[0]].SetMinimum(0.001) #WRONG, look for Signal_drawUtils
+    if log:
+        hist[sign[0]].GetYaxis().SetNoExponent(hist[sign[0]].GetMaximum() < 1.e4)
+        hist[sign[0]].GetYaxis().SetMoreLogLabels(True)
+    leg.Draw()
+    #drawCMS(lumi, "Preliminary")
+    
+    c1.Update()
+    # return list of objects created by the draw() function
+    return [c1, leg]

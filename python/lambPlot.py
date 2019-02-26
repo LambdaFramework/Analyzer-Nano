@@ -16,7 +16,6 @@ sys.path.append(cwd+"/Utils/")
 from drawLambda import *
 from variables import *
 from selections_SSLep import *
-from samplesVH import *
 
 import color as col
 
@@ -54,17 +53,23 @@ gStyle.SetOptStat(0)
 
 ##############################
 #NTUPLEDIR   = "/Users/shoh/Projects/CMS/PhD/Analysis/SSL/datav8-skim/" if options.analysis is 'VH' else "/Users/shoh/Projects/CMS/PhD/Analysis/SSL/bbDMv2-skim/"
-NTUPLEDIR   = "/Users/shoh/Projects/CMS/PhD/Analysis/SSL/dataset-v14-VH/"
+#NTUPLEDIR   = "/Users/shoh/Projects/CMS/PhD/Analysis/SSL/dataset-v15-VH/"
+NTUPLEDIR   = "/Users/shoh/Projects/CMS/PhD/Analysis/SSL/dataset-v15-signal/"
 PLOTDIR     = "plots/"
-LUMI        = 35800. # pb-1 Inquire via brilcalc lumi --begin 272007 --end 275376 -u /pb #https://twiki.cern.ch/twiki/bin/viewauth/CMS/PdmV2016Analysis
-data        = ["data_obs"]
+LUMI        = 35800. #41860. #35800. # pb-1 Inquire via brilcalc lumi --begin 272007 --end 275376 -u /pb #https://twiki.cern.ch/twiki/bin/viewauth/CMS/PdmV2016Analysis
+data        = []
+sign        = []
 if options.analysis=='VH':
+    data        = ["data_obs"]
     #back        = [ "ttV" , "WW" ,"WZ" , "TTbar-SL", "ST", "TTbar-DiLep", "WJetsToLNu" , "DYJetsToLL" ]
     #back        = [ "ttV" , "VV" , "VVV" , "WJetsToLNu_HT" , "TTbar-SL", "ST", "TTbar-DiLep", "DYJetsToLL" ]
     back         = ["VVV", "ttV" , "WW", "ZZ", "WZ", "TTbar-SL", "ST", "WJetsToLNu_HT", "TTbar-DiLep", "DYJetsToLL" ]
+#elif options.analysis=='signal':
+#    sign        = ['wphww','wmhww']
+#    back        = []
 elif options.analysis=='bbDM':
     back = ["QCD" ,"VVIncl", "ST", "TTbar", "DYJetsToLL_Pt", "WJetsToLNu_HT" ,"ZJetsToNuNu_HT"]
-sign        = []
+    
 SIGNAL      = 1. # rescaling factor 1/12900
 RATIO       = 4 # default=4 # 0: No ratio plot; !=0: ratio between the top and bottom pads
 BLIND       = True if options.blind else False
@@ -82,9 +87,9 @@ def plot(var, cut, norm=False):
         Histlist=ProjectDraw(var, cut, LUMI, PROC, PD, NTUPLEDIR)
     else:
         Histlist=ProjectDraw(var, cut, LUMI, PROC+sign, PD, NTUPLEDIR)
-
+        
     if len(back)>0:
-        #If data_obs present, dummy BkgSum == first background process                                                                                                        
+        #If data_obs present, dummy BkgSum == first background process                                      
         Histlist['BkgSum'] = Histlist['data_obs'].Clone("BkgSum") if 'data_obs' in Histlist else Histlist[back[0]].Clone("BkgSum")
         Histlist['BkgSum'].Reset("MICES")
         Histlist['BkgSum'].SetFillStyle(3003)
@@ -217,12 +222,13 @@ def cutflow(var, cut, norm=False):
         
 
 if options.all:
-    for region in [ 'OSemu' , 'OSmumu' ,'OSee' , 'SSmumu' ]:
+    #for region in [ 'OSemu' , 'OSmumu' ,'OSee' , 'SSmumu' ]:
+    for region in [ 'SSmumu' ]:
         print col.CYAN+"PLOTTING on : ",region+col.ENDC
         for VARS in [ 'Vmass' , 'Vpt' , 'PV_npvs' , 'htpt' , 'htphi' , 'LepPt[0]' , 'LepPt[1]' , \
                       'LepIso03[0]' , 'LepIso03[1]' , 'LepSign[0]' , 'LepSign[1]' , 'nJet' , 'JetPt[0]' , 'JetPt[1]' , 'JetPt[2]' , \
                       'JetEta[0]' , 'JetEta[1]' , 'JetEta[2]' , 'isOSmumu' , 'isOSee' , 'isOSemu' , 'isSSmumu' , 'isSSee' , \
-                      'Zpt' , 'nLepton' ]:
+                      'Zpt' , 'nLepton' , 'JetchHEF[0]' , 'JetchHEF[1]' , 'JetneHEF[0]' , 'JetneHEF[1]' ]:
                       
             start_time = time.time()
             print col.OKGREEN+"PLOTTING on : ",VARS+col.ENDC

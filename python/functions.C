@@ -11,9 +11,10 @@ float deltaPhi(float phi1, float phi2) {
     return 2*3.14159265-PHI;
 }
 
-//float deltaR(float phi1, float eta1, float phi2, float eta2) {
-//  return sqrt((eta2-eta1)**2+deltaPhi(phi1,phi2)**2);
-//}
+float deltaR(float phi1, float eta1, float phi2, float eta2) {
+  //return sqrt((eta2-eta1)**2+deltaPhi(phi1,phi2)**2);
+  return sqrt( pow((eta2-eta1),2) + pow(deltaPhi(phi1,phi2),2) );
+}
 
 
 //float vectorSumPhi(float px1, float py1, float px2, float py2){
