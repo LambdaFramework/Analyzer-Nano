@@ -503,6 +503,13 @@ var_template = {
         "max" : 15.5,
         "log" : True,
     },
+    "RecoLIso03[N]" : {
+        "title" : "Reco match lepton [N] PFIso_{03}",
+        "nbins" : 50,
+        "min" : 0,
+        "max" : 0.25,
+        "log" : True,
+    },
     #V
      "Vmass": {
         "title" : "V mass (GeV)",
@@ -521,9 +528,9 @@ var_template = {
     # signal study
     ## RECO composite variables
     "S_RecoL1L2DeltaPhi": {
-        "title" : "Match Reco #delta phi(l1,l2)",
-        "nbins" : 60,
-        "min" : -3.15,
+        "title" : "Match Reco #Delta phi(l1,l2)",
+        "nbins" : 28,
+        "min" : 0.,
         "max" : 3.15,
         "log" : True,
     },
@@ -535,17 +542,17 @@ var_template = {
         "log" : True,
     },
     "S_RecoL1L2DeltaR": {
-        "title" : "Match Reco #delta R(l1,l2)",
-        "nbins" : 100,
-        "min" : 25,
+        "title" : "Match Reco #Delta R(l1,l2)",
+        "nbins" : 60,
+        "min" : 0,
         "max" : 5,
         "log" : True,
     },
     #GEN composite variables
     "S_GenL1L2DeltaPhi": {
-        "title" : "Match Gen #delta phi(l1,l2)",
-        "nbins" : 60,
-        "min" : -3.15,
+        "title" : "Match Gen #Delta phi(l1,l2)",
+        "nbins" : 28,
+        "min" : 0,
         "max" : 3.15,
         "log" : True,
     },
@@ -557,9 +564,9 @@ var_template = {
         "log" : True,
     },
     "S_GenL1L2DeltaR": {
-	"title" : "Match Gen #delta R(l1,l2)",
-        "nbins" : 100,
-        "min" : 25,
+	"title" : "Match Gen #Delta R(l1,l2)",
+        "nbins" : 60,
+        "min" : 0,
         "max" : 5,
         "log" : True,
     },

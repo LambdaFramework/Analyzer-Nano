@@ -611,6 +611,14 @@ sample = {
 	'matcheff': 1,
         'kfactor' : 1,
 		},
+
+        'VHToNonbb_M125_13TeV_amcatnloFXFX_madspin_pythia8': {
+        'nevents' : 1007898,
+        'xsec'    : 2.505,
+        'matcheff': 1,
+        'kfactor' : 1,
+	        },
+
 }
 
 #! /usr/bin/env python
@@ -954,9 +962,7 @@ samples = {
         'order' : 1001,
         'files' : [
             'HWminusJ_HToWW_M125_13TeV_powheg_pythia8-v1',
-            #'HWminusJ_HToWWTo2L2Nu_WToLNu_M125_13TeV_powheg_pythia8-v1',
             'HWplusJ_HToWW_M125_13TeV_powheg_pythia8-v1',
-            #'HWplusJ_HToWWTo2L2Nu_WToLNu_M125_13TeV_powheg_pythia8-v1'
             ],
         'fillcolor' : 623,
         'fillstyle' : 3005,
@@ -990,31 +996,18 @@ samples = {
         'plot': True,
     },
     #signal
-    'wmhww': {
+    'VH': {
         'order' : 0,
-        'files' : ['HWminusJ_HToWW_M125_13TeV_powheg_pythia8-v1_Skim'],
-        'fillcolor' : 1,
+        'files' : ['VHToNonbb_M125_13TeV_amcatnloFXFX_madspin_pythia8'],
+        'fillcolor' : 3,
         'fillstyle' : 3003,
-        'linecolor' : 1,
+        'linecolor' : 3,
         'linewidth' : 2,
         'linestyle' : 1,
-        'label' : "WminusHWW",
+        'label' : "VH",
         'weight': 1.,
         'plot': True,
-        },
-    'wphww' : {
-        'order' : 0,
-        'files' : ['HWplusJ_HToWW_M125_13TeV_powheg_pythia8-v1_Skim'],
-        'fillcolor' : 1,
-        'fillstyle' : 3003,
-        'linecolor' : 1,
-        'linewidth' : 2,
-        'linestyle' : 1,
-        'label' : "WplusHWW",
-        'weight': 1.,
-        'plot': True,
-    },
-    
+        },    
     # Dummy entry for background sum
     'BkgSum' : {
         'order' : 0,

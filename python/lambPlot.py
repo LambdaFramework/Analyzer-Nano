@@ -19,7 +19,6 @@ from selections_SSLep import *
 
 import color as col
 
-gStyle.SetOptStat(0)
 gROOT.Macro('functions.C')
 
 ########## SETTINGS ##########
@@ -33,9 +32,12 @@ parser.add_option("-b", "--bash", action="store_true", default=False, dest="bash
 parser.add_option("-B", "--blind", action="store_true", default=False, dest="blind")
 parser.add_option("-l", "--all", action="store_true", default=False, dest="all")
 parser.add_option("-s", "--signal", action="store_true", default=False, dest="signal")
+parser.add_option("-z", "--Allsignal", action="store_true", default=False, dest="Allsignal")
+parser.add_option("-x", "--Statebox", action="store_true", default=False, dest="Statebox")
 parser.add_option("-d", "--debug", action="store_true", default=False, dest="debug")
 parser.add_option("-a", "--analysis", action="store", type="string",  dest="analysis", default="VH")
 parser.add_option("-u", "--User_cutflow", action="store_true", dest="cutflow", default=False)
+parser.add_option("-V", "--PrintVar", action="store_true", dest="printVar", default=False)
 (options, args) = parser.parse_args()
 if options.bash: gROOT.SetBatch(True)
 
@@ -47,14 +49,17 @@ elif options.analysis=='bbDM':
     from selections_bbDM import *
     from samplesbbDM import *
     print col.OKGREEN+"bbDM analysis"+col.ENDC
-    
-gStyle.SetOptStat(0)
+
+if not options.Statebox:
+    gStyle.SetOptStat(0)
+else:
+    gStyle.SetOptStat(1111111)
 ########## SETTINGS ##########
 
 ##############################
 #NTUPLEDIR   = "/Users/shoh/Projects/CMS/PhD/Analysis/SSL/datav8-skim/" if options.analysis is 'VH' else "/Users/shoh/Projects/CMS/PhD/Analysis/SSL/bbDMv2-skim/"
-#NTUPLEDIR   = "/Users/shoh/Projects/CMS/PhD/Analysis/SSL/dataset-v15-VH/"
-NTUPLEDIR   = "/Users/shoh/Projects/CMS/PhD/Analysis/SSL/dataset-v15-signal/"
+NTUPLEDIR   = "/Users/shoh/Projects/CMS/PhD/Analysis/SSL/dataset-v16-VH/"
+#NTUPLEDIR   = "/Users/shoh/Projects/CMS/PhD/Analysis/SSL/dataset-v15-signal/"
 PLOTDIR     = "plots/"
 LUMI        = 35800. #41860. #35800. # pb-1 Inquire via brilcalc lumi --begin 272007 --end 275376 -u /pb #https://twiki.cern.ch/twiki/bin/viewauth/CMS/PdmV2016Analysis
 data        = []
@@ -63,7 +68,7 @@ if options.analysis=='VH':
     data        = ["data_obs"]
     #back        = [ "ttV" , "WW" ,"WZ" , "TTbar-SL", "ST", "TTbar-DiLep", "WJetsToLNu" , "DYJetsToLL" ]
     #back        = [ "ttV" , "VV" , "VVV" , "WJetsToLNu_HT" , "TTbar-SL", "ST", "TTbar-DiLep", "DYJetsToLL" ]
-    back         = ["VVV", "ttV" , "WW", "ZZ", "WZ", "TTbar-SL", "ST", "WJetsToLNu_HT", "TTbar-DiLep", "DYJetsToLL" ]
+    back         = ["VVV", "ttV" , "WW", "ZZ", "WZ", "TTbar-SL", "ST", "WJetsToLNu", "TTbar-DiLep", "DYJetsToLL" ]
 #elif options.analysis=='signal':
 #    sign        = ['wphww','wmhww']
 #    back        = []
@@ -135,7 +140,8 @@ def plot(var, cut, norm=False):
 
 def signal(var, cut):
     hist={}
-    signals        = [ "WHWW" ]
+    #signals        = [ "WHWW" ]
+    signals         = [ "VH" ]
     
     hist= ProjectDraw(var, cut, LUMI, signals, [], NTUPLEDIR)
     for i,s in enumerate(signals):
@@ -143,14 +149,15 @@ def signal(var, cut):
         #hist[s].Scale(LUMI)
         hist[s].SetLineWidth(2)
 
-    leg = TLegend(0.7, 0.9-0.035*len(signals), 0.9, 0.9)
-    leg.SetBorderSize(0)
-    leg.SetFillStyle(0) #1001                                                                                                                                                            
-    leg.SetFillColor(0)
-    for i, s in enumerate(signals):
-        #print "hist[s] : ", hist[s].Print()
-        #print "sample[s]['label'] : ", sample[s]['label']
-        leg.AddEntry(hist[s], samples[s]['label'], "l")
+    if not options.Statebox:
+        leg = TLegend(0.7, 0.9-0.035*len(signals), 0.9, 0.9)
+        leg.SetBorderSize(0)
+        leg.SetFillStyle(0) #1001                                                                                                                                                            
+        leg.SetFillColor(0)
+        for i, s in enumerate(signals):
+            #print "hist[s] : ", hist[s].Print()
+            #print "sample[s]['label'] : ", sample[s]['label']
+            leg.AddEntry(hist[s], samples[s]['label'], "l")
 
     c1 = TCanvas("c1", "Signals", 800, 600)
     c1.cd().SetLogy() if variable[var]['log'] else c1.cd()
@@ -165,7 +172,7 @@ def signal(var, cut):
     
     for i, s in enumerate(signals):
         hist[s].Draw("HIST" if i==0 else "SAME, HIST")
-    leg.Draw()
+    if not options.Statebox: leg.Draw();
     drawCMS(-1, "Simulation")
     drawRegion(cut)
     #drawAnalysis(channel)
@@ -198,7 +205,7 @@ def signal(var, cut):
         for i, s in enumerate(signals): print " & %.1f\t" % (100.*width[s]/mean[s], ),
         print " \\\\"
         #    print "%s\t& %.1f\t& %.1f\t& %.1f%% \\\\" % (s.replace("ZZhToLLM", ""), hist[s].GetFunction("gaus").GetParameter(1), hist[s].GetFunction("gaus").GetParameter(2), 100*hist[s].GetFunction("gaus").GetParameter(2)/hist[s].GetFunction("gaus").GetParameter(1))
-    pathname = "plots/Signal/"
+    pathname = "plots/Signal/"+cut
     if not os.path.exists(pathname): os.makedirs(pathname)
     c1.Print(pathname+"/"+var.replace('.', '_')+".png")
     c1.Print(pathname+"/"+var.replace('.', '_')+".pdf")
@@ -219,17 +226,17 @@ def cutflow(var, cut, norm=False):
 
     if len(data+back)>0:
         printTable_html(Histlist,sign)
-        
+
+VOI = [ 'Vmass' , 'Vpt' , 'PV_npvs' , 'htpt' , 'htphi' , 'LepPt[0]' , 'LepPt[1]' , \
+        'LepIso03[0]' , 'LepIso03[1]' , 'LepSign[0]' , 'LepSign[1]' , 'nJet' , 'JetPt[0]' , 'JetPt[1]' , 'JetPt[2]' , \
+        'JetEta[0]' , 'JetEta[1]' , 'JetEta[2]' , 'isOSmumu' , 'isOSee' , 'isOSemu' , 'isSSmumu' , 'isSSee' , \
+        'Zpt' , 'nLepton' , 'JetchHEF[0]' , 'JetchHEF[1]' , 'JetneHEF[0]' , 'JetneHEF[1]' ]
 
 if options.all:
     #for region in [ 'OSemu' , 'OSmumu' ,'OSee' , 'SSmumu' ]:
     for region in [ 'SSmumu' ]:
         print col.CYAN+"PLOTTING on : ",region+col.ENDC
-        for VARS in [ 'Vmass' , 'Vpt' , 'PV_npvs' , 'htpt' , 'htphi' , 'LepPt[0]' , 'LepPt[1]' , \
-                      'LepIso03[0]' , 'LepIso03[1]' , 'LepSign[0]' , 'LepSign[1]' , 'nJet' , 'JetPt[0]' , 'JetPt[1]' , 'JetPt[2]' , \
-                      'JetEta[0]' , 'JetEta[1]' , 'JetEta[2]' , 'isOSmumu' , 'isOSee' , 'isOSemu' , 'isSSmumu' , 'isSSee' , \
-                      'Zpt' , 'nLepton' , 'JetchHEF[0]' , 'JetchHEF[1]' , 'JetneHEF[0]' , 'JetneHEF[1]' ]:
-                      
+        for VARS in VOI:  
             start_time = time.time()
             print col.OKGREEN+"PLOTTING on : ",VARS+col.ENDC
             plot(VARS,region)
@@ -239,6 +246,21 @@ if options.all:
 elif options.signal:
     print "Signal Study"
     signal(options.variable,options.cut)
+elif options.printVar:
+    print "Print all available variable specified"
+    print VOI
+elif options.Allsignal:
+    print "Signal study All"
+    for region in ['Reco-ee','Reco-mumu','Reco-emu','Gen-ee','Gen-mumu','Gen-emu','Reco-SSmumu','Gen-SSmumu']:
+        for VARS in [ "S_RecoL1L2DeltaPhi" , "S_RecoL1L2Mass" , "S_RecoL1L2DeltaR" , "S_GenL1L2DeltaPhi" , "S_GenL1L2Mass" , "S_GenL1L2DeltaR" , \
+                      "RecoLIso03[0]", "RecoLIso03[1]", "RecoLpt[0]", "RecoLeta[0]", "RecoLphi[0]", "RecoLsign[0]", \
+                      "RecoLpt[1]", "RecoLeta[1]", "RecoLphi[1]", "RecoLsign[1]" \
+                      "GenLpt[0]", "GenLeta[0]", "GenLphi[0]", "GenLsign[0]", "GenLpt[1]", "GenLeta[1]", "GenLphi[1]", "GenLsign[1]" ]:
+            if 'Reco' in region:
+                if 'Gen' in VARS: continue;
+            elif 'Gen' in region:
+                if 'Reco' in VARS: continue;
+            signal(VARS,region)
 elif options.cutflow:
     print "Cutflow table"
     if options.cut=="":

@@ -428,7 +428,7 @@ def drawAnalysis(s, center=False):
 
 
 def drawRegion(channel, left=False):
-    region = { "OSmumu" : "#mu^{+}#mu^{-}" , "OSee" : "e^{+}e^{-}" , "OSemu" : "e^{+}#mu^{-}" , "SSmumu" : "#mu^{+}#mu^{+} / #mu^{-}#mu^{-}" , "SSee" : "e^{+}e^{+} / e^{-}e^{-}" , "SSemu" : "e^{+}#mu^{+} / e^{-}#mu^{-}" }
+    region = { "OSmumu" : "#mu^{+}#mu^{-}" , "OSee" : "e^{+}e^{-}" , "OSemu" : "e^{+}#mu^{-}" , "SSmumu" : "#mu^{+}#mu^{+} / #mu^{-}#mu^{-}" , "SSee" : "e^{+}e^{+} / e^{-}e^{-}" , "SSemu" : "e^{+}#mu^{+} / e^{-}#mu^{-}" , "Reco-ee" : "Reco-level ee" , "Reco-mumu" : "Reco-level #mu#mu" , "Reco-emu" : "Reco-level e#mu" ,  "Gen-ee" : "Gen-level ee" , "Gen-mumu" : "Gen-level #mu#mu" , "Gen-emu" : "Gen-level e#mu" }
     text = ""
     if channel in region:
         text = region[channel]

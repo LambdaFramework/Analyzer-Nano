@@ -16,7 +16,7 @@ muonTrigger='(HLT_IsoMu22 || HLT_IsoMu22_eta2p1 || HLT_IsoTkMu22_eta2p1 || HLT_I
 electronTrigger='(HLT_Ele25_WPTight_Gsf || HLT_Ele27_eta2p1_WPLoose_Gsf || HLT_Ele105_CaloIdVT_GsfTrkIdT || HLT_Ele27_eta2p1_WPLoose_Gsf )'
 
 #Preselection
-presel='1==1'
+presel='nJet>=2'
 
 #Composite Variables
 #ZWindow="60 < invariantMass(Muon_pt[0], Muon_eta[0], Muon_phi[0], Muon_mass[0], Muon_pt[1], Muon_eta[1], Muon_phi[1], Muon_mass[1]) && invariantMass(Muon_pt[0], Muon_eta[0], Muon_phi[0], Muon_mass[0], Muon_pt[1], Muon_eta[1], Muon_phi[1], Muon_mass[1]) < 120"
@@ -39,6 +39,10 @@ selection = {
     'Gen-ee' : 'GenLpt[0]>0 && GenLpt[1]>0 && abs(GenLsign[0])==11 && abs(GenLsign[1])==11',
     'Gen-mumu' : 'GenLpt[0]>0 && GenLpt[1]>0 && abs(GenLsign[0])==13 && abs(GenLsign[1])==13',
     'Gen-emu' : 'GenLpt[0]>0 && GenLpt[1]>0 && abs(GenLsign[0])==11 && abs(GenLsign[1])==13',
+
+    'Reco-SSmumu' : 'RecoLpt[0]>0 && RecoLpt[1]>0 && abs(RecoLsign[0]+RecoLsign[1])==26',
+    'Gen-SSmumu' : 'GenLpt[0]>0 && GenLpt[1]>0 && abs(GenLsign[0]+GenLsign[1])==26',
+
 }
 
 
@@ -57,4 +61,7 @@ weights = {
     'Gen-ee'    : '1',
     'Gen-mumu'  : '1',
     'Gen-emu'   : '1',
+
+    'Reco-SSmumu' : '1',
+    'Gen-SSmumu'  : '1',
 }
