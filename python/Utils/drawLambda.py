@@ -112,6 +112,15 @@ def ProjectDraw(var, cut, Lumi, samplelist, pd, ntupledir):
                     tree.Draw("%s >> %s" %(VAR,bkgs),"%s*%s*(%s)" %(ExtW,Weight,CUT))
                 hnew = histcarrier[bkgs].Clone(bkgs)
                 histlet[TAG].Add(hnew)
+                
+        ##Blind on LepIso03[1]
+        if 'data' in TAG:
+            ##on SSmumu:
+            if cut == 'SSmumu' and var == "LepIso03[1]" :
+                for i in range(0,(histlet[TAG]).GetNbinsX()):
+                    if i<=3:
+                        histlet[TAG].SetBinContent(i,0)
+            
         histlet[TAG].SetFillColor(samples[TAG]['fillcolor'])
         histlet[TAG].SetFillStyle(samples[TAG]['fillstyle'])
         histlet[TAG].SetLineColor(samples[TAG]['linecolor'])
