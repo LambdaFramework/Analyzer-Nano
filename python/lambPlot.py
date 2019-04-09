@@ -1,4 +1,4 @@
-#! /usr/bin/env pythonA
+#! /usr/bin/env pythonAA
 
 import os, multiprocessing, sys
 import copy
@@ -58,17 +58,15 @@ else:
 
 ##############################
 #NTUPLEDIR   = "/Users/shoh/Projects/CMS/PhD/Analysis/SSL/datav8-skim/" if options.analysis is 'VH' else "/Users/shoh/Projects/CMS/PhD/Analysis/SSL/bbDMv2-skim/"
-NTUPLEDIR   = "/Users/shoh/Projects/CMS/PhD/Analysis/SSL/dataset-v16-VH/"
+NTUPLEDIR   = "/Users/shoh/Projects/CMS/PhD/Analysis/SSL/dataset-v17p1-VH/"
 #NTUPLEDIR   = "/Users/shoh/Projects/CMS/PhD/Analysis/SSL/dataset-v15-signal/"
 PLOTDIR     = "plots/"
 LUMI        = 35800. #41860. #35800. # pb-1 Inquire via brilcalc lumi --begin 272007 --end 275376 -u /pb #https://twiki.cern.ch/twiki/bin/viewauth/CMS/PdmV2016Analysis
 data        = []
-sign        = []
+sign        = ['WHWW','VH']
 if options.analysis=='VH':
     data        = ["data_obs"]
-    #back        = [ "ttV" , "WW" ,"WZ" , "TTbar-SL", "ST", "TTbar-DiLep", "WJetsToLNu" , "DYJetsToLL" ]
-    #back        = [ "ttV" , "VV" , "VVV" , "WJetsToLNu_HT" , "TTbar-SL", "ST", "TTbar-DiLep", "DYJetsToLL" ]
-    back         = ["VVV", "ttV" , "WW", "ZZ", "WZ", "TTbar-SL", "ST", "WJetsToLNu", "TTbar-DiLep", "DYJetsToLL" ]
+    back         = [ "WWJJ", "VVV", "ttV" , "WW", "ZZ", "WZ", "VGamma", "ST", "WJetsToLNu_HT", "TTbar", "DYJetsToLL_HT" ]
 #elif options.analysis=='signal':
 #    sign        = ['wphww','wmhww']
 #    back        = []
@@ -228,13 +226,13 @@ def cutflow(var, cut, norm=False):
         printTable_html(Histlist,sign)
 
 VOI = [ 'Vmass' , 'Vpt' , 'PV_npvs' , 'htpt' , 'htphi' , 'LepPt[0]' , 'LepPt[1]' , \
-        'LepIso03[0]' , 'LepIso03[1]' , 'LepSign[0]' , 'LepSign[1]' , 'nJet' , 'JetPt[0]' , 'JetPt[1]' , 'JetPt[2]' , \
+        'LepSign[0]' , 'LepSign[1]' , 'nJet' , 'JetPt[0]' , 'JetPt[1]' , 'JetPt[2]' , \
         'JetEta[0]' , 'JetEta[1]' , 'JetEta[2]' , 'isOSmumu' , 'isOSee' , 'isOSemu' , 'isSSmumu' , 'isSSee' , \
-        'Zpt' , 'nLepton' , 'JetchHEF[0]' , 'JetchHEF[1]' , 'JetneHEF[0]' , 'JetneHEF[1]' ]
+        'Zpt' , 'nLepton' , 'JetchHEF[0]' , 'JetchHEF[1]' , 'JetneHEF[0]' , 'JetneHEF[1]' ] #'LepIso03[0]' , 'LepIso03[1]'
 
 if options.all:
     #for region in [ 'OSemu' , 'OSmumu' ,'OSee' , 'SSmumu' ]:
-    for region in [ 'SSmumu' ]:
+    for region in [ 'OSemu' , 'OSee' , 'SSmumu' ]:
         print col.CYAN+"PLOTTING on : ",region+col.ENDC
         for VARS in VOI:  
             start_time = time.time()

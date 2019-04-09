@@ -12,11 +12,12 @@ triggerIsoMuo22='HLT_IsoMu22'
 triggerIsoMuo24='HLT_IsoMu24'
 triggerIsoMuo27='HLT_IsoMu27'
 muonTrigger='(HLT_IsoMu22 || HLT_IsoMu22_eta2p1 || HLT_IsoTkMu22_eta2p1 || HLT_IsoMu24 || HLT_IsoTkMu24 || HLT_Mu45_eta2p1 || HLT_Mu50)'
-#muonTrigger='(HLT_IsoMu22 || HLT_IsoMu24 || HLT_IsoTkMu24 || HLT_Mu45_eta2p1 || HLT_Mu50)'
-electronTrigger='(HLT_Ele25_WPTight_Gsf || HLT_Ele27_eta2p1_WPLoose_Gsf || HLT_Ele105_CaloIdVT_GsfTrkIdT || HLT_Ele27_eta2p1_WPLoose_Gsf )'
+#muonTrigger='(HLT_IsoMu22 || HLT_IsoMu24 || HLT_IsoTkMu24)'
+#electronTrigger='(HLT_Ele25_WPTight_Gsf || HLT_Ele27_eta2p1_WPLoose_Gsf || HLT_Ele105_CaloIdVT_GsfTrkIdT || HLT_Ele27_eta2p1_WPLoose_Gsf )'
+electronTrigger='(HLT_Ele25_WPTight_Gsf || HLT_Ele27_eta2p1_WPLoose_Gsf || HLT_Ele27_eta2p1_WPLoose_Gsf )'
 
 #Preselection
-presel='nJet>=2'
+presel=''
 
 #Composite Variables
 #ZWindow="60 < invariantMass(Muon_pt[0], Muon_eta[0], Muon_phi[0], Muon_mass[0], Muon_pt[1], Muon_eta[1], Muon_phi[1], Muon_mass[1]) && invariantMass(Muon_pt[0], Muon_eta[0], Muon_phi[0], Muon_mass[0], Muon_pt[1], Muon_eta[1], Muon_phi[1], Muon_mass[1]) < 120"
@@ -26,10 +27,11 @@ presel='nJet>=2'
 selection = {
     'Trigger' : tAND(muonTrigger,'1==1'),
     #CONTROL REGION
-    'OSmumu'    : tAND(muonTrigger,tAND(presel,'isOSmumu && htpt>100 && LepPt[0]>30 && LepPt[1]>30 && LepIso03[0]<0.15 && LepIso03[1]<0.15 && Vmass>20')),
-    'OSee'    : tAND(electronTrigger,tAND(presel,'isOSee && htpt>100 && LepPt[0]>30 && LepPt[1]>30 && LepCutBased[0]>3 && LepCutBased[1]>3 && LepIso03[0]<0.15 && LepIso03[1]<0.15')),
-    'OSemu'   : tAND(muonTrigger,tAND(presel,'isOSemu && LepPt[0]>30 && LepPt[1]>24 && Vmass>30')),
-    'SSmumu'   : tAND(muonTrigger,tAND(presel,'isSSmumu && LepPt[0]>30 && LepPt[1]>30 && LepIso03[0]<0.1')),
+    #Vmass>20
+    'OSmumu'    : tAND(muonTrigger,tAND(presel,'isOSmumu && nJet>=2 && htpt>100 && LepPt[0]>17 && LepPt[1]>8 && LepIso03[0]<0.15 && LepIso03[1]<0.15 && Vmass>30')),
+    'OSee'    : tAND(electronTrigger,tAND(presel,'isOSee && nJet>=2 && htpt>100 && LepPt[0]>25 && LepPt[1]>17 && LepCutBased[0]>3 && LepCutBased[1]>3 && LepIso03[0]<0.15 && LepIso03[1]<0.15 && Vmass>30')),
+    'OSemu'   : tAND(muonTrigger,tAND(presel,'isOSemu && htpt>100 && LepPt[0]>24 && LepPt[1]>20 && Vmass>15 && LepIso03[0]<0.05 && LepIso03[1]<0.01')),
+    'SSmumu'   : tAND(muonTrigger,tAND(presel,'isSSmumu && nJet>=2 && LepPt[0]>25 && LepPt[1]>15 && LepIso03[0]<0.1')),
 
     #signal-study
     'Reco-ee' : 'RecoLpt[0]>0 && RecoLpt[1]>0 && abs(RecoLsign[0])==11 && abs(RecoLsign[1])==11',

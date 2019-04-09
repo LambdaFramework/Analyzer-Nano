@@ -89,9 +89,10 @@ def ProjectDraw(var, cut, Lumi, samplelist, pd, ntupledir):
                 else: histlet[TAG]=TH1F(bkgs,";"+variable[var]['title'], len(variable[var]['bins'])-1, array('f', variable[var]['bins']))
                 histlet[TAG].Sumw2()
                 if 'data' in TAG:
-                    print col.OKBLUE+"DATA, NO HLT : ", bkgs+col.ENDC
-                    subcut= CUT.replace(muonTrigger,"(1==1)")
-                    #subcut=CUT
+                    #print col.OKBLUE+"DATA, NO HLT : ", bkgs+col.ENDC
+                    #subcut= CUT.replace(muonTrigger,"(1==1)")
+                    print col.MAGENTA+"DATA, With HLT : ", bkgs+col.ENDC
+                    subcut=CUT
                     tree.Draw("%s >> %s" %(VAR,bkgs),"%s" %subcut)
                 elif not 'data' in TAG:
                     print col.MAGENTA+"MC, With HLT : ", bkgs+col.ENDC
@@ -102,9 +103,10 @@ def ProjectDraw(var, cut, Lumi, samplelist, pd, ntupledir):
                 else: histcarrier[bkgs]=TH1F(bkgs,";"+variable[var]['title'], len(variable[var]['bins'])-1, array('f', variable[var]['bins']))
                 histcarrier[bkgs].Sumw2()
                 if 'data' in TAG:
-                    print col.OKBLUE+"DATA, NO HLT : ", bkgs+col.ENDC
-                    subcut= CUT.replace(muonTrigger,"(1==1)")
-                    #subcut=CUT
+                    #print col.OKBLUE+"DATA, NO HLT : ", bkgs+col.ENDC
+                    #subcut= CUT.replace(muonTrigger,"(1==1)")
+                    print col.MAGENTA+"DATA, With HLT : ", bkgs+col.ENDC
+                    subcut=CUT
                     tree.Draw("%s >> %s" %(VAR,bkgs),"%s" %subcut)
                 elif not 'data' in TAG:
                     print col.MAGENTA+"MC, With HLT : ", bkgs+col.ENDC

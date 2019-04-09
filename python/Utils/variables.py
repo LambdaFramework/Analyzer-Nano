@@ -1,31 +1,30 @@
-
 variable = {}
 
 var_template = {
     ## GLOBAL
     "event": {
-      "title" : "event number",
+      "title" : "Event Number",
       "nbins" : 10000000,
       "min" : 0,
       "max" : 1.e7,
       "log" : False,
     },
     "luminosityBlock": {
-      "title" : "lumisection number",
+      "title" : "Lumisection Number",
       "nbins" : 2000,
       "min" : 0,
       "max" : 2000,
       "log" : False,
     },
     "run": {
-      "title" : "run number",
+      "title" : "Run Number",
       "nbins" : 7000,
       "min" : 254000,
       "max" : 261000,
       "log" : False,
     },
     "PV_npvs": {
-      "title" : "number of reconstructed Primary Vertices",
+      "title" : "Number of Reconstructed Primary Vertices",
       "nbins" : 100,
       "min" : -0.5,
       "max" : 99.5,
@@ -71,7 +70,7 @@ var_template = {
     
     ## Tau
     "nTaulep" : {
-        "title" : "number of Tau leptons",
+        "title" : "Number of Tau Leptons",
         "nbins" : 5,
         "min" : -0.5,
         "max" : 4.5,
@@ -109,7 +108,7 @@ var_template = {
     
     ## Photon
     "nPho" : {
-        "title" : "number of photons",
+        "title" : "Number Of Photons",
         "nbins" : 5,
         "min" : -0.5,
         "max" : 4.5,
@@ -146,7 +145,7 @@ var_template = {
 
     ##Lepton
     "nLepton" : {
-        "title" : "number of leptons",
+        "title" : "Number Of Leptons",
         "nbins" : 5,
         "min" : -0.5,
         "max" : 4.5,
@@ -182,16 +181,16 @@ var_template = {
     },
     "LepIso03[N]" : {
         "title" : "Lepton [N] PFIso_{03}",
-        "nbins" : 50,
+        "nbins" : 80,
         "min" : 0,
-        "max" : 0.25,
+        "max" : 0.4,
         "log" : True,
     },
     "LepIso04[N]" : {
         "title" : "Lepton [N] PFIso_{04}",
-        "nbins" : 50,
+        "nbins" : 80,
         "min" : 0,
-        "max" : 0.25,
+        "max" : 0.4,
         "log" : True,
     },
     "LepSign[N]" : {
@@ -341,16 +340,16 @@ var_template = {
     },
     "JetchHEF[N]": {
       "title" : "jet [N] charged hadron fraction",
-      "nbins" : 20,
+      "nbins" : 24,
       "min" : 0,
-      "max" : 1,
+      "max" : 1.2,
       "log" : True,
     },
     "JetneHEF[N]": {
       "title" : "jet [N] neutral hadron fraction",
-      "nbins" : 20,
+      "nbins" : 24,
       "min" : 0,
-      "max" : 1,
+      "max" : 1.2,
       "log" : True,
     },
     #GEN
