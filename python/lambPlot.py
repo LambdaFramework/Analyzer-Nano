@@ -66,7 +66,7 @@ data        = []
 sign        = ['WHWW','VH']
 if options.analysis=='VH':
     data        = ["data_obs"]
-    back         = [ "WWJJ", "VVV", "ttV" , "WW", "ZZ", "WZ", "VGamma", "ST", "WJetsToLNu_HT", "TTbar", "DYJetsToLL_HT" ]
+    back         = [ "tZq", "WWJJ", "VVV", "ttV" , "WW", "ZZ", "WZ", "VGamma", "ST", "WJetsToLNu_HT", "TTbar", "DYJetsToLL_HT" ]
 #elif options.analysis=='signal':
 #    sign        = ['wphww','wmhww']
 #    back        = []
