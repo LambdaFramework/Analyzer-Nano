@@ -251,6 +251,18 @@ sample = {
 	'xmatcheff' : 1.0,
 	'kfactor' : 1.0,
 		},
+        'WJetsToLNu_HT-1200To2500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1' : {
+        'nevents' : 244532,
+        'xsec' : 1.329,
+        'xmatcheff' : 1.0,
+        'kfactor' : 1.0,
+                },
+        'WJetsToLNu_HT-2500ToInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1' : {
+        'nevents' :  253561,
+        'xsec' : 0.03209,
+        'xmatcheff' : 1.0,
+        'kfactor' : 1.0,
+                },
 	'TT_TuneCUETP8M2T4_13TeV-powheg-pythia8-v1' : {
 	'nevents' : 76915549,
 	'xsec' : 730.6,
@@ -781,7 +793,9 @@ samples = {
             'WJetsToLNu_HT-200To400_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1',
             'WJetsToLNu_HT-400To600_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1',
             'WJetsToLNu_HT-600To800_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1',
-            'WJetsToLNu_HT-800To1200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1'
+            'WJetsToLNu_HT-800To1200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1',
+            'WJetsToLNu_HT-1200To2500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1',
+            'WJetsToLNu_HT-2500ToInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1',
         ],
         'fillcolor' : 881,
         'fillstyle' : 1001,
