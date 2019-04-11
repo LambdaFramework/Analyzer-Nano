@@ -703,13 +703,13 @@ samples = {
     'data_obs' : {
         'order' : 0,
         'files' : [
-            'SingleMuonRun2016B_ver2-Nano14Dec2018_ver2-v1',
-            'SingleMuonRun2016C-Nano14Dec2018-v1',
-            'SingleMuonRun2016D-Nano14Dec2018-v1',
-            'SingleMuonRun2016E-Nano14Dec2018-v1',
-            'SingleMuonRun2016F-Nano14Dec2018-v1',
-            'SingleMuonRun2016G-Nano14Dec2018-v1',
-            'SingleMuonRun2016H-Nano14Dec2018-v1',
+            #'SingleMuonRun2016B_ver2-Nano14Dec2018_ver2-v1',
+            #'SingleMuonRun2016C-Nano14Dec2018-v1',
+            #'SingleMuonRun2016D-Nano14Dec2018-v1',
+            #'SingleMuonRun2016E-Nano14Dec2018-v1',
+            #'SingleMuonRun2016F-Nano14Dec2018-v1',
+            #'SingleMuonRun2016G-Nano14Dec2018-v1',
+            #'SingleMuonRun2016H-Nano14Dec2018-v1',
         ] + [
             'SingleElectronRun2016B_ver2-Nano14Dec2018_ver2-v1',
             'SingleElectronRun2016C-Nano14Dec2018-v1',
@@ -718,7 +718,14 @@ samples = {
             'SingleElectronRun2016F-Nano14Dec2018-v1',
             'SingleElectronRun2016G-Nano14Dec2018-v1',
             'SingleElectronRun2016H-Nano14Dec2018-v1',
-        ] + [ ''
+        ] + [
+            'DoubleMuonRun2016B_ver2-Nano14Dec2018_ver2-v1',
+            'DoubleMuonRun2016E-Nano14Dec2018-v1',
+            'DoubleMuonRun2016H-Nano14Dec2018-v1',
+            'DoubleMuonRun2016C-Nano14Dec2018-v1',
+            'DoubleMuonRun2016F-Nano14Dec2018-v1',
+            'DoubleMuonRun2016D-Nano14Dec2018-v1',
+            'DoubleMuonRun2016G-Nano14Dec2018-v1',
         ] + [ ''
         ],
         'fillcolor' : 0,
@@ -1080,9 +1087,9 @@ samples = {
             'QCD_HT2000toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1',
             #'QCD_Pt-20toInf_MuEnrichedPt15_TuneCUETP8M1_13TeV_pythia8-v1'
         ],
-        'fillcolor' : 921,
+        'fillcolor' : 6, #921,
         'fillstyle' : 1001,
-        'linecolor' : 921,
+        'linecolor' : 6, #921,
         'linewidth' : 2,
         'linestyle' : 1,
         'label' : "multijet",
