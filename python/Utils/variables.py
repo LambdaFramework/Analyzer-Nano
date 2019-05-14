@@ -193,6 +193,13 @@ var_template = {
         "max" : 0.4,
         "log" : True,
     },
+    "MuIso04[N]" : {
+        "title" : "Muon [N] PFIso_{04}",
+        "nbins" : 80,
+        "min" : 0,
+        "max" : 0.4,
+        "log" : True,
+    },
     "LepSign[N]" : {
 	"title" : "Lepton [N] Sign",
         "nbins" : 32,

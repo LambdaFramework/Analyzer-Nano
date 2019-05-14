@@ -695,7 +695,18 @@ sample = {
         'xmatcheff' : 1.0,
         'kfactor' : 1.0,
     },
-    
+    'Wminushwwlvjj_M125_Madspin' : {
+        'nevents' : 15000,
+        'xsec' : 0.0069905587717,
+        'xmatcheff' : 1.0,
+        'kfactor' : 1.0,
+    },
+    'Wplushwwlvjj_M125_Madspin' : {
+        'nevents' : 15000,
+        'xsec' : 0.0110211512166,
+        'xmatcheff' : 1.0,
+        'kfactor' : 1.0,
+    },
 }
 
 samples = {
@@ -703,13 +714,13 @@ samples = {
     'data_obs' : {
         'order' : 0,
         'files' : [
-            #'SingleMuonRun2016B_ver2-Nano14Dec2018_ver2-v1',
-            #'SingleMuonRun2016C-Nano14Dec2018-v1',
-            #'SingleMuonRun2016D-Nano14Dec2018-v1',
-            #'SingleMuonRun2016E-Nano14Dec2018-v1',
-            #'SingleMuonRun2016F-Nano14Dec2018-v1',
-            #'SingleMuonRun2016G-Nano14Dec2018-v1',
-            #'SingleMuonRun2016H-Nano14Dec2018-v1',
+            'SingleMuonRun2016B_ver2-Nano14Dec2018_ver2-v1',
+            'SingleMuonRun2016C-Nano14Dec2018-v1',
+            'SingleMuonRun2016D-Nano14Dec2018-v1',
+            'SingleMuonRun2016E-Nano14Dec2018-v1',
+            'SingleMuonRun2016F-Nano14Dec2018-v1',
+            'SingleMuonRun2016G-Nano14Dec2018-v1',
+            'SingleMuonRun2016H-Nano14Dec2018-v1',
         ] + [
             'SingleElectronRun2016B_ver2-Nano14Dec2018_ver2-v1',
             'SingleElectronRun2016C-Nano14Dec2018-v1',
@@ -1017,6 +1028,7 @@ samples = {
             'ZZZ_TuneCUETP8M1_13TeV-amcatnlo-pythia8-v1',
             'WWZ_TuneCUETP8M1_13TeV-amcatnlo-pythia8-v1',
             'WZG_TuneCUETP8M1_13TeV-amcatnlo-pythia8-v1',
+            'WZZ_TuneCUETP8M1_13TeV-amcatnlo-pythia8-v1',
             ],
         'fillcolor' : 46,
         'fillstyle' : 1001,
@@ -1124,7 +1136,35 @@ samples = {
         'label' : "VH",
         'weight': 1.,
         'plot': True,
-        },    
+        },
+    'Wm': {
+        'order' : 0,
+        'files' : [
+            'Wminushwwlvjj_M125_Madspin'
+            ],
+        'fillcolor' : 3,
+        'fillstyle' : 3003,
+        'linecolor' : 4,
+        'linewidth' : 2,
+        'linestyle' : 1,
+        'label' : "W-(lvlvjj)",
+        'weight': 1.,
+        'plot': True,
+        },
+    'Wp': {
+        'order' : 0,
+        'files' : [
+            'Wplushwwlvjj_M125_Madspin'
+            ],
+        'fillcolor' : 3,
+        'fillstyle' : 3003,
+        'linecolor' : 5,
+        'linewidth' : 2,
+        'linestyle' : 1,
+        'label' : "W+(lvlvjj)",
+        'weight': 1.,
+        'plot': True,
+    },
     # Dummy entry for background sum
     'BkgSum' : {
         'order' : 0,

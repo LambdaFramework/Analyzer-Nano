@@ -58,12 +58,13 @@ else:
 
 ##############################
 #NTUPLEDIR   = "/Users/shoh/Projects/CMS/PhD/Analysis/SSL/datav8-skim/" if options.analysis is 'VH' else "/Users/shoh/Projects/CMS/PhD/Analysis/SSL/bbDMv2-skim/"
-NTUPLEDIR   = "/Users/shoh/Projects/CMS/PhD/Analysis/SSL/dataset-v17p1-VH/"
+#NTUPLEDIR   = "/Users/shoh/Projects/CMS/PhD/Analysis/SSL/dataset-v17p1-VH/"
 #NTUPLEDIR   = "/Users/shoh/Projects/CMS/PhD/Analysis/SSL/dataset-v15-signal/"
+NTUPLEDIR   = "/Users/shoh/Projects/CMS/PhD/Analysis/SSL/dataset-v18-signal/"
 PLOTDIR     = "plots/"
 LUMI        = 35800. #41860. #35800. # pb-1 Inquire via brilcalc lumi --begin 272007 --end 275376 -u /pb #https://twiki.cern.ch/twiki/bin/viewauth/CMS/PdmV2016Analysis
 data        = []
-sign        = ['WHWW','VH']
+sign        = ['Wm','Wp']
 if options.analysis=='VH':
     data        = ["data_obs"]
     back         = [ "tZq", "WWJJ", "VVV", "ttV" , "WW", "ZZ", "WZ", "VGamma", "ST", "WJetsToLNu_HT", "TTbar", "DYJetsToLL_HT" ]
@@ -139,7 +140,8 @@ def plot(var, cut, norm=False):
 def signal(var, cut):
     hist={}
     #signals        = [ "WHWW" ]
-    signals         = [ "VH" ]
+    #signals         = [ "VH" ]
+    signals         = ['Wm','Wp']
     
     hist= ProjectDraw(var, cut, LUMI, signals, [], NTUPLEDIR)
     for i,s in enumerate(signals):
@@ -228,7 +230,7 @@ def cutflow(var, cut, norm=False):
 VOI = [ 'Vmass' , 'Vpt' , 'PV_npvs' , 'htpt' , 'htphi' , 'LepPt[0]' , 'LepPt[1]' , \
         'LepSign[0]' , 'LepSign[1]' , 'nJet' , 'JetPt[0]' , 'JetPt[1]' , 'JetPt[2]' , \
         'JetEta[0]' , 'JetEta[1]' , 'JetEta[2]' , 'isOSmumu' , 'isOSee' , 'isOSemu' , 'isSSmumu' , 'isSSee' , \
-        'Zpt' , 'nLepton' , 'JetchHEF[0]' , 'JetchHEF[1]' , 'JetneHEF[0]' , 'JetneHEF[1]' ] #'LepIso03[0]' , 'LepIso03[1]'
+        'Zpt' , 'nLepton' , 'JetchHEF[0]' , 'JetchHEF[1]' , 'JetneHEF[0]' , 'JetneHEF[1]', 'LepIso03[0]' , 'LepIso03[1]' ]
 
 if options.all:
     #for region in [ 'OSemu' , 'OSmumu' ,'OSee' , 'SSmumu' ]:

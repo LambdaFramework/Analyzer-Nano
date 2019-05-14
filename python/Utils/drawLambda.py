@@ -340,8 +340,7 @@ def getPrimaryDataset(cut):
     pd = []
     #if 'HLT_DoubleMu' in cut or cut.split(" ")[0].count('Mu') > 1: pd += [x for x in samples['data_obs']['files'] if "DoubleMuon" in x]
     if 'HLT_DoubleEle' in cut or cut.split(" ")[0].count('Ele') > 1: pd += [x for x in samples['data_obs']['files'] if "DoubleEG" in x]
-    #if ('HLT_Mu' in cut or 'HLT_IsoMu' in cut): pd += [x for x in samples['data_obs']['files'] if "SingleMuon" in x]
-    if ('HLT_Mu' in cut or 'HLT_IsoMu' in cut): pd += [x for x in samples['data_obs']['files'] if "DoubleMuon" in x]
+    if 'HLT_Mu' in cut or 'HLT_IsoMu' in cut: pd += [x for x in samples['data_obs']['files'] if "SingleMuon" in x]
     if 'HLT_Ele' in cut: pd += [x for x in samples['data_obs']['files'] if "SingleElectron" in x]
     if 'HLT_PFMET' in cut: pd += [x for x in samples['data_obs']['files'] if "MET" in x]
     return pd

@@ -46,7 +46,7 @@ gStyle.SetOptStat(0)
 
 #NTUPLEDIR   = "/lustre/cmswork/hoh/CMSSW_8_0_12/src/Analysis/ALPHA/Prod_v03/"
 NTUPLEDIR   = "/Users/shoh/Projects/CMS/PhD/Analysis/SSL/datav8-skim/"
-LUMI        = 12900 # in pb-1
+LUMI        = 12900 # in pb-1 --> ????
 SIGNAL      = 1.
 RATIO       = 4 # 0: No ratio plot; !=0: ratio between the top and bottom pads
 BLIND       = False
