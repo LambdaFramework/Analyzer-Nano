@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env pythonA
 
 import os, multiprocessing
 import copy
@@ -9,7 +9,7 @@ from ROOT import TFile, TChain, TTree, TCut, TH1, TH1F, TH1D, TH2F, THStack, TGr
 from ROOT import TStyle, TCanvas, TPad
 from ROOT import TLegend, TLatex, TText, TLine, TBox
 
-from variables import *
+from variables import variable
 gROOT.SetBatch(True)
 #gROOT.Macro('functions.C')
 gStyle.SetOptStat(0)
