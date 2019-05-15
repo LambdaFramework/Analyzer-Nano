@@ -695,14 +695,14 @@ sample = {
         'xmatcheff' : 1.0,
         'kfactor' : 1.0,
     },
-    'Wminushwwlvjj_M125_Madspin' : {
-        'nevents' : 15000,
+    'Wminushwwlvjj_M125_Madspin_Skim' : {
+        'nevents' : 300000,
         'xsec' : 0.0069905587717,
         'xmatcheff' : 1.0,
         'kfactor' : 1.0,
     },
-    'Wplushwwlvjj_M125_Madspin' : {
-        'nevents' : 15000,
+    'Wplushwwlvjj_M125_Madspin_Skim' : {
+        'nevents' : 296000,
         'xsec' : 0.0110211512166,
         'xmatcheff' : 1.0,
         'kfactor' : 1.0,
@@ -1140,28 +1140,28 @@ samples = {
     'Wm': {
         'order' : 0,
         'files' : [
-            'Wminushwwlvjj_M125_Madspin'
+            'Wminushwwlvjj_M125_Madspin_Skim'
             ],
-        'fillcolor' : 3,
+        'fillcolor' : 2,
         'fillstyle' : 3003,
-        'linecolor' : 4,
+        'linecolor' : 2,
         'linewidth' : 2,
         'linestyle' : 1,
-        'label' : "W-(lvlvjj)",
+        'label' : "W^{-}H(l^{-}l^{-}#tilde{#nu}#tilde{#nu}jj)",
         'weight': 1.,
         'plot': True,
         },
     'Wp': {
         'order' : 0,
         'files' : [
-            'Wplushwwlvjj_M125_Madspin'
+            'Wplushwwlvjj_M125_Madspin_Skim'
             ],
-        'fillcolor' : 3,
+        'fillcolor' : 4,
         'fillstyle' : 3003,
-        'linecolor' : 5,
+        'linecolor' : 4,
         'linewidth' : 2,
         'linestyle' : 1,
-        'label' : "W+(lvlvjj)",
+        'label' : "W^{+}H(l^{+}l^{+}#nu#nujj)",
         'weight': 1.,
         'plot': True,
     },

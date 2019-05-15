@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 
-import os
+import os,sys
 import copy
 import math
 from array import array
@@ -9,12 +9,17 @@ from ROOT import TFile, TChain, TTree, TCut, TH1F, TH2F, THStack, TGraph
 from ROOT import TStyle, TCanvas, TPad
 from ROOT import TLegend, TLatex, TText
 
-from Analysis.ALPHA.drawUtils import *
-from Analysis.ALPHA.variables import *
-from Analysis.ALPHA.selectionsForAlpha import *
-from Analysis.ALPHA.samples import samples
+cwd=os.getcwd()
+sys.path.append(cwd+"/Utils/")
 
-#gROOT.Macro('../Heppy/python/tools/functions.C')
+from drawLambda import *
+from variables import variable
+from selections_SSLep import *
+from samplesVH import *
+
+import color as col
+
+gROOT.Macro('functions.C')
 
 import optparse
 usage = "usage: %prog [options]"
@@ -24,102 +29,81 @@ parser.add_option("-b", "--bash", action="store_true", default=False, dest="runB
 if options.runBash: gROOT.SetBatch(True)
 
 ########## SETTINGS ##########
-#gROOT.Macro('functions.C')
 gStyle.SetOptStat(0)
-LUMI        = 3990 # in pb-1
+#gStyle.SetOptStat(1111111)
+LUMI        = 35800. # in pb-1
 RATIO       = 4 # 0: No ratio plot; !=0: ratio between the top and bottom pads
-NTUPLEDIR   = '/lustre/cmsdata/pazzini/ALPHA/v6/Pruned/'
+NTUPLEDIR   = '/Users/shoh/Projects/CMS/PhD/Analysis/SSL/signal-test/'
 
-back = ["DYJetsToLL_HT"]
-sign = ['XZZ_M600', 'XZZ_M800', 'XZZ_M1000', 'XZZ_M1200', 'XZZ_M1400', 'XZZ_M1600', 'XZZ_M1800', 'XZZ_M2000', 'XZZ_M2500', 'XZZ_M3000', 'XZZ_M3500', 'XZZ_M4000', 'XZZ_M4500']
+#back = ["DYJetsToLL_HT"]
+back = []
+signals         = ['Wm','Wp']
 colors = [616+4, 632, 800+7, 800, 416+1, 860+10, 600, 616, 921, 922]
-
-massPoints = [600, 800, 1000, 1200, 1600, 1800, 2000, 3000, 3500, 4000, 4500]
-channels = ['XVZmmlp', 'XVZmmhp', 'XVZeelp', 'XVZeehp']
-color = {"XVZmmlp" : 634, "XVZmmhp" : 410, "XVZeelp" : 856, "XVZeehp" : 418}
+channels = ['Wp125','Wm200']
+#channels = ['XVZmmlp', 'XVZmmhp', 'XVZeelp', 'XVZeehp']
+#color = {"XVZmmlp" : 634, "XVZmmhp" : 410, "XVZeelp" : 856, "XVZeehp" : 418}
 
 def signal(var, cut, reg):
+    hist={}
     
-    signals = sign
-    
-    #if 'X.mass' in var:
-        #variable[var]['nbins'] = 200 if not 'nn' in cut else 85
-        #variable[var]['min'] = 500
-        #variable[var]['max'] = 5000
-    
-    for i in range(5):
-        for n, c in selection.iteritems():
-            if n in cut: cut = cut.replace(n, c)
-    
-    for i, s in enumerate(signals):
-        hist[s] = project('X_mass', cut, 'EventWeight', s, [], NTUPLEDIR)
+
+    ## Project into histogram
+    hist= ProjectDraw(var, cut, LUMI, signals, [], NTUPLEDIR)
+    for i,s in enumerate(signals):
+        print "s : ", s
         hist[s].Scale(LUMI)
         hist[s].SetLineWidth(2)
-    
-#    if not var == "X_mass": sign = ['XZZ_M1000', 'XZZ_M1400', 'XZZ_M2000', 'XZZ_M3000', 'XZZ_M4000']
-#    hmax = 0.
-#    file = {}
-#    tree = {}
-#    hist = {}
-#    for i, s in enumerate(sign):
-#        file[s] = TFile(NTUPLEDIR + sample[s]['files'][0] + ".root", "READ") # Read TFile
-#        tree[s] = file[s].Get(reg) # Read TTree
-#        if "X_mass" in var: hist[s] = TH1F(s, ";"+variable[var]['title'], 250, 0, 5000)
-#        elif variable[var]['nbins']>0: hist[s] = TH1F(s, ";"+variable[var]['title'], variable[var]['nbins']*5, variable[var]['min'], variable[var]['max']) # Init histogram
-#        else: hist[s] = TH1F(s, ";"+variable[var]['title'], len(variable[var]['bins'])-1, array('f', variable[var]['bins']))
-#        hist[s].Sumw2()
-#        tree[s].Project(s, var, cut)
-#        if hist[s].Integral() > 0: hist[s].Scale(1./hist[s].Integral())
-#        hist[s].SetFillColor(sample[s]['fillcolor'])
-#        hist[s].SetFillStyle(0)
-#        hist[s].SetLineColor(sample[s]['linecolor'])
-#        hist[s].SetLineStyle(sample[s]['linestyle'])
-#        hist[s].SetLineWidth(2)
-#        hist[s].GetXaxis().SetTitleOffset(hist[s].GetXaxis().GetTitleOffset()*1.2)
-#        hist[s].GetYaxis().SetTitleOffset(hist[s].GetYaxis().GetTitleOffset()*1.2)
-#        if hist[s].GetMaximum() > hmax: hmax = hist[s].GetMaximum()
-#    
+        
+    ## We need the legends
     leg = TLegend(0.7, 0.9-0.035*len(signals), 0.9, 0.9)
     leg.SetBorderSize(0)
-    leg.SetFillStyle(0) #1001
+    leg.SetFillStyle(1001) #1001
     leg.SetFillColor(0)
     for i, s in enumerate(signals):
-        leg.AddEntry(hist[s], sample[s]['label'], "l")
-    
+        leg.AddEntry(hist[s], samples[s]['label'], "l")
+
+    # declare a canvas for this shit
     c1 = TCanvas("c1", "Signals", 800, 600)
+    #c1.cd().SetLogy() if variable[var]['log'] else c1.cd()
     c1.cd()
     c1.GetPad(0).SetTopMargin(0.06)
     c1.GetPad(0).SetRightMargin(0.05)
     c1.GetPad(0).SetTicks(1, 1)
     hmax = 0.
+    ## Define a suitable height for the histogram taking into account of other signal samples
     for i, s in enumerate(signals):
         if hist[s].GetMaximum() > hmax: hmax = hist[s].GetMaximum()
     hist[signals[0]].SetMaximum(hmax*1.2)
     #if not variable[var]['log']: hist[signals[0]].SetMinimum(0.)
+    
+    ### after that you fucking draw this shit
     for i, s in enumerate(signals):
         hist[s].Draw("HIST" if i==0 else "SAME, HIST")
     leg.Draw()
     drawCMS(-1, "Simulation")
-    drawRegion(channel)
-    drawAnalysis(channel)
+    #drawRegion(channel)
+    #drawAnalysis(channel)
     
 #    
 #    if variable[var]['log'] and not "X_mass" in var:
 #        c1.GetPad(0).SetLogy()
 
-    if 'X' in var and 'mass' in var:
+    ## Fitting the mass shape of the variables
+    
+    if ('RecoLL' in var or 'RecoL2JJ' in var) and 'mass' in var:
+        fitOption="Q0"
         mean = {}
         width = {}
         for i, s in enumerate(signals):
             amean = hist[s].GetXaxis().GetBinCenter(hist[s].GetMaximumBin())
             sigma = hist[s].GetRMS()
-            hist[s].Fit("gaus", "Q0", "SAME", amean/sigma, amean*sigma) #(i+1)*1000-(i+1)*400, (i+1)*1000+(i+1)*400)
+            hist[s].Fit("gaus", "%s" %fitOption, "SAME", amean/sigma, amean*sigma) #(i+1)*1000-(i+1)*400, (i+1)*1000+(i+1)*400)
             hist[s].GetFunction("gaus").SetLineWidth(3)
             hist[s].GetFunction("gaus").SetLineColor(hist[s].GetLineColor())
-            #mean[s] = hist[s].GetFunction("gaus").GetParameter(1)
-            #width[s] = hist[s].GetFunction("gaus").GetParameter(2)
-            mean[s] = amean
-            width[s] = sigma
+            mean[s] = hist[s].GetFunction("gaus").GetParameter(1)
+            width[s] = hist[s].GetFunction("gaus").GetParameter(2)
+            #mean[s] = amean
+            #width[s] = sigma
         print "Mass (GeV)",
         for i, s in enumerate(signals): print " &", s.replace("ZZhllbb_M", ""), "\t",
         print " \\\\"
@@ -133,14 +117,16 @@ def signal(var, cut, reg):
         print "Res (\\%)",
         for i, s in enumerate(signals): print " & %.1f\t" % (100.*width[s]/mean[s], ),
         print " \\\\"
-        #    print "%s\t& %.1f\t& %.1f\t& %.1f%% \\\\" % (s.replace("ZZhToLLM", ""), hist[s].GetFunction("gaus").GetParameter(1), hist[s].GetFunction("gaus").GetParameter(2), 100*hist[s].GetFunction("gaus").GetParameter(2)/hist[s].GetFunction("gaus").GetParameter(1))
-    
-    c1.Print("plots/Signal/"+channel+".pdf")
-    c1.Print("plots/Signal/"+channel+".png")
+        
+        #hist[s].Draw()
+    #c1.Print("plots/Signal/"+channel+".pdf")
+    #c1.Print("plots/Signal/"+channel+".png")
+    c1.Print("plots/Signal/"+var+".pdf")
+    c1.Print("plots/Signal/"+var+".png")
     if not options.runBash: raw_input("Press Enter to continue...")
+    pass
 
-
-
+'''
 def btag():
     nbins = 500
     xmin = 0.
@@ -226,10 +212,69 @@ def btag():
     c3.Print("plots/Signal/ROC.png")
     
     raw_input("Press Enter to continue...")
-
-
+    pass
+'''
 
 def efficiency(cutlist, labellist):
+    basecut=""
+
+    ncuts = len(cutlist)
+    file = {}
+    tree = {}
+    effs = {}
+    hist = {}
+    #Compute Eff on different cutlist
+    for i, s in enumerate(signals):
+        file[s] = TFile(NTUPLEDIR + samples[s]['files'][0] + ".root", "READ") # Read TFile
+        tree[s] = file[s].Get("Events") # Read TTree                                                                                                                                                       
+        effs[s] = [0]*(ncuts+1)
+        hist[s] = TH1D(s,";Efficiency",ncuts,0,ncuts)
+        for k, cs in enumerate(labellist): hist[s].GetXaxis().SetBinLabel(k+1, "%s" %labellist[k])
+        for j, c in enumerate(cutlist):
+            n = tree[s].GetEntries(cutlist[j])
+            d = tree[s].GetEntries(basecut)
+            effs[s][j] = float(n)/(d)
+            hist[s].Fill(j,effs[s][j])
+        #hist[s].SetMarkerStyle(20)
+        #hist[s].SetMarkerColor(colors[i])
+        hist[s].SetLineColor(colors[i])
+        hist[s].SetLineWidth(3)
+        #hist[s].GetXaxis().SetTitleOffset(hist[s].GetXaxis().GetTitleOffset()*1.2)
+        #hist[s].GetYaxis().SetTitleOffset(hist[s].GetYaxis().GetTitleOffset()*1.2)
+    hmax = 0.
+    for i, s in enumerate(signals):
+        if hist[s].GetMaximum() > hmax: hmax = hist[s].GetMaximum()
+    hist[signals[0]].SetMaximum(hmax*1.2)
+
+    leg = TLegend(0.7, 0.9-0.035*len(signals), 0.9, 0.9)
+    leg.SetBorderSize(0)
+    leg.SetFillStyle(1001)                                                                                                                                                                           
+    leg.SetFillColor(0)
+    for i, s in enumerate(signals):
+        leg.AddEntry(hist[s], s, "l")
+        #leg.AddEntry(hist[s], samples[s]['label'][0], "l")
+
+    c1 = TCanvas("c1", "Signals", 800, 600)
+    c1.cd()
+    c1.GetPad(0).SetTopMargin(0.06)
+    c1.GetPad(0).SetRightMargin(0.05)
+    c1.GetPad(0).SetTicks(1, 1)
+    
+    for i, s in enumerate(signals):
+        if i==0:
+            hist[s].GetXaxis().SetTitle("Selection")
+            hist[s].GetYaxis().SetTitle("Efficiency")
+            hist[s].GetYaxis().SetRangeUser(0., 1.)
+        hist[s].Draw("" if i==0 else "SAME")
+    leg.Draw()
+    drawCMS(-1, "Simulation")
+    
+    c1.Print("plots/Signal/Efficiency_" + basecut + ".png")
+    c1.Print("plots/Signal/Efficiency_" + basecut + ".pdf")
+    if not options.runBash: raw_input("Press Enter to continue...")
+    pass
+
+def efficiencyHmass(cutlist, labellist):
     basecut = ""
     
     if "isZtoEE" in cutlist[0]: basecut = "isZtoEE"
@@ -240,9 +285,9 @@ def efficiency(cutlist, labellist):
     file = {}
     tree = {}
     effs = {}
-    for i, s in enumerate(sign):
-        file[s] = TFile(NTUPLEDIR + sample[s]['files'][0] + ".root", "READ") # Read TFile
-        tree[s] = file[s].Get("ntuple/tree") # Read TTree
+    for i, s in enumerate(signals):
+        file[s] = TFile(NTUPLEDIR + samples[s]['files'][0] + ".root", "READ") # Read TFile
+        tree[s] = file[s].Get("Events") # Read TTree
         effs[s] = [0]*(ncuts+1)
         for j, c in enumerate(cutlist):
             n = tree[s].GetEntries(cutlist[j])
@@ -253,8 +298,9 @@ def efficiency(cutlist, labellist):
     for j, c in enumerate(cutlist):
         line.append( TGraph(ncuts) )
         line[j].SetTitle(";m_{X} (GeV);Efficiency")
-        for i, s in enumerate(sign):
+        for i, s in enumerate(signals):
             mass = int( ''.join(x for x in s if x.isdigit()) )
+            #mass = str( ''.join(x for x in s) )
             line[j].SetPoint(i, mass, effs[s][j])
         line[j].SetMarkerStyle(20)
         line[j].SetMarkerColor(colors[j])
@@ -287,8 +333,9 @@ def efficiency(cutlist, labellist):
     c1.Print("plots/Signal/Efficiency_" + basecut + ".png")
     c1.Print("plots/Signal/Efficiency_" + basecut + ".pdf")
     if not options.runBash: raw_input("Press Enter to continue...")
+    pass
 
-
+'''
 
 
 def significance(precut, cutlist, labellist, testname):
@@ -396,14 +443,19 @@ def significance(precut, cutlist, labellist, testname):
     c1.Print("plots/Signal/sign_"+testname+".png")
     c1.Print("plots/Signal/sign_"+testname+".pdf")
     if not options.runBash: raw_input("Press Enter to continue...")
+pass
 
-
-#signal("X_tmass", "XZZnnbbSR", "SR")
-#signal("X_mass", "XWhenbbSR", "WCR")
-#signal("X_tmass", "XWhmnbbSR", "WCR")
-signal("X.mass", "XVZmmlpSR", "ntuple/tree")
+'''
+#signal("X.mass", "XVZmmlpSR", "ntuple/tree")
 #signal("X_mass", "XZZmmbbSR", "XZZ")
-
+#signal("RecoL2JJ_mass[0]", "Trigger", "ntuple/tree")
+trigger="(HLT_IsoMu24 || HLT_IsoTkMu24)"
+presel="( (RecoMu_pt[0]>5 && RecoMu_mediumId[0]>0 ) || (RecoEle_pt[0]>15 && RecoEle_cutBased[0]>0 && RecoMu_pt[0]>5 && RecoMu_mediumId[0]>0 ) )"
+flag="SSmumu"
+sel1="RecoMu_pfRelIso04_all[0] < 0.25"
+Lcuts=[ trigger , presel , presel+" && "+flag , presel+" && "+flag+" && "+sel1 ]
+Llabs = ["Trigger", "presel", "SSmumu", "iso mu"] 
+efficiency(Lcuts, Llabs)
 
 #signal("lepton1_pt", Lcut, "XZZ")
 #signal("lepton2_pt", Lcut, "XZZ")

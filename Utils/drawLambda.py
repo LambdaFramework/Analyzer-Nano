@@ -85,8 +85,8 @@ def ProjectDraw(var, cut, Lumi, samplelist, pd, ntupledir):
             Weight = float(Lumi) / float(LumiMC)
 
             if num==0:
-                if variable[var]['nbins']>0: histlet[TAG] = TH1F(bkgs, ";"+variable[var]['title'], variable[var]['nbins'], variable[var]['min'], variable[var]['max'])
-                else: histlet[TAG]=TH1F(bkgs,";"+variable[var]['title'], len(variable[var]['bins'])-1, array('f', variable[var]['bins']))
+                if variable[var]['nbins']>0: histlet[TAG] = TH1F(bkgs, ";"+variable[var]['title']+";"+variable[var]['titleY'], variable[var]['nbins'], variable[var]['min'], variable[var]['max'])
+                else: histlet[TAG]=TH1F(bkgs,";"+variable[var]['title']+";"+variable[var]['titleY'], len(variable[var]['bins'])-1, array('f', variable[var]['bins']))
                 histlet[TAG].Sumw2()
                 if 'data' in TAG:
                     #print col.OKBLUE+"DATA, NO HLT : ", bkgs+col.ENDC
@@ -99,8 +99,8 @@ def ProjectDraw(var, cut, Lumi, samplelist, pd, ntupledir):
                     ExtW=weights[cut]
                     tree.Draw("%s >> %s" %(VAR,bkgs),"%s*%s*(%s)" %(ExtW,Weight,CUT))
             elif num>0:
-                if variable[var]['nbins']>0: histcarrier[bkgs] = TH1F(bkgs, ";"+variable[var]['title'], variable[var]['nbins'], variable[var]['min'], variable[var]['max'])
-                else: histcarrier[bkgs]=TH1F(bkgs,";"+variable[var]['title'], len(variable[var]['bins'])-1, array('f', variable[var]['bins']))
+                if variable[var]['nbins']>0: histcarrier[bkgs] = TH1F(bkgs, ";"+variable[var]['title']+";"+variable[var]['titleY'], variable[var]['nbins'], variable[var]['min'], variable[var]['max'])
+                else: histcarrier[bkgs]=TH1F(bkgs,";"+variable[var]['title']+";"+variable[var]['titleY'], len(variable[var]['bins'])-1, array('f', variable[var]['bins']))
                 histcarrier[bkgs].Sumw2()
                 if 'data' in TAG:
                     #print col.OKBLUE+"DATA, NO HLT : ", bkgs+col.ENDC

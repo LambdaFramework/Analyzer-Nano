@@ -26,6 +26,9 @@ presel='MHT_xCleanPt>100'
 
 selection = {
     'Trigger' : tAND(muonTrigger,'1==1'),
+    'osmumu'  : 'OSmumu && nJets>=2 && MuPt[0]>17',
+    'osemu'  : 'OSemu && nJets>=2 && ElePt[0]>17',
+    
     #CONTROL REGION
     #Vmass>20
     'OSmumu'    : tAND(muonTrigger,tAND(presel,'isOSmumu && nJets>=2 && MuPt[0]>17 && MuPt[1]>8 && MuIso03[0]<0.15 && MuIso03[1]<0.15 && Vmass>30')),
@@ -49,6 +52,8 @@ selection = {
 
 
 weights = {
+    'osmumu'  : '1',
+    'osemu'  : '1',
     'Trigger' : '1',
     'OSmumu'  : '1*puWeight',
     'OSee'    : '1*puWeight',

@@ -1,4 +1,4 @@
-#! /usr/bin/env pythonAA
+#! /usr/bin/env python
 
 import os, multiprocessing, sys
 import copy
@@ -14,7 +14,7 @@ cwd=os.getcwd()
 sys.path.append(cwd+"/Utils/")
  
 from drawLambda import *
-from variables import *
+from variables import variable
 from selections_SSLep import *
 
 import color as col
@@ -60,7 +60,8 @@ else:
 #NTUPLEDIR   = "/Users/shoh/Projects/CMS/PhD/Analysis/SSL/datav8-skim/" if options.analysis is 'VH' else "/Users/shoh/Projects/CMS/PhD/Analysis/SSL/bbDMv2-skim/"
 #NTUPLEDIR   = "/Users/shoh/Projects/CMS/PhD/Analysis/SSL/dataset-v17p1-VH/"
 #NTUPLEDIR   = "/Users/shoh/Projects/CMS/PhD/Analysis/SSL/dataset-v15-signal/"
-NTUPLEDIR   = "/Users/shoh/Projects/CMS/PhD/Analysis/SSL/dataset-v18-signal/"
+#NTUPLEDIR   = "/Users/shoh/Projects/CMS/PhD/Analysis/SSL/dataset-v18-signal/"
+NTUPLEDIR   = "/Users/shoh/Projects/CMS/PhD/Analysis/SSL/signal-test/"
 PLOTDIR     = "plots/"
 LUMI        = 35800. #41860. #35800. # pb-1 Inquire via brilcalc lumi --begin 272007 --end 275376 -u /pb #https://twiki.cern.ch/twiki/bin/viewauth/CMS/PdmV2016Analysis
 data        = []
@@ -204,7 +205,6 @@ def signal(var, cut):
         print "Res (\\%)",
         for i, s in enumerate(signals): print " & %.1f\t" % (100.*width[s]/mean[s], ),
         print " \\\\"
-        #    print "%s\t& %.1f\t& %.1f\t& %.1f%% \\\\" % (s.replace("ZZhToLLM", ""), hist[s].GetFunction("gaus").GetParameter(1), hist[s].GetFunction("gaus").GetParameter(2), 100*hist[s].GetFunction("gaus").GetParameter(2)/hist[s].GetFunction("gaus").GetParameter(1))
     pathname = "plots/Signal/"+cut
     if not os.path.exists(pathname): os.makedirs(pathname)
     c1.Print(pathname+"/"+var.replace('.', '_')+".png")
@@ -251,16 +251,18 @@ elif options.printVar:
     print VOI
 elif options.Allsignal:
     print "Signal study All"
-    for region in ['Reco-ee','Reco-mumu','Reco-emu','Gen-ee','Gen-mumu','Gen-emu','Reco-SSmumu','Gen-SSmumu']:
-        for VARS in [ "S_RecoL1L2DeltaPhi" , "S_RecoL1L2Mass" , "S_RecoL1L2DeltaR" , "S_GenL1L2DeltaPhi" , "S_GenL1L2Mass" , "S_GenL1L2DeltaR" , \
-                      "RecoLIso03[0]", "RecoLIso03[1]", "RecoLpt[0]", "RecoLeta[0]", "RecoLphi[0]", "RecoLsign[0]", \
-                      "RecoLpt[1]", "RecoLeta[1]", "RecoLphi[1]", "RecoLsign[1]" \
-                      "GenLpt[0]", "GenLeta[0]", "GenLphi[0]", "GenLsign[0]", "GenLpt[1]", "GenLeta[1]", "GenLphi[1]", "GenLsign[1]" ]:
-            if 'Reco' in region:
-                if 'Gen' in VARS: continue;
-            elif 'Gen' in region:
-                if 'Reco' in VARS: continue;
-            signal(VARS,region)
+    for voi in [ keys for keys in variable ]:
+        signal(voi,"Trigger") 
+    #for region in ['Reco-ee','Reco-mumu','Reco-emu','Gen-ee','Gen-mumu','Gen-emu','Reco-SSmumu','Gen-SSmumu']:
+    #    for VARS in [ "S_RecoL1L2DeltaPhi" , "S_RecoL1L2Mass" , "S_RecoL1L2DeltaR" , "S_GenL1L2DeltaPhi" , "S_GenL1L2Mass" , "S_GenL1L2DeltaR" , \
+    #                  "RecoLIso03[0]", "RecoLIso03[1]", "RecoLpt[0]", "RecoLeta[0]", "RecoLphi[0]", "RecoLsign[0]", \
+    #                  "RecoLpt[1]", "RecoLeta[1]", "RecoLphi[1]", "RecoLsign[1]" \
+    #                  "GenLpt[0]", "GenLeta[0]", "GenLphi[0]", "GenLsign[0]", "GenLpt[1]", "GenLeta[1]", "GenLphi[1]", "GenLsign[1]" ]:
+    #        if 'Reco' in region:
+    #            if 'Gen' in VARS: continue;
+    #        elif 'Gen' in region:
+    #            if 'Reco' in VARS: continue;
+    #        signal(VARS,region)
 elif options.cutflow:
     print "Cutflow table"
     if options.cut=="":
