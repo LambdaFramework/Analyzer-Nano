@@ -1,744 +1,671 @@
 sample = {
-	'SingleMuonRun2016B_ver1-Nano14Dec2018_ver1-v1' : {
-	'nevents' : 2789243,
-	'xsec' : 1.0,
-	'xmatcheff' : 1.0,
+	'DYJetsToLL_M-10to50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8-v1': {
+	'nevents' : 26156930,
+	'xsec'    : 9000,
+	'matcheff': 1.0,
+	'kfactor' : 1,
+		},
+	'DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_ext1-v2': {
+	'nevents' : 49144270,
+	'xsec'    : 6025.,
+	'matcheff': 1.0,
 	'kfactor' : 1.0,
 		},
-	'SingleMuonRun2016B_ver2-Nano14Dec2018_ver2-v1' : {
-	'nevents' : 158145722,
-	'xsec' : 1.0,
-	'xmatcheff' : 1.0,
+	'DYJetsToLL_Pt-100To250_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_ext5-v1': {
+	'nevents' : 75457970,
+	'xsec'    : 0.013*6025., #81.02
+	'matcheff': 1.0,
 	'kfactor' : 1.0,
 		},
-	'SingleMuonRun2016C-Nano14Dec2018-v1' : {
-	'nevents' : 67441308,
-	'xsec' : 1.0,
-	'xmatcheff' : 1.0,
+	'DYJetsToLL_Pt-250To400_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_ext5-v1': {
+	'nevents' : 19575950,
+	'xsec'    : 3.31375, #2.991
+	'matcheff': 1.0,
 	'kfactor' : 1.0,
 		},
-	'SingleMuonRun2016D-Nano14Dec2018-v1' : {
-	'nevents' : 98017996,
-	'xsec' : 1.0,
-	'xmatcheff' : 1.0,
+	'DYJetsToLL_Pt-400To650_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_ext2-v1': {
+	'nevents' : 604038,
+	'xsec'    : 0.451875, #0.3882
+	'matcheff': 1.0,
 	'kfactor' : 1.0,
 		},
-	'SingleMuonRun2016E-Nano14Dec2018-v1' : {
-	'nevents' : 90984718,
-	'xsec' : 1.0,
-	'xmatcheff' : 1.0,
+	'DYJetsToLL_Pt-650ToInf_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_ext2-v1': {
+	'nevents' : 597526,
+	'xsec'    : 0.054225, #0.03737
+	'matcheff': 1.0,
 	'kfactor' : 1.0,
 		},
-	'SingleMuonRun2016F-Nano14Dec2018-v1' : {
-	'nevents' : 65489554,
-	'xsec' : 1.0,
-	'xmatcheff' : 1.0,
-	'kfactor' : 1.0,
-		},
-	'SingleMuonRun2016G-Nano14Dec2018-v1' : {
-	'nevents' : 149912248,
-	'xsec' : 1.0,
-	'xmatcheff' : 1.0,
-	'kfactor' : 1.0,
-		},
-	'SingleMuonRun2016H-Nano14Dec2018-v1' : {
-	'nevents' : 174035164,
-	'xsec' : 1.0,
-	'xmatcheff' : 1.0,
-	'kfactor' : 1.0,
-		},
-	'SingleElectronRun2016B_ver1-Nano14Dec2018_ver1-v1' : {
-	'nevents' : 1422819,
-	'xsec' : 1.0,
-	'xmatcheff' : 1.0,
-	'kfactor' : 1.0,
-		},
-	'SingleElectronRun2016B_ver2-Nano14Dec2018_ver2-v1' : {
-	'nevents' : 246440440,
-	'xsec' : 1.0,
-	'xmatcheff' : 1.0,
-	'kfactor' : 1.0,
-		},
-	'SingleElectronRun2016C-Nano14Dec2018-v1' : {
-	'nevents' : 97259854,
-	'xsec' : 1.0,
-	'xmatcheff' : 1.0,
-	'kfactor' : 1.0,
-		},
-	'SingleElectronRun2016D-Nano14Dec2018-v1' : {
-	'nevents' : 148167727,
-	'xsec' : 1.0,
-	'xmatcheff' : 1.0,
-	'kfactor' : 1.0,
-		},
-	'SingleElectronRun2016E-Nano14Dec2018-v1' : {
-	'nevents' : 117321545,
-	'xsec' : 1.0,
-	'xmatcheff' : 1.0,
-	'kfactor' : 1.0,
-		},
-	'SingleElectronRun2016F-Nano14Dec2018-v1' : {
-	'nevents' : 70593532,
-	'xsec' : 1.0,
-	'xmatcheff' : 1.0,
-	'kfactor' : 1.0,
-		},
-	'SingleElectronRun2016G-Nano14Dec2018-v1' : {
-	'nevents' : 153363109,
-	'xsec' : 1.0,
-	'xmatcheff' : 1.0,
-	'kfactor' : 1.0,
-		},
-	'SingleElectronRun2016H-Nano14Dec2018-v1' : {
-	'nevents' : 129021893,
-	'xsec' : 1.0,
-	'xmatcheff' : 1.0,
-	'kfactor' : 1.0,
-		},
-	'DoubleMuonRun2016B_ver1-Nano14Dec2018_ver1-v1' : {
-	'nevents' : 4199947,
-	'xsec' : 1.0,
-	'xmatcheff' : 1.0,
-	'kfactor' : 1.0,
-		},
-	'DoubleMuonRun2016B_ver2-Nano14Dec2018_ver2-v1' : {
+	'DoubleMuonRun2016B-03Feb2017_ver2-v2': {
 	'nevents' : 82535526,
-	'xsec' : 1.0,
-	'xmatcheff' : 1.0,
+	'xsec'    : 1.0,
+	'matcheff': 1.0,
 	'kfactor' : 1.0,
 		},
-	'DoubleMuonRun2016C-Nano14Dec2018-v1' : {
+	'DoubleMuonRun2016C-03Feb2017-v1': {
 	'nevents' : 27934629,
-	'xsec' : 1.0,
-	'xmatcheff' : 1.0,
+	'xsec'    : 1.0,
+	'matcheff': 1.0,
 	'kfactor' : 1.0,
 		},
-	'DoubleMuonRun2016D-Nano14Dec2018-v1' : {
+	'DoubleMuonRun2016D-03Feb2017-v1': {
 	'nevents' : 33861745,
-	'xsec' : 1.0,
-	'xmatcheff' : 1.0,
+	'xsec'    : 1.0,
+	'matcheff': 1.0,
 	'kfactor' : 1.0,
 		},
-	'DoubleMuonRun2016E-Nano14Dec2018-v1' : {
+	'DoubleMuonRun2016E-03Feb2017-v1': {
 	'nevents' : 28246946,
-	'xsec' : 1.0,
-	'xmatcheff' : 1.0,
+	'xsec'    : 1.0,
+	'matcheff': 1.0,
 	'kfactor' : 1.0,
 		},
-	'DoubleMuonRun2016F-Nano14Dec2018-v1' : {
+	'DoubleMuonRun2016F-03Feb2017-v1': {
 	'nevents' : 20329921,
-	'xsec' : 1.0,
-	'xmatcheff' : 1.0,
+	'xsec'    : 1.0,
+	'matcheff': 1.0,
 	'kfactor' : 1.0,
 		},
-	'DoubleMuonRun2016G-Nano14Dec2018-v1' : {
+	'DoubleMuonRun2016G-03Feb2017-v1': {
 	'nevents' : 45235604,
-	'xsec' : 1.0,
-	'xmatcheff' : 1.0,
+	'xsec'    : 1.0,
+	'matcheff': 1.0,
 	'kfactor' : 1.0,
 		},
-	'DoubleMuonRun2016H-Nano14Dec2018-v1' : {
-	'nevents' : 48912812,
-	'xsec' : 1.0,
-	'xmatcheff' : 1.0,
+	'DoubleMuonRun2016H-03Feb2017_ver2-v1': {
+	'nevents' : 47693168,
+	'xsec'    : 1.0,
+	'matcheff': 1.0,
 	'kfactor' : 1.0,
 		},
-	'DYJetsToLL_M-10to50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8-v1' : {
-	'nevents' : 67981236,
-	'xsec' : 18810.0,
-	'xmatcheff' : 1.0,
+	'DoubleMuonRun2016H-03Feb2017_ver3-v1': {
+	'nevents' : 1219644,
+	'xsec'    : 1.0,
+	'matcheff': 1.0,
 	'kfactor' : 1.0,
 		},
-        'DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_ext1-v2' : {
-        'nevents' : 49748967,
-        'xsec' : 6225.42,
-        'xmatcheff' : 1.0,
-        'kfactor' : 1.0,
-                },
-	'DYJetsToLL_M-50_HT-70to100_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1' : {
-	'nevents' : 9691660,
-	'xsec' : 169.9,
-	'xmatcheff' : 1.0,
-	'kfactor' : 1.23,
-		},
-	'DYJetsToLL_M-50_HT-100to200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1' : {
-	'nevents' : 2751187,
-	'xsec' : 147.4,
-	'xmatcheff' : 1.0,
-	'kfactor' : 1.23,
-		},
-	'DYJetsToLL_M-50_HT-200to400_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1' : {
-	'nevents' : 962195,
-	'xsec' : 41.04,
-	'xmatcheff' : 1.0,
-	'kfactor' : 1.23,
-		},
-	'DYJetsToLL_M-50_HT-400to600_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1' : {
-	'nevents' : 1070454,
-	'xsec' : 5.674,
-	'xmatcheff' : 1.0,
-	'kfactor' : 1.23,
-		},
-	'DYJetsToLL_M-50_HT-600to800_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1' : {
-	'nevents' : 8292957,
-	'xsec' : 1.358,
-	'xmatcheff' : 1.0,
-	'kfactor' : 1.23,
-		},
-	'DYJetsToLL_M-50_HT-800to1200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1' : {
-	'nevents' : 2673066,
-	'xsec' : 0.6229,
-	'xmatcheff' : 1.0,
-	'kfactor' : 1.23,
-		},
-	'DYJetsToLL_M-50_HT-1200to2500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1' : {
-	'nevents' : 596079,
-	'xsec' : 0.1512,
-	'xmatcheff' : 1.0,
-	'kfactor' : 1.23,
-		},
-	'DYJetsToLL_M-50_HT-2500toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1' : {
-	'nevents' : 399492,
-	'xsec' : 0.003659,
-	'xmatcheff' : 1.0,
-	'kfactor' : 1.23,
-		},
-	'DYJetsToLL_Pt-250To400_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8-v1' : {
-	'nevents' : 423976,
-	'xsec' : 2.991,
-	'xmatcheff' : 1.0,
+	'DoubleMuonRun2017B-17Nov2017-v1': {
+	'nevents' : 136300266,
+	'xsec'    : 1.0,
+	'matcheff': 1.0,
 	'kfactor' : 1.0,
 		},
-	'WJetsToLNu_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8-v1' : {
-	'nevents' : 22606589,
-	'xsec' : 60430.0,
-	'xmatcheff' : 1.0,
+	'DoubleMuonRun2017C-17Nov2017-v1': {
+	'nevents' : 165652756,
+	'xsec'    : 1.0,
+	'matcheff': 1.0,
 	'kfactor' : 1.0,
 		},
-	'WJetsToLNu_HT-70To100_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1' : {
-	'nevents' : 10020533,
-	'xsec' : 1353.0,
-	'xmatcheff' : 1.0,
+	'DoubleMuonRun2017D-17Nov2017-v1': {
+	'nevents' : 70361660,
+	'xsec'    : 1.0,
+	'matcheff': 1.0,
 	'kfactor' : 1.0,
 		},
-	'WJetsToLNu_HT-100To200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1' : {
-	'nevents' : 9945478,
-	'xsec' : 1346.0,
-	'xmatcheff' : 1.0,
+	'DoubleMuonRun2017E-17Nov2017-v1': {
+	'nevents' : 154630534,
+	'xsec'    : 1.0,
+	'matcheff': 1.0,
 	'kfactor' : 1.0,
 		},
-	'WJetsToLNu_HT-200To400_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1' : {
-	'nevents' : 4963240,
-	'xsec' : 360.1,
-	'xmatcheff' : 1.0,
+	'DoubleMuonRun2017F-17Nov2017-v1': {
+	'nevents' : 242140980,
+	'xsec'    : 1.0,
+	'matcheff': 1.0,
 	'kfactor' : 1.0,
 		},
-	'WJetsToLNu_HT-400To600_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1' : {
-	'nevents' : 1963464,
-	'xsec' : 48.8,
-	'xmatcheff' : 1.0,
+	'HWminusJ_HToWWTo2L2Nu_WToLNu_M125_13TeV_powheg_pythia8-v1': {
+	'nevents' : 599796,
+	'xsec'    : 0.312,
+	'matcheff': 1,
+	'kfactor' : 1,
+		},
+	'HWminusJ_HToWW_M125_13TeV_powheg_pythia8-v1': {
+	'nevents' : 599796,
+	'xsec'    : 0.312,
+	'matcheff': 1,
+	'kfactor' : 1,
+		},
+	'HWplusJ_HToWWTo2L2Nu_WToLNu_M125_13TeV_powheg_pythia8-v1': {
+	'nevents' : 599796,
+	'xsec'    : 0.312,
+	'matcheff': 1,
+	'kfactor' : 1,
+		},
+	'HWplusJ_HToWW_M125_13TeV_powheg_pythia8-v1': {
+	'nevents' : 599796,
+	'xsec'    : 0.312,
+	'matcheff': 1,
+	'kfactor' : 1,
+		},
+	'METRun2016B-03Feb2017_ver2-v2': {
+	'nevents' : 35987712,
+	'xsec'    : 1.0,
+	'matcheff': 1.0,
 	'kfactor' : 1.0,
 		},
-	'WJetsToLNu_HT-600To800_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1' : {
-	'nevents' : 3779141,
-	'xsec' : 12.07,
-	'xmatcheff' : 1.0,
+	'METRun2016C-03Feb2017-v1': {
+	'nevents' : 17381222,
+	'xsec'    : 1.0,
+	'matcheff': 1.0,
 	'kfactor' : 1.0,
 		},
-	'WJetsToLNu_HT-800To1200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1' : {
-	'nevents' : 1544513,
-	'xsec' : 5.497,
-	'xmatcheff' : 1.0,
+	'METRun2016D-03Feb2017-v1': {
+	'nevents' : 20947429,
+	'xsec'    : 1.0,
+	'matcheff': 1.0,
 	'kfactor' : 1.0,
 		},
-        'WJetsToLNu_HT-1200To2500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1' : {
-        'nevents' : 244532,
-        'xsec' : 1.329,
-        'xmatcheff' : 1.0,
-        'kfactor' : 1.0,
-                },
-        'WJetsToLNu_HT-2500ToInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1' : {
-        'nevents' :  253561,
-        'xsec' : 0.03209,
-        'xmatcheff' : 1.0,
-        'kfactor' : 1.0,
-                },
-	'TT_TuneCUETP8M2T4_13TeV-powheg-pythia8-v1' : {
-	'nevents' : 76915549,
-	'xsec' : 730.6,
-	'xmatcheff' : 1.0,
+	'METRun2016E-03Feb2017-v1': {
+	'nevents' : 22348402,
+	'xsec'    : 1.0,
+	'matcheff': 1.0,
 	'kfactor' : 1.0,
 		},
-	'TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1' : {
-	'nevents' : 6068369,
-	'xsec' : 56.86,
-	'xmatcheff' : 1.0,
+	'METRun2016F-03Feb2017-v1': {
+	'nevents' : 13319829,
+	'xsec'    : 1.0,
+	'matcheff': 1.0,
 	'kfactor' : 1.0,
 		},
-	'TTJets_SingleLeptFromT_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1' : {
-	'nevents' : 11957043,
-	'xsec' : 114.0,
-	'xmatcheff' : 1.0,
+	'METRun2016G-03Feb2017-v1': {
+	'nevents' : 26974131,
+	'xsec'    : 1.0,
+	'matcheff': 1.0,
 	'kfactor' : 1.0,
 		},
-	'TTJets_SingleLeptFromTbar_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1' : {
-	'nevents' : 11955887,
-	'xsec' : 114.0,
-	'xmatcheff' : 1.0,
+	'METRun2016H-03Feb2017_ver2-v1': {
+	'nevents' : 38957320,
+	'xsec'    : 1.0,
+	'matcheff': 1.0,
 	'kfactor' : 1.0,
 		},
-	'ST_s-channel_4f_leptonDecays_13TeV-amcatnlo-pythia8_TuneCUETP8M1-v1' : {
-	'nevents' : 1000000,
-	'xsec' : 3.365,
-	'xmatcheff' : 1.0,
+	'METRun2016H-03Feb2017_ver3-v1': {
+	'nevents' : 816165,
+	'xsec'    : 1.0,
+	'matcheff': 1.0,
 	'kfactor' : 1.0,
 		},
-	'ST_t-channel_antitop_4f_inclusiveDecays_13TeV-powhegV2-madspin-pythia8_TuneCUETP8M1-v1' : {
-	'nevents' : 38811017,
-	'xsec' : 27.1,
-	'xmatcheff' : 1.0,
+	'ST_s-channel_4f_leptonDecays_13TeV-amcatnlo-pythia8_TuneCUETP8M1-v1': {
+	'nevents' : 1000000.0,
+	'xsec'    : 3.45,
+	'matcheff': 1.0,
 	'kfactor' : 1.0,
 		},
-	'ST_t-channel_top_4f_inclusiveDecays_13TeV-powhegV2-madspin-pythia8_TuneCUETP8M1-v1' : {
-	'nevents' : 67105876,
-	'xsec' : 27.1,
-	'xmatcheff' : 1.0,
+	'ST_t-channel_antitop_4f_inclusiveDecays_13TeV-powhegV2-madspin-pythia8_TuneCUETP8M1-v1': {
+	'nevents' : 5922361,
+	'xsec'    : 27.1,
+	'matcheff': 1.0,
 	'kfactor' : 1.0,
 		},
-	'ST_tW_antitop_5f_inclusiveDecays_13TeV-powheg-pythia8_TuneCUETP8M2T4-v1' : {
-	'nevents' : 998276,
-	'xsec' : 38.06,
-	'xmatcheff' : 1.0,
+	'ST_t-channel_top_4f_inclusiveDecays_13TeV-powhegV2-madspin-pythia8_TuneCUETP8M1-v1': {
+	'nevents' : 11108070,
+	'xsec'    : 27.1,
+	'matcheff': 1.0,
 	'kfactor' : 1.0,
 		},
-	'ST_tW_top_5f_inclusiveDecays_13TeV-powheg-pythia8_TuneCUETP8M2T4-v1' : {
-	'nevents' : 992024,
-	'xsec' : 38.09,
-	'xmatcheff' : 1.0,
+	'ST_tW_antitop_5f_NoFullyHadronicDecays_13TeV-powheg_TuneCUETP8M1-v1': {
+	'nevents' : 5425134.0,
+	'xsec'    : 19.99623375,
+	'matcheff': 1.0,
 	'kfactor' : 1.0,
 		},
-	'WZTo3LNu_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8-v1' : {
-	'nevents' : 11928707,
-	'xsec' : 4.679,
-	'xmatcheff' : 1.0,
+	'ST_tW_antitop_5f_inclusiveDecays_13TeV-powheg-pythia8_TuneCUETP8M1_ext1-v1': {
+	'nevents' : 6933094,
+	'xsec'    : 35.85,
+	'matcheff': 1.0,
 	'kfactor' : 1.0,
 		},
-	'WZTo3LNu_TuneCUETP8M1_13TeV-powheg-pythia8-v1' : {
-	'nevents' : 1993200,
-	'xsec' : 4.42965,
-	'xmatcheff' : 1.0,
-	'kfactor' : 1.0
-		},
-	'WmWmJJ_13TeV-powheg-pythia8_TuneCUETP8M1-v1' : {
-	'nevents' : 150000,
-	'xsec' : 0.007868,
-	'xmatcheff' : 1.0,
+	'ST_tW_antitop_5f_inclusiveDecays_13TeV-powheg-pythia8_TuneCUETP8M2T4-v1': {
+	'nevents' : 5435134,
+	'xsec'    : 20,
+	'matcheff': 1.0,
 	'kfactor' : 1.0,
 		},
-	'ZZ_TuneCUETP8M1_13TeV-pythia8-v1' : {
-	'nevents' : 990064,
-	'xsec' : 10.16,
-	'xmatcheff' : 1.0,
+	'ST_tW_top_5f_NoFullyHadronicDecays_13TeV-powheg_TuneCUETP8M1-v1': {
+	'nevents' : 5372991.0,
+	'xsec'    : 19.99623375,
+	'matcheff': 1.0,
 	'kfactor' : 1.0,
 		},
-	'ZZTo2L2Q_13TeV_amcatnloFXFX_madspin_pythia8-v1' : {
-	'nevents' : 15462693,
-	'xsec' : 3.222,
-	'xmatcheff' : 1.0,
+	'ST_tW_top_5f_inclusiveDecays_13TeV-powheg-pythia8_TuneCUETP8M2T4-v1': {
+	'nevents' : 5372991,
+	'xsec'    : 20,
+	'matcheff': 1.0,
 	'kfactor' : 1.0,
 		},
-	'WZTo3LNu_TuneCUETP8M1_13TeV-powheg-pythia8-v1' : {
-	'nevents' : 1993200,
-	'xsec' : 0.0,
-	'xmatcheff' : 1.0,
+	'SingleElectronRun2016B-03Feb2017_ver1-v1': {
+	'nevents' : 1422819,
+	'xsec'    : 1.0,
+	'matcheff': 1.0,
 	'kfactor' : 1.0,
 		},
-	'ZZTo2L2Nu_13TeV_powheg_pythia8-v1' : {
-	'nevents' : 8931750,
-	'xsec' : 0.5644,
-	'xmatcheff' : 1.0,
+	'SingleElectronRun2016B-03Feb2017_ver2-v2': {
+	'nevents' : 246440440,
+	'xsec'    : 1.0,
+	'matcheff': 1.0,
 	'kfactor' : 1.0,
 		},
-	'ttHToNonbb_M125_TuneCUETP8M2_ttHtranche3_13TeV-powheg-pythia8-v1' : {
-	'nevents' : 3981250,
-	'xsec' : 0.5638,
-	'xmatcheff' : 1.0,
+	'SingleElectronRun2016B-03Feb2017_ver2-v2_1': {
+	'nevents' : 246440440,
+	'xsec'    : 1.0,
+	'matcheff': 1.0,
 	'kfactor' : 1.0,
 		},
-	'WWW_4F_TuneCUETP8M1_13TeV-amcatnlo-pythia8-v1' : {
+	'SingleElectronRun2016C-03Feb2017-v1': {
+	'nevents' : 97259854,
+	'xsec'    : 1.0,
+	'matcheff': 1.0,
+	'kfactor' : 1.0,
+		},
+	'SingleElectronRun2016D-03Feb2017-v1': {
+	'nevents' : 148167727,
+	'xsec'    : 1.0,
+	'matcheff': 1.0,
+	'kfactor' : 1.0,
+		},
+	'SingleElectronRun2016E-03Feb2017-v1': {
+	'nevents' : 117321545,
+	'xsec'    : 1.0,
+	'matcheff': 1.0,
+	'kfactor' : 1.0,
+		},
+	'SingleElectronRun2016F-03Feb2017-v1': {
+	'nevents' : 70593532,
+	'xsec'    : 1.0,
+	'matcheff': 1.0,
+	'kfactor' : 1.0,
+		},
+	'SingleElectronRun2016G-03Feb2017-v1': {
+	'nevents' : 153363109,
+	'xsec'    : 1.0,
+	'matcheff': 1.0,
+	'kfactor' : 1.0,
+		},
+	'SingleElectronRun2016H-03Feb2017_ver2-v1': {
+	'nevents' : 126863489,
+	'xsec'    : 1.0,
+	'matcheff': 1.0,
+	'kfactor' : 1.0,
+		},
+	'SingleElectronRun2016H-03Feb2017_ver3-v1': {
+	'nevents' : 3191585,
+	'xsec'    : 1.0,
+	'matcheff': 1.0,
+	'kfactor' : 1.0,
+		},
+	'SingleElectronRun2017B-17Nov2017-v1': {
+	'nevents' : 60537490,
+	'xsec'    : 1.0,
+	'matcheff': 1.0,
+	'kfactor' : 1.0,
+		},
+	'SingleElectronRun2017C-17Nov2017-v1': {
+	'nevents' : 136637888,
+	'xsec'    : 1.0,
+	'matcheff': 1.0,
+	'kfactor' : 1.0,
+		},
+	'SingleElectronRun2017D-17Nov2017-v1': {
+	'nevents' : 51526710,
+	'xsec'    : 1.0,
+	'matcheff': 1.0,
+	'kfactor' : 1.0,
+		},
+	'SingleElectronRun2017E-17Nov2017-v1': {
+	'nevents' : 102121689,
+	'xsec'    : 1.0,
+	'matcheff': 1.0,
+	'kfactor' : 1.0,
+		},
+	'SingleElectronRun2017F-17Nov2017-v1': {
+	'nevents' : 128467223,
+	'xsec'    : 1.0,
+	'matcheff': 1.0,
+	'kfactor' : 1.0,
+		},
+	'SingleMuonRun2016B-03Feb2017_ver1-v1': {
+	'nevents' : 2789243,
+	'xsec'    : 1.0,
+	'matcheff': 1.0,
+	'kfactor' : 1.0,
+		},
+	'SingleMuonRun2016B-03Feb2017_ver2-v2': {
+	'nevents' : 158145722,
+	'xsec'    : 1.0,
+	'matcheff': 1.0,
+	'kfactor' : 1.0,
+		},
+	'SingleMuonRun2016C-03Feb2017-v1': {
+	'nevents' : 67441308,
+	'xsec'    : 1.0,
+	'matcheff': 1.0,
+	'kfactor' : 1.0,
+		},
+	'SingleMuonRun2016D-03Feb2017-v1': {
+	'nevents' : 98017996,
+	'xsec'    : 1.0,
+	'matcheff': 1.0,
+	'kfactor' : 1.0,
+		},
+	'SingleMuonRun2016E-03Feb2017-v1': {
+	'nevents' : 90984718,
+	'xsec'    : 1.0,
+	'matcheff': 1.0,
+	'kfactor' : 1.0,
+		},
+	'SingleMuonRun2016F-03Feb2017-v1': {
+	'nevents' : 65425108,
+	'xsec'    : 1.0,
+	'matcheff': 1.0,
+	'kfactor' : 1.0,
+		},
+	'SingleMuonRun2016G-03Feb2017-v1': {
+	'nevents' : 149916849,
+	'xsec'    : 1.0,
+	'matcheff': 1.0,
+	'kfactor' : 1.0,
+		},
+	'SingleMuonRun2016H-03Feb2017_ver2-v1': {
+	'nevents' : 171134793,
+	'xsec'    : 1.0,
+	'matcheff': 1.0,
+	'kfactor' : 1.0,
+		},
+	'SingleMuonRun2016H-03Feb2017_ver3-v1': {
+	'nevents' : 4393222,
+	'xsec'    : 1.0,
+	'matcheff': 1.0,
+	'kfactor' : 1.0,
+		},
+	'SingleMuonRun2017B-17Nov2017-v1': {
+	'nevents' : 14501767,
+	'xsec'    : 1.0,
+	'matcheff': 1.0,
+	'kfactor' : 1.0,
+		},
+	'SingleMuonRun2017C-17Nov2017-v1': {
+	'nevents' : 49636525,
+	'xsec'    : 1.0,
+	'matcheff': 1.0,
+	'kfactor' : 1.0,
+		},
+	'SingleMuonRun2017D-17Nov2017-v1': {
+	'nevents' : 23075733,
+	'xsec'    : 1.0,
+	'matcheff': 1.0,
+	'kfactor' : 1.0,
+		},
+	'SingleMuonRun2017E-17Nov2017-v1': {
+	'nevents' : 51589091,
+	'xsec'    : 1.0,
+	'matcheff': 1.0,
+	'kfactor' : 1.0,
+		},
+	'SingleMuonRun2017F-17Nov2017-v1': {
+	'nevents' : 79756560,
+	'xsec'    : 1.0,
+	'matcheff': 1.0,
+	'kfactor' : 1.0,
+		},
+	'SingleMuonRun2017F-17Nov2017-v1_1': {
+	'nevents' : 79756560,
+	'xsec'    : 1.0,
+	'matcheff': 1.0,
+	'kfactor' : 1.0,
+		},
+	'TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_ext1-v1': {
+	'nevents' : 23637880,
+	'xsec'    : 92.4177777778,
+	'matcheff': 1.0,
+	'kfactor' : 1.0,
+		},
+	'TTJets_SingleLeptFromT_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_ext1-v1': {
+	'nevents' : 50016940,
+	'xsec'    : 831.76*0.68*(1-0.68),
+	'matcheff': 1.0,
+	'kfactor' : 1.0,
+		},
+	'TTJets_SingleLeptFromTbar_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_ext1-v1': {
+	'nevents' : 48266350,
+	'xsec'    : 831.76*0.68*(1-0.68),
+	'matcheff': 1.0,
+	'kfactor' : 1.0,
+		},
+	'TTWJetsToLNu_TuneCUETP8M1_13TeV-amcatnloFXFX-madspin-pythia8_ext1-v3': {
+	'nevents' : 236047,
+	'xsec'    : 0.204,
+	'matcheff': 1.0,
+	'kfactor' : 1.0,
+		},
+	'TTZToLLNuNu_M-10_TuneCUETP8M1_13TeV-amcatnlo-pythia8_ext1-v1': {
+	'nevents' : 1115478,
+	'xsec'    : 0.253,
+	'matcheff': 1.0,
+	'kfactor' : 1.0,
+		},
+	'TT_TuneCUETP8M2T4_13TeV-powheg-pythia8-v1': {
+	'nevents' : (68676263./77081156.)*68676260, #61187833
+	'xsec'    : 831.76,
+	'matcheff': 1.0,
+	'kfactor' : 1.0,
+		},
+	'TT_TuneCUETP8M2T4_13TeV-powheg-pythia8-v1_1': {
+	'nevents' : (8404893./77081156.)*68676260, #7488427
+	'xsec'    : 831.76,
+	'matcheff': 1.0,
+	'kfactor' : 1.0,
+		},
+	'WGToLNuG_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_ext1-v1': {
+	'nevents' : 5048470,
+	'xsec'    : 586,
+	'matcheff': 1.0,
+	'kfactor' : 1.0,
+		},
+	'WJetsToLNu_HT-100To200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_ext2-v1': {
+	'nevents' : 39617790,
+	'xsec'    : 3384.15,
+	'matcheff': 1.0,
+	'kfactor' : 1.395,
+		},
+	'WJetsToLNu_HT-200To400_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_ext2-v1': {
+	'nevents' : 19914590,
+	'xsec'    : 738.36,
+	'matcheff': 1.0,
+	'kfactor' : 1.526,
+		},
+	'WJetsToLNu_HT-400To600_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_ext1-v1': {
+	'nevents' : 5796237,
+	'xsec'    : 92.295,
+	'matcheff': 1.0,
+	'kfactor' : 1.679,
+		},
+	'WJetsToLNu_HT-600To800_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_ext1-v1': {
+	'nevents' : 14908340,
+	'xsec'    : 7.3836,
+	'matcheff': 1.0,
+	'kfactor' : 1.442,
+		},
+	'WJetsToLNu_HT-70To100_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1': {
+	'nevents' : 10094300,
+	'xsec'    : 3691.18,
+	'matcheff': 1.0,
+	'kfactor' : 1.0,#1,
+		},
+	'WJetsToLNu_HT-800To1200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_ext1-v1': {
+	'nevents' : 6069652,
+	'xsec'    : 3.19956,
+	'matcheff': 1.0,
+	'kfactor' : 1.442,
+		},
+	'WJetsToLNu_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8-v1': {
+	'nevents' : 21978040,
+	'xsec'    : 61530,
+	'matcheff': 1.0,
+	'kfactor' : 1.0,
+		},
+	'WWW_4F_TuneCUETP8M1_13TeV-amcatnlo-pythia8-v1': {
 	'nevents' : 240000,
-	'xsec' : 0.2086,
-	'xmatcheff' : 1.0,
+	'xsec'    : 0.2086,
+	'matcheff': 1.0,
 	'kfactor' : 1.0,
 		},
-	'ZZZ_TuneCUETP8M1_13TeV-amcatnlo-pythia8-v1' : {
-	'nevents' : 249237,
-	'xsec' : 0.01398,
-	'xmatcheff' : 1.0,
-	'kfactor' : 1.0,
-		},
-	'WWZ_TuneCUETP8M1_13TeV-amcatnlo-pythia8-v1' : {
+	'WWZ_TuneCUETP8M1_13TeV-amcatnlo-pythia8-v1': {
 	'nevents' : 250000,
-	'xsec' : 0.1651,
-	'xmatcheff' : 1.0,
+	'xsec'    : 0.1651,
+	'matcheff': 1.0,
 	'kfactor' : 1.0,
 		},
-	'HWminusJ_HToWW_M125_13TeV_powheg_pythia8-v1' : {
-	'nevents' : 299799,
-	'xsec' : 0.5331,
-	'xmatcheff' : 1.0,
+	'WW_TuneCUETP8M1_13TeV-pythia8-v1': {
+	'nevents' : 7981136,
+	'xsec'    : 118,
+	'matcheff': 1.0,
 	'kfactor' : 1.0,
 		},
-	'HWplusJ_HToWW_M125_13TeV_powheg_pythia8-v1' : {
-	'nevents' : 299997,
-	'xsec' : 0.851,
-	'xmatcheff' : 1.0,
+	'WW_TuneCUETP8M1_13TeV-pythia8_ext1-v1': {
+	'nevents' : 7981136,
+	'xsec'    : 118,
+	'matcheff': 1.0,
 	'kfactor' : 1.0,
 		},
-	'QCD_HT100to200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1' : {
-	'nevents' : 82293477,
-	'xsec' : 28060000.0,
-	'xmatcheff' : 1.0,
+	'WZTo3LNu_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8-v1': {
+	'nevents' : 11887460,
+	'xsec'    : 4.4,
+	'matcheff': 1.0,
 	'kfactor' : 1.0,
 		},
-	'QCD_HT200to300_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1' : {
-	'nevents' : 18722416,
-	'xsec' : 1710000.0,
-	'xmatcheff' : 1.0,
+	'WZTo3LNu_TuneCUETP8M1_13TeV-powheg-pythia8-v1': {
+	'nevents' : 11887460,
+	'xsec'    : 4.4,
+	'matcheff': 1.0,
 	'kfactor' : 1.0,
 		},
-	'QCD_HT300to500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1' : {
-	'nevents' : 17035891,
-	'xsec' : 347500.0,
-	'xmatcheff' : 1.0,
-	'kfactor' : 1.0,
-		},
-	'QCD_HT500to700_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1' : {
-	'nevents' : 18560541,
-	'xsec' : 32060.0,
-	'xmatcheff' : 1.0,
-	'kfactor' : 1.0,
-		},
-	'QCD_HT700to1000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1' : {
-	'nevents' : 15629253,
-	'xsec' : 6829.0,
-	'xmatcheff' : 1.0,
-	'kfactor' : 1.0,
-		},
-	'QCD_HT1000to1500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1' : {
-	'nevents' : 4850746,
-	'xsec' : 1207.0,
-	'xmatcheff' : 1.0,
-	'kfactor' : 1.0,
-		},
-	'QCD_HT1500to2000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1' : {
-	'nevents' : 3970819,
-	'xsec' : 120.0,
-	'xmatcheff' : 1.0,
-	'kfactor' : 1.0,
-		},
-	'QCD_HT2000toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1' : {
-	'nevents' : 1991645,
-	'xsec' : 25.25,
-	'xmatcheff' : 1.0,
-	'kfactor' : 1.0,
-		},
-	'QCD_Pt-20toInf_MuEnrichedPt15_TuneCUETP8M1_13TeV_pythia8-v1' : {
-	'nevents' : 22094081,
-	'xsec' : 269900.0,
-	'xmatcheff' : 1.0,
-	'kfactor' : 1.0,
-		},
-	'VHToNonbb_M125_13TeV_amcatnloFXFX_madspin_pythia8-v1' : {
-	'nevents' : 1007898,
-	'xsec' : 2.127,
-	'xmatcheff' : 1.0,
-	'kfactor' : 1.0,
-		},
-	'WZZ_TuneCUETP8M1_13TeV-amcatnlo-pythia8-v1' : {
-	'nevents' : 246800,
-	'xsec' : 0.05565,
-	'xmatcheff' : 1.0,
-	'kfactor' : 1.0,
-		},
-	'WZTo1L1Nu2Q_13TeV_amcatnloFXFX_madspin_pythia8-v1' : {
-	'nevents' : 24285386,
-	'xsec' : 10.73,
-	'xmatcheff' : 1.0,
-	'kfactor' : 1.0,
-		},
-	'WZTo2L2Q_13TeV_amcatnloFXFX_madspin_pythia8-v1' : {
-	'nevents' : 26517272,
-	'xsec' : 5.606,
-	'xmatcheff' : 1.0,
-	'kfactor' : 1.0,
-		},
-	'WZ_TuneCUETP8M1_13TeV-pythia8-v1' : {
-	'nevents' : 1000000,
-	'xsec' : 23.43,
-	'xmatcheff' : 1.0,
-	'kfactor' : 1.0,
-		},
-	'WWW_4F_DiLeptonFilter_TuneCUETP8M1_13TeV-amcatnlo-pythia8-v1' : {
-	'nevents' : 304251,
-	'xsec' : 0.2086,
-	'xmatcheff' : 1.0,
-	'kfactor' : 1.0,
-		},
-	'WWTo1L1Nu2Q_13TeV_amcatnloFXFX_madspin_pythia8-v1' : {
-	'nevents' : 5246469,
-	'xsec' : 45.68,
-	'xmatcheff' : 1.0,
-	'kfactor' : 1.0,
-		},
-	'WWToLNuQQ_13TeV-powheg-v1' : {
-	'nevents' : 1999200,
-	'xsec' : 43.53,
-	'xmatcheff' : 1.0,
-	'kfactor' : 1.0,
-		},
-	'WW_TuneCUETP8M1_13TeV-pythia8-v1' : {
-	'nevents' : 994012,
-	'xsec' : 64.3,
-	'xmatcheff' : 1.0,
-	'kfactor' : 1.0,
-		},
-    'TTWJetsToQQ_TuneCUETP8M1_13TeV-amcatnloFXFX-madspin-pythia8-v1' : {
-        'nevents' : 833298,
-        'xsec' : 0.405,
-        'xmatcheff' : 1.0,
-        'kfactor' : 1.0,
-    },
-    'TTZToQQ_TuneCUETP8M1_13TeV-amcatnlo-pythia8-v1' : {
-        'nevents' : 749400,
-        'xsec' : 0.5297,
-        'xmatcheff' : 1.0,
-        'kfactor' : 1.0,
-    },
-    'ST_s-channel_4f_InclusiveDecays_13TeV-amcatnlo-pythia8-v1' : {
-        'nevents' : 2911199,
-        'xsec' : 10.12,
-        'xmatcheff' : 1.0,
-        'kfactor' : 1.0,
-    },
-    'ST_tWll_5f_LO_13TeV-MadGraph-pythia8-v1' : {
-        'nevents' : 50000,
-        'xsec' : 0.01104,
-        'xmatcheff' : 1.0,
-        'kfactor' : 1.0,
-    },
-    'ST_tWnunu_5f_LO_13TeV-MadGraph-pythia8-v1' : {
-        'nevents' : 100000,
-        'xsec' : 0.02122,
-        'xmatcheff' : 1.0,
-        'kfactor' : 1.0,
-    },
-    'TTJets_Dilept_TuneCUETP8M2T4_13TeV-amcatnloFXFX-pythia8-v1' : {
-        'nevents' : 14529280,
-        'xsec' : 76.75,
-        'xmatcheff' : 1.0,
-        'kfactor' : 1.0,
-        },
-    'WZTo3LNu_0Jets_MLL-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1' : {
-        'nevents' : 496684,
-        'xsec' : 0.5754,
-        'xmatcheff' : 1.0,
-        'kfactor' : 1.0,
-    },
-    'WZTo1L1Nu2Q_13TeV_amcatnloFXFX_madspin_pythia8-v1' : {
-        'nevents' : 24285386,
-        'xsec' : 11.66,
-        'xmatcheff' : 1.0,
-        'kfactor' : 1.0,
-    },
-    'WZTo3LNu_1Jets_MLL-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1' : {
-        'nevents' : 463539,
-        'xsec' : 0.3436,
-        'xmatcheff' : 1.0,
-        'kfactor' : 1.0,
-    },
-    'WZTo3LNu_2Jets_MLL-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1' :	{
-        'nevents' : 2280179,
-        'xsec' : 0.07668,
-        'xmatcheff' : 1.0,
-        'kfactor' : 1.0,
-    },
-    'WZTo3LNu_3Jets_MLL-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1' : {
-        'nevents' : 2410585,
-        'xsec' : 0.1111,
-        'xmatcheff' : 1.0,
-        'kfactor' : 1.0,
-    },
-    'WZTo3LNu_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8-v1' : {
-        'nevents' : 11928707,
-        'xsec' : 4.679,
-        'xmatcheff' : 1.0,
-        'kfactor' : 1.0,
-    },
-    'WZTo3LNu_TuneCUETP8M1_13TeV-powheg-pythia8-v1' : {
-        'nevents' : 1993200,
-        'xsec' : 4.42965,
-        'xmatcheff' : 1.0,
-        'kfactor' : 1.0,
-    },
-    'WZJJ_EWK_13TeV-madgraph-pythia8-v1' : {
-        'nevents' : 495400,
-        'xsec' : 0.03483,
-        'xmatcheff' : 1.0,
-        'kfactor' : 1.0,
-    },
-    'WWJJToLNuLNu_EWK_13TeV-madgraph-pythia8-v1' : {
-        'nevents' : 475300,
-        'xsec' : 0.5029,
-        'xmatcheff' : 1.0,
-        'kfactor' : 1.0,
-        },
-    'WWTo1L1Nu2Q_13TeV_amcatnloFXFX_madspin_pythia8-v1' : {
-        'nevents' : 5246469,
-        'xsec' : 45.68,
-        'xmatcheff' : 1.0,
-        'kfactor' : 1.0,
-        },
-    'WWTo2L2Nu_13TeV-powheg-herwigpp-v1' : {
-        'nevents' : 1982372,
-        'xsec' : 10.48,
-	'xmatcheff' : 1.0,
-	'kfactor' : 1.0,
-    },
-    'WWTo2L2Nu_13TeV-powheg-v1' : {
-        'nevents' : 1999000,
-        'xsec' : 10.48,
-        'xmatcheff' : 1.0,
-        'kfactor' : 1.0,
-    },
-    'WWTo2L2Nu_Mll_200To600_13TeV-powheg-v1' : {
-        'nevents' : 200000,
-        'xsec' : 10.48,
-        'xmatcheff' : 1.0,
-        'kfactor' : 1.0,
-    },
-    'WWTo2L2Nu_Mll_600To1200_13TeV-powheg-v1' : {
-        'nevents' : 200000,
-        'xsec' : 10.48,
-        'xmatcheff' : 1.0,
-        'kfactor' : 1.0,
-    },
-    'WWTo2L2Nu_Mll_1200To2500_13TeV-powheg-v1' : {
-        'nevents' : 200000,
-        'xsec' : 10.48,
-        'xmatcheff' : 1.0,
-        'kfactor' : 1.0,
-    },
-    'WWTo2L2Nu_Mll_2500ToInf_13TeV-powheg-v1' : {
-        'nevents' : 38969,
-        'xsec' : 10.48,
-        'xmatcheff' : 1.0,
-        'kfactor' : 1.0,
-    },
-    'WWTo4Q_13TeV-powheg-v1' : {
-        'nevents' : 1998400,
-        'xsec' : 45.2,
-        'xmatcheff' : 1.0,
-        'kfactor' : 1.0,
-    },
-    'WWToLNuQQ_13TeV-powheg-v1' : {
-        'nevents' : 1999200,
-        'xsec' : 43.53,
-        'xmatcheff' : 1.0,
-        'kfactor' : 1.0,
-    },
-    'TTZToLLNuNu_M-10_TuneCUETP8M1_13TeV-amcatnlo-pythia8-v1' : {
-        'nevents' : 1992438,
-        'xsec' : 0.2529,
-        'xmatcheff' : 1.0,
-        'kfactor' : 1.0,
-    },
-    'WZG_TuneCUETP8M1_13TeV-amcatnlo-pythia8-v1' : {
-        'nevents' : 998200,
-        'xsec' : 0.04123,
-        'xmatcheff' : 1.0,
-        'kfactor' : 1.0,
-    },
-    'WpWpJJ_13TeV-powheg-pythia8_TuneCUETP8M1-v1' : {
-        'nevents' : 146600,
-        'xsec' : 0.02093,
-        'xmatcheff' : 1.0,
-        'kfactor' : 1.0,
-    },
-    'WmWmJJ_13TeV-powheg-pythia8_TuneCUETP8M1-v1' : {
+	'WmWmJJ_13TeV-powheg-pythia8_TuneCUETP8M1-v1': {
 	'nevents' : 150000,
-        'xsec' : 0.007868,
-        'xmatcheff' : 1.0,
-        'kfactor' : 1.0,
-    },
-    'WGToLNuG_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_ext1-v1' : {
-        'nevents' : 5059865,
-        'xsec' : 510.6,
-        'xmatcheff' : 1.0,
-        'kfactor' : 1.0,
-    },
-    'ZGTo2LG_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8-v1' : {
-        'nevents' : 2307158,
-        'xsec' : 123.8,
-        'xmatcheff' : 1.0,
-        'kfactor' : 1.0,
-    },
-    'TTWJetsToLNu_TuneCUETP8M1_13TeV-amcatnloFXFX-madspin-pythia8_ext1-v3' : {
-        'nevents' : 2160168,
-        'xsec' : 0.2001,
-        'xmatcheff' : 1.0,
-        'kfactor' : 1.0,
-    },
-    'tZq_ll_4f_13TeV-amcatnlo-pythia8-v1' : {
+	'xsec'    : 0.0110187,
+	'matcheff': 1.0,
+	'kfactor' : 1.0,
+		},
+	'WpWpJJ_13TeV-powheg-pythia8_TuneCUETP8M1-v1': {
+	'nevents' : 146600,
+	'xsec'    : 0.03339,
+	'matcheff': 1.0,
+	'kfactor' : 1.0,
+		},
+	'ZGTo2LG_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8-v1': {
+	'nevents' : 2307158,
+	'xsec'    : 131,
+	'matcheff': 1.0,
+	'kfactor' : 1.0,
+		},
+	'ZZTo2L2Nu_13TeV_powheg_pythia8-v1': {
+	'nevents' : 8655000,
+	'xsec'    : 0.564,
+	'matcheff': 1.0,
+	'kfactor' : 1.0,
+		},
+	'ZZTo2L2Q_13TeV_amcatnloFXFX_madspin_pythia8-v1': {
+	'nevents' : 15345572,
+	'xsec'    : 3.22,
+	'matcheff': 1.0,
+	'kfactor' : 1.0,
+		},
+	'ZZTo4L_13TeV-amcatnloFXFX-pythia8_ext1-v1': {
+	'nevents' : 10709784,
+	'xsec'    : 1.212,
+	'matcheff': 1.0,
+	'kfactor' : 1.0,
+		},
+	'ZZZ_TuneCUETP8M1_13TeV-amcatnlo-pythia8-v1': {
+	'nevents' : 249237,
+	'xsec'    : 0.01398,
+	'matcheff': 1.0,
+	'kfactor' : 1.0,
+		},
+	'ZZ_TuneCUETP8M1_13TeV-pythia8-v1': {
+	'nevents' : 1988088,
+	'xsec'    : 16.9,
+	'matcheff': 1.0,
+	'kfactor' : 1.0,
+		},
+	'ZZ_TuneCUETP8M1_13TeV-pythia8_ext1-v1': {
+	'nevents' : 1988088,
+	'xsec'    : 16.9,
+	'matcheff': 1.0,
+	'kfactor' : 1.0,
+		},
+	'tZq_ll_4f_13TeV-amcatnlo-pythia8_ext1-v1': {
+	'nevents' : 200000,
+	'xsec'    : 0.0758,
+	'matcheff': 1.0,
+	'kfactor' : 1.0,
+		},
+	'ttHToNonbb_M125_TuneCUETP8M2_ttHtranche3_13TeV-powheg-pythia8-v1': {
+	'nevents' : 3389728,
+	'xsec'    : 0.0546,
+	'matcheff': 1,
+	'kfactor' : 1,
+		},
+	'ttHTobb_M125_13TeV_powheg_pythia8-v1': {
+	'nevents' : 3236762,
+	'xsec'    : 0.0754,
+	'matcheff': 1,
+	'kfactor' : 1,
+		},
+        'tZq_ll_4f_13TeV-amcatnlo-pythia8-v1' : {
         'nevents' : 13656784,
         'xsec' : 0.0758,
         'xmatcheff' : 1.0,
         'kfactor' : 1.0,
     },
-    'Wminushwwlvjj_M125_Madspin_Skim' : {
-        'nevents' : 300000,
-        'xsec' : 0.0069905587717,
-        'xmatcheff' : 1.0,
-        'kfactor' : 1.0,
-    },
-    'Wplushwwlvjj_M125_Madspin_Skim' : {
-        'nevents' : 296000,
-        'xsec' : 0.0110211512166,
-        'xmatcheff' : 1.0,
-        'kfactor' : 1.0,
-    },
 }
+#! /usr/bin/env python
+
+#voms-proxy-init -voms cms
+#
 
 samples = {
-    ##DATA
     'data_obs' : {
         'order' : 0,
         'files' : [
-            'SingleMuonRun2016B_ver2-Nano14Dec2018_ver2-v1',
-            'SingleMuonRun2016C-Nano14Dec2018-v1',
-            'SingleMuonRun2016D-Nano14Dec2018-v1',
-            'SingleMuonRun2016E-Nano14Dec2018-v1',
-            'SingleMuonRun2016F-Nano14Dec2018-v1',
-            'SingleMuonRun2016G-Nano14Dec2018-v1',
-            'SingleMuonRun2016H-Nano14Dec2018-v1',
-        ] + [
-            'SingleElectronRun2016B_ver2-Nano14Dec2018_ver2-v1',
-            'SingleElectronRun2016C-Nano14Dec2018-v1',
-            'SingleElectronRun2016D-Nano14Dec2018-v1',
-            'SingleElectronRun2016E-Nano14Dec2018-v1',
-            'SingleElectronRun2016F-Nano14Dec2018-v1',
-            'SingleElectronRun2016G-Nano14Dec2018-v1',
-            'SingleElectronRun2016H-Nano14Dec2018-v1',
-        ] + [
-            'DoubleMuonRun2016B_ver2-Nano14Dec2018_ver2-v1',
-            'DoubleMuonRun2016E-Nano14Dec2018-v1',
-            'DoubleMuonRun2016H-Nano14Dec2018-v1',
-            'DoubleMuonRun2016C-Nano14Dec2018-v1',
-            'DoubleMuonRun2016F-Nano14Dec2018-v1',
-            'DoubleMuonRun2016D-Nano14Dec2018-v1',
-            'DoubleMuonRun2016G-Nano14Dec2018-v1',
-        ] + [ ''
-        ],
+            'METRun2016B-03Feb2017_ver2-v2', 
+            'METRun2016C-03Feb2017-v1', 
+            'METRun2016D-03Feb2017-v1',
+            'METRun2016E-03Feb2017-v1',
+            'METRun2016F-03Feb2017-v1',
+            'METRun2016G-03Feb2017-v1',
+            'METRun2016H-03Feb2017_ver2-v1',
+            'METRun2016H-03Feb2017_ver3-v1'
+            ] + [
+            #'SingleMuonRun2016B-03Feb2017_ver1-v1',
+            #'SingleMuonRun2016B-03Feb2017_ver2-v2',
+            #'SingleMuonRun2016C-03Feb2017-v1',
+            #'SingleMuonRun2016D-03Feb2017-v1',
+            #'SingleMuonRun2016E-03Feb2017-v1',
+            #'SingleMuonRun2016F-03Feb2017-v1',
+            #'SingleMuonRun2016G-03Feb2017-v1',
+            #'SingleMuonRun2016H-03Feb2017_ver2-v1',
+            'SingleMuonRun2016H-03Feb2017_ver3-v1'
+            ] + [
+            'SingleElectronRun2016B-03Feb2017_ver1-v1',
+            'SingleElectronRun2016B-03Feb2017_ver2-v2_1',
+            'SingleElectronRun2016B-03Feb2017_ver2-v2',
+            'SingleElectronRun2016C-03Feb2017-v1',
+            'SingleElectronRun2016D-03Feb2017-v1',
+            'SingleElectronRun2016E-03Feb2017-v1',
+            'SingleElectronRun2016F-03Feb2017-v1',
+            'SingleElectronRun2016G-03Feb2017-v1',
+            'SingleElectronRun2016H-03Feb2017_ver2-v1',
+            'SingleElectronRun2016H-03Feb2017_ver3-v1'
+            ] + [
+            'DoubleMuonRun2016B-03Feb2017_ver2-v2', 
+            'DoubleMuonRun2016D-03Feb2017-v1',
+            'DoubleMuonRun2016F-03Feb2017-v1',  
+            'DoubleMuonRun2016H-03Feb2017_ver2-v1',
+            'DoubleMuonRun2016C-03Feb2017-v1',
+            'DoubleMuonRun2016E-03Feb2017-v1',  
+            'DoubleMuonRun2016G-03Feb2017-v1',
+            'DoubleMuonRun2016H-03Feb2017_ver3-v1'
+            ],
         'fillcolor' : 0,
         'fillstyle' : 1,
         'linecolor' : 1,
@@ -748,7 +675,6 @@ samples = {
         'weight': 1.,
         'plot': True,
     },
-    ## DY
     'DYJetsToLL' : {
         'order' : 1,
         'files' : [
@@ -764,19 +690,14 @@ samples = {
         'weight': 1.,
         'plot': True,
     },
-    'DYJetsToLL_HT' : {
+    #no here
+    'DYJetsToLL_Pt' : {
         'order' : 2,
         'files' : [
-            'DYJetsToLL_M-10to50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8-v1',
-            #'DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_ext1-v2',
-            'DYJetsToLL_M-50_HT-70to100_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1',
-            'DYJetsToLL_M-50_HT-100to200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1',
-            'DYJetsToLL_M-50_HT-200to400_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1',
-            'DYJetsToLL_M-50_HT-400to600_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1',
-            'DYJetsToLL_M-50_HT-600to800_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1',
-            'DYJetsToLL_M-50_HT-800to1200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1',
-            'DYJetsToLL_M-50_HT-1200to2500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1',
-            'DYJetsToLL_M-50_HT-2500toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1',
+            'DYJetsToLL_Pt-100To250_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_ext5-v1',
+            'DYJetsToLL_Pt-250To400_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_ext5-v1',
+            'DYJetsToLL_Pt-400To650_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_ext2-v1', 
+            'DYJetsToLL_Pt-650ToInf_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_ext2-v1'
             ],
         'fillcolor' : 418,
         'fillstyle' : 1001,
@@ -787,12 +708,10 @@ samples = {
         'weight': 1.,
         'plot': True,
         },
-    ## WJET
     'WJetsToLNu' : {
         'order' : 3,
         'files' : [
-            'WJetsToLNu_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8-v1',
-            'WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1',
+            'WJetsToLNu_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8-v1'
             ],
         'fillcolor' : 881,
         'fillstyle' : 1001,
@@ -807,15 +726,13 @@ samples = {
         'order' : 3,
         'files' : [
             'WJetsToLNu_HT-70To100_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1',
-            'WJetsToLNu_HT-100To200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1',
-            'WJetsToLNu_HT-200To400_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1',
-            'WJetsToLNu_HT-400To600_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1',
-            'WJetsToLNu_HT-600To800_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1',
-            'WJetsToLNu_HT-800To1200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1',
-            'WJetsToLNu_HT-1200To2500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1',
-            'WJetsToLNu_HT-2500ToInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1',
-        ],
-        'fillcolor' : 881,
+            'WJetsToLNu_HT-100To200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_ext2-v1', 
+            'WJetsToLNu_HT-200To400_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_ext2-v1', 
+            'WJetsToLNu_HT-400To600_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_ext1-v1', 
+            'WJetsToLNu_HT-600To800_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_ext1-v1',
+            'WJetsToLNu_HT-800To1200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_ext1-v1'
+            ],
+	'fillcolor' : 881,
         'fillstyle' : 1001,
         'linecolor' : 881,
         'linewidth' : 2,
@@ -824,15 +741,12 @@ samples = {
         'weight': 1.,
         'plot': True,
     },
-    ##TTBAR
     'TTbar' : {
         'order' : 4,
         'files' : [
-            #'TT_TuneCUETP8M2T4_13TeV-powheg-pythia8-v1'
-            'TTJets_Dilept_TuneCUETP8M2T4_13TeV-amcatnloFXFX-pythia8-v1',
-            'TTJets_SingleLeptFromT_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1',
-            'TTJets_SingleLeptFromTbar_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1',
-        ],
+            'TT_TuneCUETP8M2T4_13TeV-powheg-pythia8-v1_1',
+            'TT_TuneCUETP8M2T4_13TeV-powheg-pythia8-v1'
+            ],
         'fillcolor' : 798,
         'fillstyle' : 1001,
         'linecolor' : 798,
@@ -845,12 +759,11 @@ samples = {
     'TTbar-DiLep' : {
         'order' : 4,
         'files' : [
-            #'TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1',
-            'TTJets_Dilept_TuneCUETP8M2T4_13TeV-amcatnloFXFX-pythia8-v1',
+            'TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_ext1-v1'
             ],
         'fillcolor' : 41,
         'fillstyle' : 1001,
-        'linecolor' : 41,
+        'linecolor' : 798,
         'linewidth' : 2,
         'linestyle' : 1,
         'label' : "t#bar{t} di-lept",#, single t
@@ -860,10 +773,8 @@ samples = {
     'TTbar-SL' : {
         'order' : 4,
         'files' : [
-            'TTJets_SingleLeptFromT_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1',
-            'TTJets_SingleLeptFromTbar_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1'
-            #'TTJets_SingleLeptFromT_genMET-150_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1',
-            #'TTJets_SingleLeptFromTbar_genMET-150_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v2',
+            'TTJets_SingleLeptFromT_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_ext1-v1',
+            'TTJets_SingleLeptFromTbar_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_ext1-v1'
             ],
         'fillcolor' : 798,
         'fillstyle' : 1001,
@@ -874,18 +785,14 @@ samples = {
         'weight': 1.,
         'plot': True,
     },
-    #ST
     'ST' : {
         'order' : 5,
         'files' : [
-            'ST_s-channel_4f_InclusiveDecays_13TeV-amcatnlo-pythia8-v1',
-            #'ST_s-channel_4f_leptonDecays_13TeV-amcatnlo-pythia8_TuneCUETP8M1-v1',
+            'ST_s-channel_4f_leptonDecays_13TeV-amcatnlo-pythia8_TuneCUETP8M1-v1',
             'ST_t-channel_antitop_4f_inclusiveDecays_13TeV-powhegV2-madspin-pythia8_TuneCUETP8M1-v1',
             'ST_t-channel_top_4f_inclusiveDecays_13TeV-powhegV2-madspin-pythia8_TuneCUETP8M1-v1',
             'ST_tW_antitop_5f_inclusiveDecays_13TeV-powheg-pythia8_TuneCUETP8M2T4-v1',
-            'ST_tW_top_5f_inclusiveDecays_13TeV-powheg-pythia8_TuneCUETP8M2T4-v1',
-            #'ST_tWll_5f_LO_13TeV-MadGraph-pythia8-v1',
-            #'ST_tWnunu_5f_LO_13TeV-MadGraph-pythia8-v1',
+            'ST_tW_top_5f_inclusiveDecays_13TeV-powheg-pythia8_TuneCUETP8M2T4-v1'
             ],
         'fillcolor' : 801,
         'fillstyle' : 1001,
@@ -896,25 +803,11 @@ samples = {
         'weight': 1.,
         'plot': True,
         },
-    #VV
     'WZ' : {
         'order' : 7,
-        'files' : [
-            # --> incl
-            #'WZ_TuneCUETP8M1_13TeV-pythia8-v1',
-            # --> 1L1Nu2Q
-            'WZTo1L1Nu2Q_13TeV_amcatnloFXFX_madspin_pythia8-v1',
-            # --> 2L2Q
-            'WZTo2L2Q_13TeV_amcatnloFXFX_madspin_pythia8-v1',
-            # --> 3L1Nu
-            #'WZTo3LNu_TuneCUETP8M1_13TeV-powheg-pythia8-v1',
-            #'WZJToLLLNu_TuneCUETP8M1_13TeV-amcnlo-pythia8-v1',
+        'files' : [  
             'WZTo3LNu_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8-v1',
-            #'WZTo3LNu_0Jets_MLL-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1',
-            #'WZTo3LNu_1Jets_MLL-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1',
-            #'WZTo3LNu_2Jets_MLL-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1',
-            #'WZTo3LNu_3Jets_MLL-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1',
-            #'WZJJ_EWK_13TeV-madgraph-pythia8-v1',
+            #'WZTo3LNu_TuneCUETP8M1_13TeV-powheg-pythia8-v1'
             ],
         'fillcolor' : 602,
         'fillstyle' : 1001,
@@ -928,26 +821,14 @@ samples = {
      'WW' : {
         'order' : 9,
         'files' : [
-            # --> incl
-            #'WW_TuneCUETP8M1_13TeV-pythia8-v1',
-            # --> LNuQQ
-            #'WWToLNuQQ_13TeV-powheg-v1',
-            'WWTo1L1Nu2Q_13TeV_amcatnloFXFX_madspin_pythia8-v1',
-            # --> 2L2Nu
-            #'WWTo2L2Nu_13TeV-powheg-herwigpp-v1',
-            'WWTo2L2Nu_13TeV-powheg-v1',
-            #'WWTo2L2Nu_Mll_200To600_13TeV-powheg-v1',
-            #'WWTo2L2Nu_Mll_600To1200_13TeV-powheg-v1',
-            #'WWTo2L2Nu_Mll_1200To2500_13TeV-powheg-v1',
-            #'WWTo2L2Nu_Mll_2500ToInf_13TeV-powheg-v1',
-            #'WWTo2L2Nu_MWW-0To400_aTGC_13TeV-amcatnloFXFX-madspin-pythia8-v1',
-            #'WWTo2L2Nu_MWW-400To600_aTGC_13TeV-amcatnloFXFX-madspin-pythia8-v1'
-            # --> 4Q
-            'WWTo4Q_13TeV-powheg-v1',
+            'WpWpJJ_13TeV-powheg-pythia8_TuneCUETP8M1-v1',
+            'WmWmJJ_13TeV-powheg-pythia8_TuneCUETP8M1-v1',
+            #'WW_TuneCUETP8M1_13TeV-pythia8_ext1-v1',  
+            #'WW_TuneCUETP8M1_13TeV-pythia8-v1'
             ],
         'fillcolor' : 7,
         'fillstyle' : 1001,
-        'linecolor' : 7,
+        'linecolor' : 602,
         'linewidth' : 2,
         'linestyle' : 1,
         'label' : "W+W-",
@@ -957,14 +838,15 @@ samples = {
     'ZZ' : {
         'order' : 8,
         'files' : [
-            # --> incl
             #'ZZ_TuneCUETP8M1_13TeV-pythia8-v1',
+            #'ZZ_TuneCUETP8M1_13TeV-pythia8_ext1-v1'
             'ZZTo2L2Nu_13TeV_powheg_pythia8-v1',
+            'ZZTo4L_13TeV-amcatnloFXFX-pythia8_ext1-v1',
             'ZZTo2L2Q_13TeV_amcatnloFXFX_madspin_pythia8-v1',
             ],
         'fillcolor' : 9,
         'fillstyle' : 1001,
-        'linecolor' : 9,
+        'linecolor' : 602,
         'linewidth' : 2,
         'linestyle' : 1,
         'label' : "ZZ",
@@ -974,75 +856,77 @@ samples = {
     'VV' : {
         'order' : 8,
         'files' : [
+            #'WW_TuneCUETP8M1_13TeV-pythia8_ext1-v1',
+            #'WpWpJJ_13TeV-powheg-pythia8_TuneCUETP8M1-v1',
+            #'WmWmJJ_13TeV-powheg-pythia8_TuneCUETP8M1-v1',
+            'WZTo3LNu_TuneCUETP8M1_13TeV-powheg-pythia8-v1',
+            'ZZTo2L2Nu_13TeV_powheg_pythia8-v1',
+            'ZZTo4L_13TeV-amcatnloFXFX-pythia8_ext1-v1',
+            #'ZZ_TuneCUETP8M1_13TeV-pythia8-v1',                                                        
+            'ZZTo2L2Q_13TeV_amcatnloFXFX_madspin_pythia8-v1',
+            #'ZZ_TuneCUETP8M1_13TeV-pythia8_ext1-v1'                                                                        
             ],
         'fillcolor' : 9,
         'fillstyle' : 1001,
-        'linecolor' : 9,
+        'linecolor' : 602,
         'linewidth' : 2,
         'linestyle' : 1,
         'label' : "WW, WZ, ZZ",
         'weight': 1.,
         'plot': True,
     },
-    ## Ht
     'ttH' : {
         'order' : 10,
         'files' : [
+            'ttHTobb_M125_13TeV_powheg_pythia8-v1',
             'ttHToNonbb_M125_TuneCUETP8M2_ttHtranche3_13TeV-powheg-pythia8-v1',
             ],
         'fillcolor' : 30,
         'fillstyle' : 1001,
-        'linecolor' : 30,
+        'linecolor' : 602,
         'linewidth' : 2,
         'linestyle' : 1,
         'label' : "ttH",
         'weight': 1.,
         'plot': True,
         },
-    ##ttV
     'ttV' : {
         'order' : 10,
         'files' : [
-            'TTWJetsToQQ_TuneCUETP8M1_13TeV-amcatnloFXFX-madspin-pythia8-v1',
             'TTWJetsToLNu_TuneCUETP8M1_13TeV-amcatnloFXFX-madspin-pythia8_ext1-v3',
-            'TTZToQQ_TuneCUETP8M1_13TeV-amcatnlo-pythia8-v1',
-            'TTZToLLNuNu_M-10_TuneCUETP8M1_13TeV-amcatnlo-pythia8-v1',
-            #TTG missing TTGJets_TuneCUETP8M1_13TeV-amcatnloFXFX-madspin-pythia8
+            'TTZToLLNuNu_M-10_TuneCUETP8M1_13TeV-amcatnlo-pythia8_ext1-v1',
+            #'ttHTobb_M125_13TeV_powheg_pythia8-v1',
             'ttHToNonbb_M125_TuneCUETP8M2_ttHtranche3_13TeV-powheg-pythia8-v1',
+            #'tZq_ll_4f_13TeV-amcatnlo-pythia8_ext1-v1'
             ],
         'fillcolor' : 38,
         'fillstyle' : 1001,
         'linecolor' : 602,
         'linewidth' : 2,
         'linestyle' : 1,
-        'label' : "ttV",
+        'label' : "ttW,ttZ,ttH",
         'weight': 1.,
         'plot': True,
         },
-    #VVV
     'VVV' : {
         'order' : 11,
         'files' : [
             'WWW_4F_TuneCUETP8M1_13TeV-amcatnlo-pythia8-v1',
-            #'WWW_4F_DiLeptonFilter_TuneCUETP8M1_13TeV-amcatnlo-pythia8-v3',
             'ZZZ_TuneCUETP8M1_13TeV-amcatnlo-pythia8-v1',
             'WWZ_TuneCUETP8M1_13TeV-amcatnlo-pythia8-v1',
-            'WZG_TuneCUETP8M1_13TeV-amcatnlo-pythia8-v1',
-            'WZZ_TuneCUETP8M1_13TeV-amcatnlo-pythia8-v1',
             ],
         'fillcolor' : 46,
         'fillstyle' : 1001,
         'linecolor' : 602,
         'linewidth' : 2,
         'linestyle' : 1,
-        'label' : "VVV",
+        'label' : "WWW,WWZ",
         'weight': 1.,
         'plot': True,
-    },
+        },
     'WWJJ' : {
         'order' : 9,
         'files' : [
-            #'WWJJToLNuLNu_EWK_13TeV-madgraph-pythia8-v1',
             'WpWpJJ_13TeV-powheg-pythia8_TuneCUETP8M1-v1',
             'WmWmJJ_13TeV-powheg-pythia8_TuneCUETP8M1-v1',
             ],
@@ -1063,7 +947,7 @@ samples = {
             ],
         'fillcolor' : 42,
         'fillstyle' : 1001,
-        'linecolor' : 42,
+        'linecolor' : 602,
         'linewidth' : 2,
         'linestyle' : 1,
         'label' : "W#gamma,Z#gamma",
@@ -1074,12 +958,14 @@ samples = {
     'WHWW' : {
         'order' : 1001,
         'files' : [
-            'HWminusJ_HToWW_M125_13TeV_powheg_pythia8-v1',
-            'HWplusJ_HToWW_M125_13TeV_powheg_pythia8-v1',
+            #'HWminusJ_HToWW_M125_13TeV_powheg_pythia8-v1',
+            'HWminusJ_HToWWTo2L2Nu_WToLNu_M125_13TeV_powheg_pythia8-v1',
+            #'HWplusJ_HToWW_M125_13TeV_powheg_pythia8-v1',
+            'HWplusJ_HToWWTo2L2Nu_WToLNu_M125_13TeV_powheg_pythia8-v1'
             ],
         'fillcolor' : 623,
         'fillstyle' : 3005,
-        'linecolor' : 623,
+        'linecolor' : 632,
         'linewidth' : 3,
         'linestyle' : 1,
         'label' : "WHWW",
@@ -1089,19 +975,19 @@ samples = {
     'QCD' : {
         'order' : 6,
         'files' : [
+            'QCD_HT1000to1500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1',
             'QCD_HT100to200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1',
+            'QCD_HT1500to2000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1',
+            'QCD_HT2000toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1',
             'QCD_HT200to300_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1',
             'QCD_HT300to500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1',
             'QCD_HT500to700_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1',
             'QCD_HT700to1000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1',
-            'QCD_HT1000to1500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1',
-            'QCD_HT1500to2000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1',
-            'QCD_HT2000toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1',
-            #'QCD_Pt-20toInf_MuEnrichedPt15_TuneCUETP8M1_13TeV_pythia8-v1'
-        ],
-        'fillcolor' : 6, #921,
+            'QCD_Pt-20toInf_MuEnrichedPt15_TuneCUETP8M1_13TeV_pythia8-v1'
+            ],
+	'fillcolor' : 921,
         'fillstyle' : 1001,
-        'linecolor' : 6, #921,
+        'linecolor' : 921,
         'linewidth' : 2,
         'linestyle' : 1,
         'label' : "multijet",
@@ -1122,56 +1008,13 @@ samples = {
         'weight': 1.,
         'plot': True,
     },
-    #signal
-    'VH': {
-        'order' : 0,
-        'files' : [
-            'VHToNonbb_M125_13TeV_amcatnloFXFX_madspin_pythia8-v1'
-            ],
-        'fillcolor' : 3,
-        'fillstyle' : 3003,
-        'linecolor' : 3,
-        'linewidth' : 2,
-        'linestyle' : 1,
-        'label' : "VH",
-        'weight': 1.,
-        'plot': True,
-        },
-    'Wm': {
-        'order' : 0,
-        'files' : [
-            'Wminushwwlvjj_M125_Madspin_Skim'
-            ],
-        'fillcolor' : 2,
-        'fillstyle' : 3003,
-        'linecolor' : 2,
-        'linewidth' : 2,
-        'linestyle' : 1,
-        'label' : "W^{-}H(l^{-}l^{-}#tilde{#nu}#tilde{#nu}jj)",
-        'weight': 1.,
-        'plot': True,
-        },
-    'Wp': {
-        'order' : 0,
-        'files' : [
-            'Wplushwwlvjj_M125_Madspin_Skim'
-            ],
-        'fillcolor' : 4,
-        'fillstyle' : 3003,
-        'linecolor' : 4,
-        'linewidth' : 2,
-        'linestyle' : 1,
-        'label' : "W^{+}H(l^{+}l^{+}#nu#nujj)",
-        'weight': 1.,
-        'plot': True,
-    },
     # Dummy entry for background sum
     'BkgSum' : {
         'order' : 0,
         'files' : [],
-        'fillcolor' : 3,
-        'fillstyle' : 1001,
-        'linecolor' : 3,
+        'fillcolor' : 1,
+        'fillstyle' : 3003,
+        'linecolor' : 1,
         'linewidth' : 2,
         'linestyle' : 1,
         'label' : "MC stat.",

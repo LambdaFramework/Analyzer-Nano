@@ -43,7 +43,7 @@ if options.bash: gROOT.SetBatch(True)
 
 if options.analysis=='VH':
     from selections_SSLep import *
-    from samplesVH import *
+    from sampleslist import *
     print col.OKGREEN+"VH analysis"+col.ENDC
 elif options.analysis=='bbDM':
     from selections_bbDM import *
@@ -61,14 +61,16 @@ else:
 #NTUPLEDIR   = "/Users/shoh/Projects/CMS/PhD/Analysis/SSL/dataset-v17p1-VH/"
 #NTUPLEDIR   = "/Users/shoh/Projects/CMS/PhD/Analysis/SSL/dataset-v15-signal/"
 #NTUPLEDIR   = "/Users/shoh/Projects/CMS/PhD/Analysis/SSL/dataset-v18-signal/"
-NTUPLEDIR   = "/Users/shoh/Projects/CMS/PhD/Analysis/SSL/signal-test/"
+NTUPLEDIR   = "/Users/shoh/Projects/CMS/PhD/Analysis/SSL/dataset-v19-VH/"
+#NTUPLEDIR   = "/Users/shoh/Projects/CMS/PhD/Analysis/SSL/signal-test/"
 PLOTDIR     = "plots/"
 LUMI        = 35800. #41860. #35800. # pb-1 Inquire via brilcalc lumi --begin 272007 --end 275376 -u /pb #https://twiki.cern.ch/twiki/bin/viewauth/CMS/PdmV2016Analysis
 data        = []
 sign        = ['Wm','Wp']
 if options.analysis=='VH':
     data        = ["data_obs"]
-    back         = [ "tZq", "WWJJ", "VVV", "ttV" , "WW", "ZZ", "WZ", "VGamma", "ST", "WJetsToLNu_HT", "TTbar", "DYJetsToLL_HT" ]
+    #back         = [ "tZq", "WWJJ", "VVV", "ttV" , "WW", "ZZ", "WZ", "VGamma", "ST", "WJetsToLNu_HT", "TTbar", "DYJetsToLL_HT" ]
+    back         = [ "tZq", "WWJJ", "VVV", "ttV" , "WW", "ZZ", "WZ", "VGamma", "ST", "WJetsToLNu_HT", "DYJetsToLL" ]
 #elif options.analysis=='signal':
 #    sign        = ['wphww','wmhww']
 #    back        = []
@@ -227,10 +229,10 @@ def cutflow(var, cut, norm=False):
     if len(data+back)>0:
         printTable_html(Histlist,sign)
 
-VOI = [ 'Vmass' , 'Vpt' , 'PV_npvs' , 'htpt' , 'htphi' , 'LepPt[0]' , 'LepPt[1]' , \
-        'LepSign[0]' , 'LepSign[1]' , 'nJet' , 'JetPt[0]' , 'JetPt[1]' , 'JetPt[2]' , \
-        'JetEta[0]' , 'JetEta[1]' , 'JetEta[2]' , 'isOSmumu' , 'isOSee' , 'isOSemu' , 'isSSmumu' , 'isSSee' , \
-        'Zpt' , 'nLepton' , 'JetchHEF[0]' , 'JetchHEF[1]' , 'JetneHEF[0]' , 'JetneHEF[1]', 'LepIso03[0]' , 'LepIso03[1]' ]
+#VOI = [ 'Vmass' , 'Vpt' , 'PV_npvs' , 'htpt' , 'htphi' , 'LepPt[0]' , 'LepPt[1]' , \
+#        'LepSign[0]' , 'LepSign[1]' , 'nJet' , 'JetPt[0]' , 'JetPt[1]' , 'JetPt[2]' , \
+#        'JetEta[0]' , 'JetEta[1]' , 'JetEta[2]' , 'isOSmumu' , 'isOSee' , 'isOSemu' , 'isSSmumu' , 'isSSee' , \
+#        'Zpt' , 'nLepton' , 'JetchHEF[0]' , 'JetchHEF[1]' , 'JetneHEF[0]' , 'JetneHEF[1]', 'LepIso03[0]' , 'LepIso03[1]' ]
 
 if options.all:
     #for region in [ 'OSemu' , 'OSmumu' ,'OSee' , 'SSmumu' ]:
@@ -248,7 +250,7 @@ elif options.signal:
     signal(options.variable,options.cut)
 elif options.printVar:
     print "Print all available variable specified"
-    print VOI
+    print [ var for var in variable ]
 elif options.Allsignal:
     print "Signal study All"
     for voi in [ keys for keys in variable ]:

@@ -1,11 +1,11 @@
 #!/bin/python
 
-from PhysicsTools.NanoAODTools.postprocessing.analysis.variables import branches_all
+from PhysicsTools.NanoAODTools.postprocessing.analysis.variables import branches_genall, branches_ana
 import sys
 
 var_template={}
 variable={}
-for ibranch in branches_all:
+for ibranch in branches_ana: #branches_genall:
     var_template["%s[N]"%ibranch.name() if ibranch.dimen()==1 else "%s"%ibranch.name()] = {}
     var_template["%s[N]"%ibranch.name() if ibranch.dimen()==1 else "%s"%ibranch.name()]["title"] = ibranch.titleX() 
     var_template["%s[N]"%ibranch.name() if ibranch.dimen()==1 else "%s"%ibranch.name()]["titleY"] = ibranch.titleY()
@@ -15,9 +15,20 @@ for ibranch in branches_all:
     var_template["%s[N]"%ibranch.name() if ibranch.dimen()==1 else "%s"%ibranch.name()]["log"] = ibranch.log()
     pass
 
+#### GENProducer ####
+#for v in ["nGenEle", "nGenMu", "nGenHad", "nGenJet", "nGenW", "nGenfsW", "nGenZ", "nGenH", "nGenfsH", "nGenWstar", "nGenRad", "nGenLL", "nGenL2JJ", "nRecoEle", "nRecoMu", "RecoMu_fromW12", "nRecoJet", "nRecoLL", "nRecoL2JJ" ]:
+#    var_template[v] = {}
+#    var_template[v]["title"] = v
+#    var_template[v]["titleY"] = "Events/ XXX"
+#    var_template[v]["nbins"] = 6
+#    var_template[v]["min"] = -0.5
+#    var_template[v]["max"] = 5.5
+#    var_template[v]["log"] = True
+    
+
 for n, v in var_template.iteritems():
     if '[N]' in n:
-        for i in range(0, 2):
+        for i in range(0, 3):
             ni = n.replace('[N]', "[%d]" % i)
             variable[ni] = v.copy()
             variable[ni]['title'] = variable[ni]['title'].replace('[N]', "%d" % i)

@@ -25,14 +25,32 @@ presel='MHT_xCleanPt>100'
 #INVMWZ="(invariantMass(Muon_pt[0], Muon_eta[0], Muon_phi[0], Muon_mass[0], Muon_pt[1], Muon_eta[1], Muon_phi[1], Muon_mass[1]) - )"
 
 selection = {
-    'Trigger' : tAND(muonTrigger,'1==1'),
-    'osmumu'  : 'OSmumu && nJets>=2 && MuPt[0]>17',
-    'osemu'  : 'OSemu && nJets>=2 && ElePt[0]>17',
+    'hist'    : '1==1',
+    #'Trigger' : tAND(muonTrigger,'1==1'),
+    #GenProducer
+    #GEN
+    ##Final state region
+    'isSSmumu'  : 'isSSmumu',
+    'isSSee'    : 'isSSee',
+    'isSSemu'   : 'isSSemu',
+    'inclusive' : 'nGenMu>=1 && nGenMu>=1 && nGenJet>=2',
+    ## specific region
+    'genssmumu'  : 'GenSSmumu && GenMu_fromW12[0]==1 && GenMu_fromW12[1]==2',
+    'genssee'    : 'GenSSee && GenEle_fromW12[0]==1 && GenEle_fromW12[1]==2',
+    'genssemu'   : 'GenSSemu && GenEle_fromW12[0]==1 && GenMu_fromW12[0]==2',
+    'genssmue'   : 'GenSSmue && GenMu_fromW12[0]==1 && GenEle_fromW12[0]==2',
+    ##
+    'recossmumu'  : 'SSmumu && RecoMu_fromW12[0]==1 && RecoMu_fromW12[1]==2',
+    'recossee'    : 'SSee && RecoEle_fromW12[0]==1 && RecoEle_fromW12[1]==2',
+    'recossemu'   : 'SSemu',
+    'recossmue'   : 'RecoSSmue && RecoMu_fromW12[0]==1 && RecoEle_fromW12[1]==2',
+    
     
     #CONTROL REGION
     #Vmass>20
-    'OSmumu'    : tAND(muonTrigger,tAND(presel,'isOSmumu && nJets>=2 && MuPt[0]>17 && MuPt[1]>8 && MuIso03[0]<0.15 && MuIso03[1]<0.15 && Vmass>30')),
-    'OSee'    : tAND(electronTrigger,tAND(presel,'isOSee && nJets>=2 && MuPt[0]>25 && ElePt[1]>17 && LepCutBased[0]>3 && LepCutBased[1]>3 && LepIso03[0]<0.15 && LepIso03[1]<0.15 && Vmass>30')),
+    #'OSmumu'    : tAND(muonTrigger,tAND(presel,'isOSmumu && nJets>=2 && MuPt[0]>17 && MuPt[1]>8 && MuIso03[0]<0.15 && MuIso03[1]<0.15 && Vmass>30')),
+    'OSmumu'    : tAND(muonTrigger,tAND(presel,'OSmumu && nJets>=2 && Mu_pt[0]>17 && Mu_pt[1]>8 && Mu_pfRelIso03_all[0]<0.15 && Mu_pfRelIso03_all[1]<0.15')),  
+    'OSee'    : tAND(electronTrigger,tAND(presel,'isOSee && nJets>=2 && ElePt[0]>25 && ElePt[1]>17 && LepCutBased[0]>3 && LepCutBased[1]>3 && LepIso03[0]<0.15 && LepIso03[1]<0.15 && Vmass>30')),
     'OSemu'   : tAND(muonTrigger,tAND(presel,'isOSemu && LepPt[0]>24 && LepPt[1]>20 && Vmass>15 && LepIso03[0]<0.05 && LepIso03[1]<0.01')),
     'SSmumu'   : tAND(muonTrigger,tAND(presel,'isSSmumu && nJet>=2 && MuPt[0]>25 && MuPt[1]>15 && MuIso04[0]<0.1')),
 
@@ -52,6 +70,7 @@ selection = {
 
 
 weights = {
+    'hist'    : '1',
     'osmumu'  : '1',
     'osemu'  : '1',
     'Trigger' : '1',

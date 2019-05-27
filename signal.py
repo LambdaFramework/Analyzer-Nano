@@ -6,7 +6,7 @@ import math
 from array import array
 from ROOT import gROOT, gRandom, TSystemDirectory
 from ROOT import TFile, TChain, TTree, TCut, TH1F, TH2F, THStack, TGraph
-from ROOT import TStyle, TCanvas, TPad
+from ROOT import TStyle, TCanvas, TPad, TPaveStats
 from ROOT import TLegend, TLatex, TText
 
 cwd=os.getcwd()
@@ -15,7 +15,7 @@ sys.path.append(cwd+"/Utils/")
 from drawLambda import *
 from variables import variable
 from selections_SSLep import *
-from samplesVH import *
+from sampleslist import *
 
 import color as col
 
@@ -29,21 +29,25 @@ parser.add_option("-b", "--bash", action="store_true", default=False, dest="runB
 if options.runBash: gROOT.SetBatch(True)
 
 ########## SETTINGS ##########
-gStyle.SetOptStat(0)
-#gStyle.SetOptStat(1111111)
-LUMI        = 35800. # in pb-1
+stats=False
+if not stats:
+    gStyle.SetOptStat(0)
+else:
+    gStyle.SetOptStat(1111)
+LUMI        = 35800. #140000 #35800. # in pb-1
 RATIO       = 4 # 0: No ratio plot; !=0: ratio between the top and bottom pads
-NTUPLEDIR   = '/Users/shoh/Projects/CMS/PhD/Analysis/SSL/signal-test/'
+#NTUPLEDIR   = '/Users/shoh/Projects/CMS/PhD/Analysis/SSL/signal-dev/'
+NTUPLEDIR   = '/Users/shoh/Projects/CMS/PhD/Analysis/SSL/dataset-v19-VH/' 
 
-#back = ["DYJetsToLL_HT"]
-back = []
-signals         = ['Wm','Wp']
+back = ["WJetsToLNu_HT"]
+#back = []
+signals         = ['Wp', 'Wm'] #, 'WHWWp', 'WHWWm']
 colors = [616+4, 632, 800+7, 800, 416+1, 860+10, 600, 616, 921, 922]
 channels = ['Wp125','Wm200']
 #channels = ['XVZmmlp', 'XVZmmhp', 'XVZeelp', 'XVZeehp']
 #color = {"XVZmmlp" : 634, "XVZmmhp" : 410, "XVZeelp" : 856, "XVZeehp" : 418}
 
-def signal(var, cut, reg):
+def signal(var, cut):
     hist={}
     
 
@@ -51,11 +55,13 @@ def signal(var, cut, reg):
     hist= ProjectDraw(var, cut, LUMI, signals, [], NTUPLEDIR)
     for i,s in enumerate(signals):
         print "s : ", s
-        hist[s].Scale(LUMI)
         hist[s].SetLineWidth(2)
         
     ## We need the legends
-    leg = TLegend(0.7, 0.9-0.035*len(signals), 0.9, 0.9)
+    if not stats:
+        leg = TLegend(0.7, 0.9-0.035*len(signals), 0.9, 0.9)
+    else:
+        leg = TLegend(0.4, 0.9-0.035*len(signals), 0.6, 0.9)
     leg.SetBorderSize(0)
     leg.SetFillStyle(1001) #1001
     leg.SetFillColor(0)
@@ -64,24 +70,36 @@ def signal(var, cut, reg):
 
     # declare a canvas for this shit
     c1 = TCanvas("c1", "Signals", 800, 600)
-    #c1.cd().SetLogy() if variable[var]['log'] else c1.cd()
+    c1.cd().SetLogy() if variable[var]['log'] else c1.cd()
     c1.cd()
     c1.GetPad(0).SetTopMargin(0.06)
     c1.GetPad(0).SetRightMargin(0.05)
     c1.GetPad(0).SetTicks(1, 1)
+    
     hmax = 0.
     ## Define a suitable height for the histogram taking into account of other signal samples
     for i, s in enumerate(signals):
         if hist[s].GetMaximum() > hmax: hmax = hist[s].GetMaximum()
-    hist[signals[0]].SetMaximum(hmax*1.2)
-    #if not variable[var]['log']: hist[signals[0]].SetMinimum(0.)
+    if not variable[var]['log']:
+        hist[signals[0]].SetMaximum(hmax*1.2)
+        hist[signals[0]].SetMinimum(0.)
+    else:
+        hist[signals[0]].SetMaximum(hmax*4)
     
     ### after that you fucking draw this shit
     for i, s in enumerate(signals):
-        hist[s].Draw("HIST" if i==0 else "SAME, HIST")
+        hist[s].Draw("HIST" if i==0 else "SAMES, HIST")
+        if stats:
+            c1.GetPad(0).Update()
+            if i==1:
+                lof = hist[s].GetListOfFunctions()
+                statbox = lof.FindObject('stats')
+                statbox.SetX1NDC(0.779026); statbox.SetX2NDC(0.979401)
+                statbox.SetY1NDC(0.593168); statbox.SetY2NDC(0.754658)
     leg.Draw()
-    drawCMS(-1, "Simulation")
-    #drawRegion(channel)
+    
+    drawCMS(LUMI, "Simulation")
+    #drawRegion(cut)
     #drawAnalysis(channel)
     
 #    
@@ -90,7 +108,7 @@ def signal(var, cut, reg):
 
     ## Fitting the mass shape of the variables
     
-    if ('RecoLL' in var or 'RecoL2JJ' in var) and 'mass' in var:
+    if ('RecoLL' in var or 'RecoL2JJ' in var) and 'mass[0]' in var:
         fitOption="Q0"
         mean = {}
         width = {}
@@ -123,7 +141,8 @@ def signal(var, cut, reg):
     #c1.Print("plots/Signal/"+channel+".png")
     c1.Print("plots/Signal/"+var+".pdf")
     c1.Print("plots/Signal/"+var+".png")
-    if not options.runBash: raw_input("Press Enter to continue...")
+    #c1.Delete()
+    #if not options.runBash: raw_input("Press Enter to continue...")
     pass
 
 '''
@@ -217,7 +236,10 @@ def btag():
 
 def efficiency(cutlist, labellist):
     basecut=""
-
+    if "SSmumu" in cutlist[0]: basecut = "SSmumu"
+    if "SSee" in cutlist[0]: basecut = "SSee"
+    if "SSemu" in cutlist[0]: basecut = "SSemu"
+    #elif "isZtoMM" in cutlist[0]: basecut = "isZtoMM"
     ncuts = len(cutlist)
     file = {}
     tree = {}
@@ -234,6 +256,7 @@ def efficiency(cutlist, labellist):
             n = tree[s].GetEntries(cutlist[j])
             d = tree[s].GetEntries(basecut)
             effs[s][j] = float(n)/(d)
+            print "effs[s][j] = ", effs[s][j]
             hist[s].Fill(j,effs[s][j])
         #hist[s].SetMarkerStyle(20)
         #hist[s].SetMarkerColor(colors[i])
@@ -241,11 +264,8 @@ def efficiency(cutlist, labellist):
         hist[s].SetLineWidth(3)
         #hist[s].GetXaxis().SetTitleOffset(hist[s].GetXaxis().GetTitleOffset()*1.2)
         #hist[s].GetYaxis().SetTitleOffset(hist[s].GetYaxis().GetTitleOffset()*1.2)
-    hmax = 0.
-    for i, s in enumerate(signals):
-        if hist[s].GetMaximum() > hmax: hmax = hist[s].GetMaximum()
-    hist[signals[0]].SetMaximum(hmax*1.2)
-
+        
+    
     leg = TLegend(0.7, 0.9-0.035*len(signals), 0.9, 0.9)
     leg.SetBorderSize(0)
     leg.SetFillStyle(1001)                                                                                                                                                                           
@@ -259,15 +279,19 @@ def efficiency(cutlist, labellist):
     c1.GetPad(0).SetTopMargin(0.06)
     c1.GetPad(0).SetRightMargin(0.05)
     c1.GetPad(0).SetTicks(1, 1)
+
+    hist[signals[0]].SetMaximum(1.3)
+    hist[signals[0]].SetMinimum(0.)
     
     for i, s in enumerate(signals):
         if i==0:
             hist[s].GetXaxis().SetTitle("Selection")
             hist[s].GetYaxis().SetTitle("Efficiency")
-            hist[s].GetYaxis().SetRangeUser(0., 1.)
+            #hist[s].GetYaxis().SetRangeUser(0., 1.)
         hist[s].Draw("" if i==0 else "SAME")
     leg.Draw()
-    drawCMS(-1, "Simulation")
+    drawCMS(LUMI, "Preliminary")
+    drawRegion(basecut)
     
     c1.Print("plots/Signal/Efficiency_" + basecut + ".png")
     c1.Print("plots/Signal/Efficiency_" + basecut + ".pdf")
@@ -335,12 +359,10 @@ def efficiencyHmass(cutlist, labellist):
     if not options.runBash: raw_input("Press Enter to continue...")
     pass
 
-'''
-
 
 def significance(precut, cutlist, labellist, testname):
 
-    var = "X_mass"
+    var = "Ele_pfRelIso03_all[1]"
     ncuts = len(cutlist)
     
     
@@ -351,28 +373,31 @@ def significance(precut, cutlist, labellist, testname):
     psig = {}
     
     # Create and fill MC histograms
-    for i, s in enumerate(back+sign):
+    for i, s in enumerate(back+signals):
         nevts = 0
-        tree[s] = TChain("XZZ")
-        for j, ss in enumerate(sample[s]['files']):
+        tree[s] = TChain("Events")
+        for j, ss in enumerate(samples[s]['files']):
+            print ss
             tree[s].Add(NTUPLEDIR + ss + ".root")
             tfile = TFile(NTUPLEDIR + ss + ".root", "READ")
-            nevts += tfile.Get("Counters/Counter").GetBinContent(0)
+            nevts += tfile.Get("Events").GetEntries()
+            #nevts += tfile.Get("Counters/Counter").GetBinContent(0)
             tfile.Close()
         hist[s] = []
         effs[s] = []
         for j, c in enumerate(cutlist):
             ss = s + "_%d" % j
-            if variable[var]['nbins']>0: hist[s].append( TH1F(ss, ";"+variable[var]['title'], variable[var]['nbins']*5, variable[var]['min'], variable[var]['max']) ) # Init histogram
-            else: hist[s].append( TH1F(ss, ";"+variable[var]['title'], len(variable[var]['bins'])-1, array('f', variable[var]['bins'])) )
+            if variable[var]['nbins']>0: hist[s].append( TH1F(ss, ";"+variable[var]['title']+";"+variable[var]['titleY'], variable[var]['nbins'], variable[var]['min'], variable[var]['max']) )
+            else: hist[s].append( TH1F(ss,";"+variable[var]['title']+";"+variable[var]['titleY'], len(variable[var]['bins'])-1, array('f', variable[var]['bins'])) )            
             hist[s][j].Sumw2()
-            effs[s].append( tree[s].Project(ss, var, "eventWeight*("+c+")") / float(nevts) )
-            hist[s][j].SetFillColor(sample[s]['fillcolor'])
-            hist[s][j].SetFillStyle(sample[s]['fillstyle'])
-            hist[s][j].SetLineColor(sample[s]['linecolor'])
-            hist[s][j].SetLineStyle(sample[s]['linestyle'])
+            effs[s].append( tree[s].Project(ss, var, "1*("+c+")") / float(nevts) )
+            print "effs of ",s," for ",j,"th cutlist : ",c," is ", effs[s]
+            hist[s][j].SetFillColor(samples[s]['fillcolor'])
+            hist[s][j].SetFillStyle(samples[s]['fillstyle'])
+            hist[s][j].SetLineColor(samples[s]['linecolor'])
+            hist[s][j].SetLineStyle(samples[s]['linestyle'])
             if not 'Data' in s: hist[s][j].Scale(LUMI)
-            if 'ZZh' in s: hist[s][j].Scale(1.e-2) # Scale to 10 fb
+            if 'Wp' in s or 'Wm' in s: hist[s][j].Scale(1.e-2) #hist[s][j].Scale(1.e-2) # Scale to 10 fb
     
     
     hist['BkgSum'] = []
@@ -391,28 +416,34 @@ def significance(precut, cutlist, labellist, testname):
 #        for i, s in enumerate(sign): hist[s][j].Draw("SAME, H")
 #        if not options.runBash: raw_input("Press Enter to continue...")
     
-    for i, s in enumerate(sign):
+    for i, s in enumerate(signals):
         psig[s] = [0]*(ncuts+1)
-        mass = float( ''.join(x for x in s if x.isdigit()) )
+        #mass = float( ''.join(x for x in s if x.isdigit()) )
         amean = hist[s][j].GetMean()
         rms = hist[s][j].GetRMS()
-        #print hist[s][j].GetName(), amean, rms
+        print "HistName = ", hist[s][j].GetName()," ; meanvalue = ", amean," ; rms = ", rms
         cbin = hist[s][j].FindBin(amean)
         lbin = hist[s][j].FindBin(amean - 2*rms)
         hbin = hist[s][j].FindBin(amean + 2*rms)
+        print "Meanvalue bin = ", cbin," ; Meanvalue - 2*rms bin  = ", lbin," ; Meanvalue + 2*rms bin = ", hbin 
         for j, c in enumerate(cutlist):
             n = hist[s][j].Integral(lbin, hbin)
+            print j,"th cut ",c," integrate SIGNAL lowbin highbin = ", n
             d = hist['BkgSum'][j].Integral(lbin, hbin)
+            print j,"th cut ",c," integrate BACKGROUND lowbin highbin = ", d
             psig[s][j] = effs[s][j]/(1.+math.sqrt(d)) #2.*(math.sqrt(n+d) - math.sqrt(d))
+            print "effs[s][j]/(1.+math.sqrt(d)) = ", psig[s][j]
     
     line = []
     for j, c in enumerate(cutlist):
+        
         line.append( TGraph(ncuts) )
         line[j].SetTitle(";m_{X} (GeV);Significance")
         line[j].SetTitle("")
-        for i, s in enumerate(sign):
-            mass = int( ''.join(x for x in s if x.isdigit()) )
-            line[j].SetPoint(i, mass, psig[s][j])
+        for i, s in enumerate(signals):
+            #mass = int( ''.join(x for x in s if x.isdigit()) )
+            line[j].SetPoint(i, i+1., psig[s][j])
+            line[j].GetXaxis().SetBinLabel(line[j].GetXaxis().FindBin(i+1.), str(s) )
         line[j].SetMarkerStyle(20)
         line[j].SetMarkerColor(colors[j])
         line[j].SetLineColor(colors[j])
@@ -445,28 +476,158 @@ def significance(precut, cutlist, labellist, testname):
     if not options.runBash: raw_input("Press Enter to continue...")
 pass
 
-'''
-#signal("X.mass", "XVZmmlpSR", "ntuple/tree")
-#signal("X_mass", "XZZmmbbSR", "XZZ")
-#signal("RecoL2JJ_mass[0]", "Trigger", "ntuple/tree")
-trigger="(HLT_IsoMu24 || HLT_IsoTkMu24)"
-presel="( (RecoMu_pt[0]>5 && RecoMu_mediumId[0]>0 ) || (RecoEle_pt[0]>15 && RecoEle_cutBased[0]>0 && RecoMu_pt[0]>5 && RecoMu_mediumId[0]>0 ) )"
-flag="SSmumu"
-sel1="RecoMu_pfRelIso04_all[0] < 0.25"
-Lcuts=[ trigger , presel , presel+" && "+flag , presel+" && "+flag+" && "+sel1 ]
-Llabs = ["Trigger", "presel", "SSmumu", "iso mu"] 
-efficiency(Lcuts, Llabs)
 
-#signal("lepton1_pt", Lcut, "XZZ")
-#signal("lepton2_pt", Lcut, "XZZ")
-#signal("Z_pt", Lcut, "XZZ")
-#signal("fatjet1_pt", Lcut, "XZZ")
-#signal("fatjet1_mass", PreLep+" && "+Zcut, "XZZ")
-#signal("fatjet1_tau21", PreLep+" && "+Zcut, "XZZ")
-#signal("fatjet1_prunedMass", PreLep+" && "+Zcut+" && fatjet1_pt>200", "XZZ")
-#signal("fatjet1_softdropMass", PreLep+" && "+Zcut+" && fatjet1_pt>200", "XZZ")
-#signal("fatjet1_prunedMassCorr", PreLep+" && "+Zcut+" && fatjet1_pt>200", "XZZ")
-#signal("fatjet1_softdropMassCorr", PreLep+" && "+Zcut+" && fatjet1_pt>200", "XZZ")
+
+#VOI
+'''
+from PhysicsTools.NanoAODTools.postprocessing.analysis.variables import *
+megalist=[]
+
+megalist += [ "%s"%ibranch.name() for ibranch in branches_global ]
+megalist += [ "%s"%ibranch.name() for ibranch in branches_quanta ]
+megalist += [ "%s[0]"%ibranch.name() for ibranch in branches_W1gen ]
+megalist += [ "%s[0]"%ibranch.name() for ibranch in branches_W2gen ]
+megalist += [ "%s[0]"%ibranch.name() for ibranch in branches_W3gen ]
+
+for i in xrange(0,2):
+    megalist += [ "%s[%s]"%(ibranch.name(),i) for ibranch in branches_W3gen ]
+
+for i in xrange(0,3):
+    megalist += [ "%s[%s]"%(ibranch.name(),i) for ibranch in branches_Genfsw ]
+
+megalist += [ "%s[0]"%ibranch.name() for ibranch in branches_Genfsh ]
+megalist += [ "%s[0]"%ibranch.name() for ibranch in branches_GenWstar ]
+
+for i in xrange(0,2):
+    megalist += [ "%s[%s]"%(ibranch.name(),i) for ibranch in branches_GenW3Jet ]
+    
+megalist += [ "%s[0]"%ibranch.name() for ibranch in branches_W1reco ]
+megalist += [ "%s[0]"%ibranch.name() for ibranch in branches_W2reco ]
+megalist += [ "%s[0]"%ibranch.name() for ibranch in branches_W3reco ]
+#megalist += [ "%s[0]"%ibranch.name() for ibranch in branches_recoLL ]
+
+for i in xrange(0,3):
+    megalist += [ "%s[%s]"%(ibranch.name(),i) for ibranch in branches_Muons ]
+    megalist += [ "%s[%s]"%(ibranch.name(),i) for ibranch in branches_Electrons ]
+    megalist += [ "%s[%s]"%(ibranch.name(),i) for ibranch in branches_Taus ]
+    megalist += [ "%s[%s]"%(ibranch.name(),i) for ibranch in branches_Photons ]
+    megalist += [ "%s[%s]"%(ibranch.name(),i) for ibranch in branches_Jets ]
+    
+megalist += [ "%s[0]"%ibranch.name() for ibranch in branches_RecoV ]
+megalist += [ "%s[0]"%ibranch.name() for ibranch in branches_RecoLJJ ]
+
+
+#isSSmumu
+for var in variable:
+    signal(var, "isSSemu")
+'''
+
+#signal("isSSmumu","hist")
+#signal("isSSee","hist")
+#signal("isSSemu","hist")
+
+##genssmumu
+#for var in [ \
+#             "GenMu_pt[0]" , "GenMu_pt[1]" ,  "GenNeuMu_pt[0]" , "GenNeuMu_pt[1]",  "GenJet_pt[0]" , "GenJet_pt[1]" , \
+#             "GenfsW_pt[0]" , "GenfsW_pt[1]" , "GenfsW_pt[2]" , "GenfsW_mass[0]" , "GenfsW_mass[1]" , "GenfsW_mass[2]" , \
+#             "GenfsH_pt[0]" ,  "GenfsH_eta[0]" , "GenfsH_mass[0]" , "GenWstar_pt[0]" , "GenWstar_eta[0]" , "GenWstar_mass[0]" , \
+#             "GenW1sysdR" , "GenW2sysdR" , "GenW1sysdPhi" , "GenW2sysdPhi" , "GenW3sysdR" , "GenW3sysdPhi" , "GenWHsysdR" , "GenWHsysdPhi" , "GenWWsysdR" , "GenWWsysdPhi" , \
+#             "GenLL_pt[0]" , "GenLL_mass[0]" , "GenL2JJ_pt[0]" , "GenL2JJ_mass[0]" , \
+#             "GenLLsysdR" , "GenLLsysdPhi" , "GenLsysLJJsysdR" , "GenLsysLJJsysdPhi" \
+#]:
+#    signal(var, "genssmumu")
+#signal("RecoW1Lep_pt[0]", "isSSmumu")
+#signal("RecoW2Lep_pt[0]", "isSSmumu")
+#signal("RecoW3Jet_pt[0]", "isSSmumu")
+#signal("RecoW3Jet_pt[1]", "isSSmumu")
+##genssee
+#for var in [ \
+#             "GenEle_pt[0]" , "GenEle_pt[1]" ,  "GenNeuEle_pt[0]" , "GenNeuEle_pt[1]",  "GenJet_pt[0]" , "GenJet_pt[1]" , \
+#             "GenfsW_pt[0]" , "GenfsW_pt[1]" , "GenfsW_pt[2]" , "GenfsW_mass[0]" , "GenfsW_mass[1]" , "GenfsW_mass[2]" , \
+#             "GenfsH_pt[0]" ,  "GenfsH_mass[0]" , "GenWstar_pt[0]" , "GenWstar_mass[0]" , \
+#             "GenW1sysdR" , "GenW2sysdR" , "GenW1sysdPhi" , "GenW2sysdPhi" , "GenW3sysdR" , "GenW3sysdPhi" , "GenWHsysdR" , "GenWHsysdPhi" , "GenWWsysdR" , "GenWWsysdPhi" , \
+#             "GenLL_pt[0]" , "GenLL_mass[0]" , "GenL2JJ_pt[0]" , "GenL2JJ_mass[0]" , \
+#             "GenLLsysdR" , "GenLLsysdPhi" , "GenLsysLJJsysdR" , "GenLsysLJJsysdPhi" \
+#]:
+#    signal(var, "genssee")
+
+##genssemu
+#for var in [ \
+#             "GenEle_pt[0]" , "GenMu_pt[0]" ,  "GenNeuEle_pt[0]" , "GenNeuMu_pt[0]",  "GenJet_pt[0]" , "GenJet_pt[1]" , \
+#             "GenfsW_pt[0]" , "GenfsW_pt[1]" , "GenfsW_pt[2]" , "GenfsW_mass[0]" , "GenfsW_mass[1]" , "GenfsW_mass[2]" , \
+#             "GenfsH_pt[0]" ,  "GenfsH_mass[0]" , "GenWstar_pt[0]" , "GenWstar_mass[0]" , \
+#             "GenW1sysdR" , "GenW2sysdR" , "GenW1sysdPhi" , "GenW2sysdPhi" , "GenW3sysdR" , "GenW3sysdPhi" , "GenWHsysdR" , "GenWHsysdPhi" , "GenWWsysdR" , "GenWWsysdPhi" , \
+#             "GenLL_pt[0]" , "GenLL_mass[0]" , "GenL2JJ_pt[0]" , "GenL2JJ_mass[0]" , \
+#             "GenLLsysdR" , "GenLLsysdPhi" , "GenLsysLJJsysdR" , "GenLsysLJJsysdPhi" \
+#]:
+#    signal(var, "genssemu")
+
+#recossmumu
+#for var in [ \
+#             "RecoMu_pt[0]" , "RecoMu_pt[1]" ,  "RecoJet_pt[0]" , "RecoJet_pt[1]" , \
+#             "RecoMu_mediumId[0]" , "RecoMu_mediumId[1]" , "RecoMu_pfRelIso03_all[0]" , "RecoMu_pfRelIso03_all[1]" , \
+#             "RecoL2JJ_pt[0]" , "RecoL2JJ_mass[0]" , "RecoLL_pt[0]" , "RecoLL_mass[0]" , "RecoLLsysdR" , "RecoLLsysdPhi" , "RecoLsysLJJsysdR" , "RecoLsysLJJsysdPhi" \
+#]:
+#    signal(var, "recossmumu")
+
+#recossee
+#for var in [ \
+#             "RecoEle_pt[0]" , "RecoEle_pt[1]" ,  "RecoJet_pt[0]" , "RecoJet_pt[1]" , \
+#             "RecoEle_cutBased[0]" , "RecoEle_cutBased[1]" , "RecoEle_pfRelIso03_all[0]" , "RecoEle_pfRelIso03_all[1]" , \
+#             "RecoL2JJ_pt[0]" , "RecoL2JJ_mass[0]" , "RecoLL_pt[0]" , "RecoLL_mass[0]" , "RecoLLsysdR" , "RecoLLsysdPhi" , "RecoLsysLJJsysdR" , "RecoLsysLJJsysdPhi" \
+#]:
+#    signal(var, "recossee")
+
+#for var in [ \
+#             "RecoEle_pt[0]" , "RecoMu_pt[0]" ,  "RecoJet_pt[0]" , "RecoJet_pt[1]" , \
+#             "RecoEle_cutBased[0]" , "RecoMu_mediumId[0]" , "RecoEle_pfRelIso03_all[0]" , "RecoMu_pfRelIso03_all[0]" , \
+#             "RecoL2JJ_pt[0]" , "RecoL2JJ_mass[0]" , "RecoLL_pt[0]" , "RecoLL_mass[0]" , "RecoLLsysdR" , "RecoLLsysdPhi" , "RecoLsysLJJsysdR" , "RecoLsysLJJsysdPhi" \
+#]:
+#    signal(var, "recossemu")
+    
+#signal("Mu_pt[0]", "OSmumu")
+
+##SSmumu
+#trigger="(HLT_IsoMu24 || HLT_IsoTkMu24)"
+#trigger="HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL"
+Jet="nJets>=2"
+#Mu="Mu_pt[0]>25 && Mu_pt[1]>15 && Mu_pfRelIso03_all[0]<0.1"
+
+flag="SSee"
+##
+#Lcuts=[ flag , flag+"&&"+trigger , flag+"&&"+trigger+" && "+Jet , flag+"&&"+trigger+" && "+Jet+" && "+Mu ]
+#Llabs = ["%s"%flag,"Iso/IsoTkMu24", "nJet>=2", "Mu1 Iso03 < 0.1"]
+##
+#Lcuts=[ flag+" && (HLT_IsoMu24 || HLT_IsoTkMu24)" , flag+" && HLT_IsoMu20" , flag+" && HLT_IsoMu22" , flag+" && HLT_IsoMu22_eta2p1" , flag+" && HLT_IsoTkMu22_eta2p1" , flag+" && HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL" , flag+" && HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ" , flag+" && HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL" , flag+" && HLT_Mu27_TkMu8" , flag+" && HLT_Mu45_eta2p1" , flag+" && HLT_Mu50" ]
+#Llabs=[ "(HLT_IsoMu24 || HLT_IsoTkMu24)" , "HLT_IsoMu20" , "HLT_IsoMu22" , "HLT_IsoMu22_eta2p1" , "HLT_IsoTkMu22_eta2p1" , "HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL" , "HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ" , "HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL" , "HLT_Mu27_TkMu8" , "HLT_Mu45_eta2p1" , "HLT_Mu50" ]
+#Lcuts=[ flag+" && HLT_Ele27_WPTight_Gsf" , flag+" && HLT_Ele27_WPLoose_Gsf" , flag+" && HLT_Ele27_eta2p1_WPLoose_Gsf" , flag+" && HLT_Ele23_WPLoose_Gsf" , flag+" && HLT_Ele25_WPTight_Gsf" , flag+" && HLT_Ele105_CaloIdVT_GsfTrkIdT" ]
+#Llabs=[ "HLT_Ele27_WPTight_Gsf" , "HLT_Ele27_WPLoose_Gsf" , "HLT_Ele27_eta2p1_WPLoose_Gsf" , "HLT_Ele23_WPLoose_Gsf" , "HLT_Ele25_WPTight_Gsf" , "HLT_Ele105_CaloIdVT_GsfTrkIdT" ]
+#efficiency(Lcuts, Llabs)
+
+##SSee
+#trigger="(HLT_Ele25_WPTight_Gsf)"
+#Ele="Ele_pt[0]>25 && Ele_pt[1]>15 && Ele_cutBased[0]>3 && Ele_cutBased[1]>3 && Ele_pfRelIso03_all[0]<0.1"
+#flag="SSee"
+#Lcuts=[ flag , flag+"&&"+trigger , flag+"&&"+trigger+" && "+Jet , flag+"&&"+trigger+" && "+Jet+" && "+Ele ]
+#Llabs = ["SSee","Ele25_WPTight", "nJet>=2", "Ele1 Iso03 < 0.1"]
+#efficiency(Lcuts, Llabs)
+
+#SSemu
+#trigger="(HLT_IsoMu24 || HLT_IsoTkMu24)"
+#trigger="(HLT_Ele25_WPTight_Gsf)"
+#Ele="Ele_pt[0]>25 && Mu_pt[1]>15 && Ele_pfRelIso03_all[0]<0.1"
+#flag="SSemu"
+#Lcuts=[ flag , flag+"&&"+trigger , flag+"&&"+trigger+" && "+Jet , flag+"&&"+trigger+" && "+Jet+" && "+Ele ]
+#Llabs = ["SSemu","Ele25_WPTight", "nJet>=2", "Ele1 Iso03 < 0.1"]
+#efficiency(Lcuts, Llabs) 
+
+Scut = "SSee && Ele_pt[0]>25 && Ele_pt[1]>15"
+Scuts = [Scut, Scut+" && Ele_cutBased[0]>3 && Ele_pfRelIso03_all[0]<0.1", Scut+" && Ele_cutBased[0]==4 && Ele_pfRelIso03_all[0]<0.1"]
+Slabs = ["base cut", "Ele_cutBased[0]>3", "Ele_cutBased[0]==4"]
+Sname = "ssmumuDefault"
+significance(Scut, Scuts, Slabs, Sname)
+
+############################################
 #btag()
 
 
@@ -474,7 +635,7 @@ efficiency(Lcuts, Llabs)
 #Mcuts = [TriMuo, TriMuo+" && "+PreMuo, TriMuo+" && "+PreMuo+" && "+Zcut, TriMuo+" && "+PreMuo+" && "+Zcut+" && "+Hcut, TriMuo+" && "+PreMuo+" && "+Zcut+" && "+Hcut+" && "+Bcut]
 #Lcuts = [TriLep, PreLep, PreLep+" && "+Zcut, PreLep+" && "+Zcut+" && "+Hcut, PreLep+" && "+Zcut+" && "+Hcut+" && "+Bcut]
 #Llabs = ["Trigger", "Id + Iso", "Z cand", "H mass", "b-tag"]
-##efficiency(Lcuts, Llabs, "XZZ")
+#efficiency(Lcuts, Llabs, "XZZ")
 
 
 #Scut = "isZtoLL && "+PreLep+" && "+Zcut
