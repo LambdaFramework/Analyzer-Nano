@@ -13,7 +13,7 @@ import time, os
 from functools import partial
 from collections import OrderedDict
 
-from PhysicsTools.NanoAODTools.Config import *
+from PhysicsTools.NanoAODTools.config import *
 ############# GLOBAL SETTING ##############
 YEAR = 'Run2_16'
 NanoVER = 'NanoV4'
@@ -21,11 +21,12 @@ cfg=Config(YEAR,NanoVER)
 cfg.summary()
 ###########################################
 
-import PhysicsTools.NanoAODTools.plotter.Utils.color as col
-from PhysicsTools.NanoAODTools.plotter.Utils.drawLambda import *
-from PhysicsTools.NanoAODTools.plotter.Utils.variables import variable
-from PhysicsTools.NanoAODTools.plotter.Utils.selections import *
-from PhysicsTools.NanoAODTools.plotter.Utils.sampleslist import *
+from PhysicsTools.NanoAODTools.LambPlot.Utils.configs import Config
+import PhysicsTools.NanoAODTools.LambPlot.Utils.color as col
+from PhysicsTools.NanoAODTools.LambPlot.Utils.drawLambda import *
+from PhysicsTools.NanoAODTools.LambPlot.Utils.variables import variable
+from PhysicsTools.NanoAODTools.LambPlot.Utils.selections import *
+from PhysicsTools.NanoAODTools.LambPlot.Utils.sampleslist import *
 
 gROOT.Macro('functions.C')
 
@@ -45,6 +46,7 @@ parser.add_option("-u", "--User_cutflow", action="store_true", dest="cutflow", d
 parser.add_option("-V", "--PrintVar", action="store_true", dest="printVar", default=False)
 parser.add_option("-m", "--multiprocessing", action="store_true", dest="multiprocessing", default=False)
 parser.add_option("-l", "--logy", action="store_true", dest="logy", default=False)
+parser.add_option("-d", "--dataset", action="store", type="string", dest="dataset", default="Run2_2016_v4")
 (options, args) = parser.parse_args()
 if options.bash: gROOT.SetBatch(True)
 
@@ -52,6 +54,8 @@ if not options.Statebox:
     gStyle.SetOptStat(0)
 else:
     gStyle.SetOptStat(1111111)
+
+cfg = Config(options.dataset)
 ########## PLOTTER SETTINGS ##########
 NTUPLEDIR   = cfg.ntuple()
 PLOTDIR     = "plots/%s"%cfg.dataset()

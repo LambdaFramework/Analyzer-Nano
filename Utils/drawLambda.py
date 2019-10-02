@@ -11,7 +11,6 @@ from ROOT import TLegend, TLatex, TText, TLine, TBox
 
 #from PhysicsTools.NanoAODTools.plotter.lambPlot import cfg
 import PhysicsTools.NanoAODTools.plotter.Utils.color as col
-#from PhysicsTools.NanoAODTools.plotter.Utils.variables import variable
 from PhysicsTools.NanoAODTools.postprocessing.data.vars import variable
 from PhysicsTools.NanoAODTools.plotter.Utils.sampleslist import *
 from collections import OrderedDict
