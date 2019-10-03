@@ -18,13 +18,11 @@ import PhysicsTools.NanoAODTools.LambPlot.Utils.color as col
 from PhysicsTools.NanoAODTools.LambPlot.Utils.drawLambda import *
 from PhysicsTools.NanoAODTools.postprocessing.data.vars.variables import br_all as variable
 from PhysicsTools.NanoAODTools.LambPlot.Utils.selections import *
-#from PhysicsTools.NanoAODTools.LambPlot.Utils.sampleslist import *
+from PhysicsTools.NanoAODTools.LambPlot.Utils.alias import alias
 
 if '%s' %os.getcwd().split('/')[-1] != 'LambPlot':
     print('EXIT: Please run the plotter in LambPlot folder')
     sys.exit()
-
-gROOT.Macro('%s/scripts/functions.C' %os.getcwd())
 
 ########## SETTINGS ##########
 import optparse
@@ -59,7 +57,7 @@ PLOTDIR     = "plots/%s"%options.dataset
 LUMI        = cfg.lumi() #41860. #35800. # pb-1 Inquire via brilcalc lumi --begin 272007 --end 275376 -u /pb #https://twiki.cern.ch/twiki/bin/viewauth/CMS/PdmV2016Analysis
 #data = []
 data        = ["data_obs"]
-back        = [ "tZq", "VVV", "ttV" , "WW", "VZ", "Vg", "ST", "WJetsToLNu_HT", "TTbar", "DYJetsToLL_HT" ]
+back        = [ "VVV", "ttV" , "WW", "VZ", "Vg", "ST", "WJetsToLNu", "TTbar", "DYJetsToLL" ]
 cfg.register(data+back)
 #back        = [ "tZq", "WWJJ", "VVV", "ttV" , "WW", "ZZ", "WZ", "Vg", "ST", "WJetsToLNu", "TTbar", "DYJetsToLL" ]
 #sign        = ['whww','WHWW','VH']
@@ -73,19 +71,15 @@ weight=eval(cfg.era())['weight']
 
 #############################################
 # Check files
-'''
 check=True
+filelist=cfg.getSamplelist()
 for itag in data+back:
-    roots=samples['%s' %itag]['files']
-    for iroot in roots:
-        if 'Double' and 'Run' in iroot:
-            continue
+    for iroot in filelist[itag]['files']:
         if not os.path.exists(NTUPLEDIR+iroot+".root"):
             print col.FAIL+NTUPLEDIR+iroot+".root does not exit!", col.ENDC
             check=False
 if not check:
     exit()
-'''
 ###############################################
 
 def plot(var, cut, norm=False):
@@ -94,8 +88,9 @@ def plot(var, cut, norm=False):
     if cut in selection: plotdir = cut
 
     PROC=data+back if not BLIND else back
-    print col.BOLD+"CUT    : ", selection[cut]+col.ENDC
-    print col.BOLD+"WEIGHT : ", weight[cut]+col.ENDC
+    print col.OKGREEN+"Primary Dataset    : "+col.ENDC, PD
+    print col.OKGREEN+"CUT    : "+col.ENDC, selection[cut]
+    print col.OKGREEN+"WEIGHT : "+col.ENDC, weight[cut]
     if not sign:
         Histlist=ProjectDraw(var, cut, LUMI, PROC, PD, NTUPLEDIR)
     else:
@@ -121,13 +116,13 @@ def plot(var, cut, norm=False):
         for i, s in enumerate(back+['BkgSum']): hist[s].Scale(sfnorm)
 
     if len(data+back)>0:
-        out = draw(Histlist, data if not BLIND else [], back, sign, SIGNAL, RATIO, POISSON, True if options.logy else variable[var]['log'])
+        out = draw(Histlist, data if not BLIND else [], back, sign, SIGNAL, RATIO, POISSON, True if options.logy else (filter(lambda x:x.name()==var,variable)[0]).log())
         out[0].cd(1)
         drawCMS(LUMI, "Preliminary")
         drawRegion(cut)
         printTable(Histlist, sign)
     else:
-        out = drawSignal(Histlist, sign, True if options.logy else variable[var]['log'])
+        out = drawSignal(Histlist, sign, True if options.logy else (filter(lambda x:x.name()==var,variable)[0]).log())
         out[0].cd(1)
         drawCMS(LUMI, "Simulation")
         drawRegion(cut)
@@ -135,7 +130,8 @@ def plot(var, cut, norm=False):
     out[0].Update()
 
     if gROOT.IsBatch():
-            pathname = PLOTDIR+"/Signal/"+cut if options.signal else PLOTDIR+"/"+plotdir
+            #pathname = PLOTDIR+"/Signal/"+cut if options.signal else PLOTDIR+"/"+plotdir
+            pathname = PLOTDIR+"/"+plotdir
             if not os.path.exists(pathname): os.system('mkdir -p %s'%pathname)
             out[0].Print(pathname+"/"+var.replace('.', '_')+".png")
             out[0].Print(pathname+"/"+var.replace('.', '_')+".pdf")
@@ -181,7 +177,7 @@ def cutflow(cut, cutcat, norm=False):
     PDFrame.to_html( PLOTDIR+'/cutflow/Signifiance_'+cutcat+'.html' if sign else PLOTDIR+'/cutflow/'+cutcat+'.html')
     print 'cutflow table save at '+PLOTDIR+'/cutflow/'
 
-VOI=['MHT_pt','nCleanJet','Lepton_pfRelIso03_all[0]','Lepton_pfRelIso03_all[1]','Lepton_pfRelIso03_all[2]','Lepton_pfRelIso03_all[3]','Mu_dz[0]','Mu_dz[1]','Mu_dxy[0]','Mu_dxy[1]','Ele_dz[0]','Ele_dz[1]','Ele_dxy[0]','Ele_dxy[1]']
+#VOI=['MHT_pt','nCleanJet','Lepton_pfRelIso03_all[0]','Lepton_pfRelIso03_all[1]','Lepton_pfRelIso03_all[2]','Lepton_pfRelIso03_all[3]','Mu_dz[0]','Mu_dz[1]','Mu_dxy[0]','Mu_dxy[1]','Ele_dz[0]','Ele_dz[1]','Ele_dxy[0]','Ele_dxy[1]']
 
 def significanceStudy(cut, cutcat):
 
@@ -472,18 +468,21 @@ if __name__ == "__main__":
     start_time = time.time()
     if options.variable =="" and not options.printVar:
         parser.print_help()
-        print(col.WARNING+'Example: python scripts/plotter.py -v MHT_pt -r OSmumu'+col.ENDC)
+        print(col.WARNING+'Example:'+col.ENDC)
+        print(col.WARNING+'python scripts/plotter.py -v MHT_pt -r OSmumu -e Run2_2016_v4'+col.ENDC)
         sys.exit(1)
 
     if options.printVar:
         print(col.OKGREEN+'Predefined Variables for plotting'+col.ENDC)
-        print(map(lambda x: x.name(), br_all))
+        print(map(lambda x: x.name(), br_all)+list(alias.keys()))
         print(col.OKGREEN+'Predefined region for plotting'+col.ENDC)
         print(selection.keys())
         sys.exit(1)
 
     print col.OKGREEN+"PLOTTING variable ",options.variable+col.ENDC
 
+    cfg.summary()
+    gROOT.Macro('%s/scripts/functions.C' %os.getcwd())
     if options.cut != "":
         print col.CYAN+"with Cuts : ",options.cut+col.ENDC
         plot( options.variable , options.cut )
@@ -494,63 +493,3 @@ if __name__ == "__main__":
     print("--- %s seconds ---" % (time.time() - start_time))
     print("--- %s minutes ---" % ( (time.time() - start_time)/60. ))
     print("--- %s hours ---" % ( (time.time() - start_time)/3600. ))
-
-'''
-    if len(args) == 0 and not options.multiprocessing and not options.cutflow:
-        print "None argument provided, plotting on all variables in ", VOI
-        if options.cut=="":
-            for region in [ 'OSmumu', 'OSee', 'OSemu', 'SSemu', 'SSmumu', 'SSee' ]:
-                print col.CYAN+"PLOTTING on : ",region+col.ENDC
-                for VARS in VOI:
-                    start_time = time.time()
-                    print col.OKGREEN+"PLOTTING on : ",VARS+col.ENDC
-                    plot(VARS,region)
-                    print("--- %s seconds ---" % (time.time() - start_time))
-                    print("--- %s minutes ---" % ( (time.time() - start_time)/60. ))
-                    print("--- %s hours ---" % ( (time.time() - start_time)/3600. ))
-        else:
-            print col.CYAN+"PLOTTING on : ",options.cut+col.ENDC
-            for VARS in VOI:
-                start_time = time.time()
-                print col.OKGREEN+"PLOTTING on : ",VARS+col.ENDC
-                plot(VARS,options.cut)
-                print("--- %s seconds ---" % (time.time() - start_time))
-                print("--- %s minutes ---" % ( (time.time() - start_time)/60. ))
-                print("--- %s hours ---" % ( (time.time() - start_time)/3600. ))
-    elif options.printVar:
-        print "Print all available variable specified"
-        print [ var for var in variable ]
-    elif options.cutflow:
-        print "Cutflow table"
-        if options.cut=="":
-            print "ERROR: Please specify cut , python lambdaPlot.py VAR -u -c CUT "
-            exit()
-
-        cutlet = selection[options.cut].split(' && ')
-        #cutflow(cutlet,options.cut)
-        significanceStudy(cutlet,options.cut)
-    elif options.multiprocessing and len(args) == 0:
-        print col.OKGREEN+"core available : ", cpu_count(),", which means ", cpu_count()," processes can be distributedly processed in parallel."+col.ENDC
-        #Region=[ 'OSmumu', 'OSee', 'OSemu', 'SSemu', 'SSmumu', 'SSee', 'WZCR', 'VgCR' ]
-        Region=[ 'OSmumu', 'OSee', 'OSemu', 'SSemu', 'SSmumu', 'SSee', 'WZCR' ]
-        start_time = time.time()
-        for voi in VOI:
-            p = Pool(processes=8)
-            plotter=partial(multiplot,var=voi)
-            #result = p.map(partial(plot, var=voi), Region)
-            result = p.map(plotter, Region)
-        p.close()
-        p.join()
-        print "multiprocessing complete, with time taken : "
-        print("--- %s seconds ---" % (time.time() - start_time))
-        print("--- %s minutes ---" % ( (time.time() - start_time)/60. ))
-        print("--- %s hours ---" % ( (time.time() - start_time)/3600. ))
-    else:
-        start_time = time.time()
-        print col.OKGREEN+"PLOTTING: ", args[0]+col.ENDC
-        print col.CYAN+"PLOTTING on : ",options.cut+col.ENDC
-        plot(args[0], options.cut)
-        print("--- %s seconds ---" % (time.time() - start_time))
-        print("--- %s minutes ---" % ( (time.time() - start_time)/60. ))
-        print("--- %s hours ---" % ( (time.time() - start_time)/3600. ))
-'''

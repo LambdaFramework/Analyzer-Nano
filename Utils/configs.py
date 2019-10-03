@@ -14,7 +14,7 @@ class Config(object):
 
     def register(self,samples):
         self._samples=samples
-
+        self._samples.append('BkgSum')
         #Cosmetics
         self._samplelist ={}
         for isample in self._samples:
@@ -42,6 +42,6 @@ class Config(object):
         print "-"*80
         print YELLOW+"Era configured : "+ENDC, OKGREEN+ self._year +ENDC
         print YELLOW+"Integrated luminosity configured : "+ENDC, OKGREEN+str( self._lumi ), " pb/-1"+ENDC
-        print YELLOW+"NTUPLE configured : "+ENDC, OKGREEN+ self._ntuple +ENDC
+        #print YELLOW+"NTUPLE configured : "+ENDC, OKGREEN+ self._ntuple +ENDC
         #print col.YELLOW+"DATASET configured : "+col.ENDC, col.OKGREEN+ self._dataset +col.ENDC
         print "-"*80

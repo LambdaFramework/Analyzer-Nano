@@ -33,79 +33,18 @@ def ProjectDraw(var, cut, Lumi, samplelist, pd, ntupledir):
     histList={}
     histlet={}
 
-    if 'mumu' in cut:
-        print col.OKGREEN+var+" : "+col.ENDC+ \
-            "Inv( "+col.OKGREEN+"Muon^(+/-)"+col.ENDC+" , "+col.FAIL+"Muon^(-/+)"+col.ENDC+" )" if 'OS' in cut else \
-            "Inv( "+col.OKGREEN+"Muon^(+/-)"+col.ENDC+" , "+col.OKGREEN+"Muon^(+/-)"+col.ENDC+" )"
-    elif 'ee' in cut:
-        print col.OKGREEN+var+" : "+col.ENDC+ \
-            "Inv( "+col.OKGREEN+"Electron^(+/-)"+col.ENDC+" , "+col.FAIL+"Electron^(-/+)"+col.ENDC+" )" if 'OS' in cut else \
-            "Inv( "+col.OKGREEN+"Electron^(+/-)"+col.ENDC+" , "+col.OKGREEN+"Electron^(+/-)"+col.ENDC+" )"
-    elif 'emu' in cut:
-        print col.OKGREEN+var+" : "+col.ENDC+ \
-	    "Inv( "+col.OKGREEN+"Electron^(+/-)"+col.ENDC+" , "+col.FAIL+"Muon^(-/+)"+col.ENDC+" )" if 'OS' in cut else \
-            "Inv( "+col.OKGREEN+"Electron^(+/-)"+col.ENDC+" , "+col.OKGREEN+"Muon^(+/-)"+col.ENDC+" )"
-
-    if 'C_' in var:
-        ##Leptonic final state
-        if var=='C_deltaRll':
-            print col.WARNING+"Compute composite variable C_deltaRll"+col.ENDC
-            VAR="deltaR(Lepton_eta[0],Lepton_phi[0],Lepton_eta[1],Lepton_phi[1])"
-            print col.WARNING+VAR+col.ENDC
-        elif var=='C_deltaPhill':
-            print col.WARNING+"Compute composite variable C_deltaPhill"+col.ENDC
-            VAR="deltaPhi(Lepton_phi[0],Lepton_phi[1])"
-        elif var=='C_deltaEtall':
-            print col.WARNING+"Compute composite variable C_deltaEtall"+col.ENDC
-            VAR="deltaEta(Lepton_eta[0],Lepton_eta[1])"
-        ##Hadronic final state
-        elif var=='C_deltaRjj':
-            print col.WARNING+"Compute composite variable C_deltaRjj"+col.ENDC
-            VAR="deltaR(CleanJet_eta[0],CleanJet_phi[0],CleanJet_eta[1],CleanJet_phi[1])"
-            print col.WARNING+VAR+col.ENDC
-        elif var=='C_deltaPhijj':
-            print col.WARNING+"Compute composite variable C_deltaPhijj"+col.ENDC
-            VAR="deltaPhi(CleanJet_phi[0],CleanJet_phi[1])"
-        elif var=='C_deltaEtajj':
-            print col.WARNING+"Compute composite variable C_deltaEtajj"+col.ENDC
-            VAR="deltaEta(CleanJet_eta[0],CleanJet_eta[1])"
-        ##Invariant mass of V
-        elif var=='C_Vllmass':
-            print col.WARNING+"Compute composite variable C_Vllmass"+col.ENDC
-            VAR="invariantMass(Lepton_pt[0],Lepton_eta[0],Lepton_phi[0],Lepton_mass[0],Lepton_pt[1],Lepton_eta[1],Lepton_phi[1],Lepton_mass[1])"
-            print col.WARNING+VAR+col.ENDC
-        elif var=='C_Vjjmass':
-            print col.WARNING+"Compute composite variable C_Vjjmass"+col.ENDC
-            VAR="invariantMass(CleanJet_pt[0],CleanJet_eta[0],CleanJet_phi[0],CleanJet_mass[0],CleanJet_pt[1],CleanJet_eta[1],CleanJet_phi[1],CleanJet_mass[1])"
-            print col.WARNING+VAR+col.ENDC
-        ##Invariant pt of V
-        elif var=='C_Vllpt':
-            print col.WARNING+"Compute composite variable C_Vllpt"+col.ENDC
-            VAR="invariantMassPt(Lepton_pt[0],Lepton_eta[0],Lepton_phi[0],Lepton_mass[0],Lepton_pt[1],Lepton_eta[1],Lepton_phi[1],Lepton_mass[1])"
-            print col.WARNING+VAR+col.ENDC
-        elif var=='C_Vjjpt':
-            print col.WARNING+"Compute composite variable C_Vjjpt"+col.ENDC
-            VAR="invariantMassPt(CleanJet_pt[0],CleanJet_eta[0],CleanJet_phi[0],CleanJet_mass[0],CleanJet_pt[1],CleanJet_eta[1],CleanJet_phi[1],CleanJet_mass[1])"
-            print col.WARNING+VAR+col.ENDC
-    else:
-        print col.OKGREEN+var+col.ENDC
-        VAR=var
+    VAR=var
 
     CUT=selection[cut]
 
     for TAG in samplelist:
 
-        # Is this necessary??
-        ENUMLIST=[]
-        if 'data' in TAG:
-            for datalet in (samples['%s' %TAG]['files']):
-                if datalet in pd:
-                    ENUMLIST.append(datalet)
-        elif not 'data' in TAG:
-            ENUMLIST=samples['%s' %TAG]['files']
+        if 'data_obs' in TAG:
+            filelist=pd
+        else:
+            filelist=samples[TAG]['files']
         ##########################################
-        ##########################################
-        for num, bkgs in enumerate(ENUMLIST):
+        for num, bkgs in enumerate(filelist):
             f = TFile.Open(ntupledir+bkgs+".root","READ")
             tree = f.Get("Events")
             gROOT.cd()

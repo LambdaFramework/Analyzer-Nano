@@ -14,29 +14,9 @@ EleTrig17='(HLT_Ele27_WPTight_Gsf)'
 #presel='nLepton>=2 && nCleanJet>=2'
 presel='nLepton>=2 && nCleanJet>=2'
 
-Run2_16_nanov0={
-    'selection' : {
-        'hist'    : '1==1',
-        'OSmumu'    : tAND(MuTrig,tAND(presel,'((Lepton_pdgId[0]*Lepton_pdgId[1]==13*-13)||(Lepton_pdgId[0]*Lepton_pdgId[1]==-13*13)) && MHT_Pt>100 && Lepton_pt[0]>30 && Lepton_pt[1]>30 && Vll_mass>30')),
-        'OSee'      : tAND(EleTrig,tAND(presel,'((Lepton_pdgId[0]*Lepton_pdgId[1]==11*-11)||(Lepton_pdgId[0]*Lepton_pdgId[1]==-11*11)) && MHT_Pt>100 && Lepton_pt[0]>30 && Lepton_pt[1]>30 && Vll_mass>30')),
-        'OSemu'     : tAND(MuTrig,tAND(presel,'((Lepton_pdgId[0]*Lepton_pdgId[1]==11*-13)||(Lepton_pdgId[0]*Lepton_pdgId[1]==-11*13)) && Lepton_pt[0]>30 && Lepton_pt[1]>30 && Vll_mass>15')),
-        'SSmumu'    : tAND(MuTrig,tAND(presel,'((Lepton_pdgId[0]*Lepton_pdgId[1]==13*13)||(Lepton_pdgId[0]*Lepton_pdgId[1]==-13*-13)) && Lepton_pt[0]>30 && Lepton_pt[1]>30')),
-    },
-    'weight' : {
-        'hist'    : '1',
-        'OSmumu'  : '1*puWeight',
-        'OSee'    : '1*puWeight',
-        'OSemu'   : '1*puWeight',
-        'SSmumu'  : '1*puWeight',
-    },
-}
-
 Run2_2016_v4={
     'selection' : {
-        'reco'    : '1==1',
-        'hist'    : 'HLT_IsoMu22 && (1==1)',
-        #'SSincl'    : tAND(MuTrig  ,tAND(presel,'((Lepton_pdgId[0]*Lepton_pdgId[1]==13*13)||(Lepton_pdgId[0]*Lepton_pdgId[1]==-13*-13)||(Lepton_pdgId[0]*Lepton_pdgId[1]==11*11)||(Lepton_pdgId[0]*Lepton_pdgId[1]==-11*-11)||(Lepton_pdgId[0]*Lepton_pdgId[1]==11*13)||(Lepton_pdgId[0]*Lepton_pdgId[1]==-11*-13)||(Lepton_pdgId[0]*Lepton_pdgId[1]==13*11)||(Lepton_pdgId[0]*Lepton_pdgId[1]==-13*-11))',
-        'OSmumu'    : MuTrig  +AND+presel+AND+'((Lepton_pdgId[0]*Lepton_pdgId[1]==13*-13)||(Lepton_pdgId[0]*Lepton_pdgId[1]==-13*13)) && Lepton_pt[0]>25 && Lepton_pt[1]>20 && Lepton_pfRelIso03_all[0]<0.15 && Lepton_pfRelIso03_all[1]<0.15 && Vll_mass>30 && MHT_pt>50',
+        'OSmumu'    : MuTrig  +AND+presel+AND+'((Lepton_pdgId[0]*Lepton_pdgId[1]==13*-13)||(Lepton_pdgId[0]*Lepton_pdgId[1]==-13*13)) && Lepton_pt[0]>30 && Lepton_pt[1]>20 && Lepton_pfRelIso03_all[0]<0.15 && Lepton_pfRelIso03_all[1]<0.15 && Vll_mass>30 && MHT_pt>50',
         'OSee'      : EleTrig +AND+presel+AND+'((Lepton_pdgId[0]*Lepton_pdgId[1]==11*-11)||(Lepton_pdgId[0]*Lepton_pdgId[1]==-11*11)) && Lepton_pt[0]>25 && Lepton_pt[1]>15 && Lepton_pfRelIso03_all[0]<0.15 && Lepton_pfRelIso03_all[1]<0.15 && Vll_mass>30 && MHT_pt>50',
         'OSemu'     : MuTrig  +AND+presel+AND+'((Lepton_pdgId[0]*Lepton_pdgId[1]==11*-13)||(Lepton_pdgId[0]*Lepton_pdgId[1]==-11*13)) && Lepton_pt[0]>30 && Lepton_pt[1]>20 && Vll_mass>15',
         'SSemu'     : MuTrig  +AND+presel+AND+'((Lepton_pdgId[0]*Lepton_pdgId[1]==11*13)||(Lepton_pdgId[0]*Lepton_pdgId[1]==-11*-13)) && Lepton_pt[0]>30 && Lepton_pt[1]>20 && Vll_mass>15 && Lepton_pfRelIso03_all[0]<0.15',
@@ -46,9 +26,6 @@ Run2_2016_v4={
         'VgCR'      : MuTrig  +AND+presel+AND+'(nMu==4 && Mu_pt[3]>5 && Mu_pfRelIso03_all[3]<0.2) || (nMu==2 && nEle>0 && Mu_pt[0]>20 && Mu_pfRelIso03_all[0]<0.1 && Mu_pt[1]>10 && Mu_pfRelIso03_all[1]<0.15 && Ele_pt[0]>25 && Ele_pfRelIso03_all[0]<0.1)',
         },
     'weight' : {
-        'reco'    : '1',
-        'hist'    : '1*puWeight*Lepton_Weight[0]*Lepton_Weight[1]',
-        'SSincl'  : '1*puWeight*Lepton_Weight[0]*Lepton_Weight[1]',
         'OSmumu'  : '1*puWeight*Lepton_Weight[0]*Lepton_Weight[1]',
         'OSee'    : '1*puWeight*Lepton_Weight[0]*Lepton_Weight[1]',
         'OSemu'   : '1*puWeight*Lepton_Weight[0]*Lepton_Weight[1]',
