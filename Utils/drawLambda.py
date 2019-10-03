@@ -9,10 +9,11 @@ from ROOT import TFile, TChain, TTree, TCut, TH1, TH1F, TH1D, TH2F, THStack, TGr
 from ROOT import TStyle, TCanvas, TPad
 from ROOT import TLegend, TLatex, TText, TLine, TBox
 
-#from PhysicsTools.NanoAODTools.plotter.lambPlot import cfg
-import PhysicsTools.NanoAODTools.plotter.Utils.color as col
-from PhysicsTools.NanoAODTools.postprocessing.data.vars import variable
-from PhysicsTools.NanoAODTools.plotter.Utils.sampleslist import *
+import PhysicsTools.NanoAODTools.LambPlot.scripts.plotter as plt
+import PhysicsTools.NanoAODTools.LambPlot.Utils.color as col
+from PhysicsTools.NanoAODTools.postprocessing.data.vars.variables import br_all
+from PhysicsTools.NanoAODTools.LambPlot.Utils.selections import *
+#from PhysicsTools.NanoAODTools.plotter.Utils.sampleslist import *
 from collections import OrderedDict
 import pandas as pds
 import numpy as np
@@ -21,8 +22,14 @@ gROOT.SetBatch(True)
 #gROOT.Macro('functions.C')
 gStyle.SetOptStat(0)
 
+samples = plt.cfg.getSamplelist()
+selection=eval(plt.cfg.era())['selection']
+weight=eval(plt.cfg.era())['weight']
+
+
 def ProjectDraw(var, cut, Lumi, samplelist, pd, ntupledir):
 
+    variable=filter(lambda x: x.name() ==var, br_all)[0]
     histList={}
     histlet={}
 
@@ -103,17 +110,13 @@ def ProjectDraw(var, cut, Lumi, samplelist, pd, ntupledir):
             tree = f.Get("Events")
             gROOT.cd()
             #Define histograms
-            nevents = float(sample[bkgs]['nevents'])
-            xs = float(sample[bkgs]['xsec'])*float(sample[bkgs]['kfactor'])
-            LumiMC = nevents/xs
-            Weight = float(Lumi) / float(LumiMC)
-
-            if variable[var]['nbins']>0: histlet[bkgs] = TH1F(bkgs, ";"+variable[var]['title']+";"+variable[var]['titleY'], variable[var]['nbins'], variable[var]['min'], variable[var]['max'])
-            else: histlet[bkgs]=TH1F(bkgs,";"+variable[var]['title']+";"+variable[var]['titleY'], len(variable[var]['bins'])-1, array('f', variable[var]['bins']))
+            if variable.nbins()>0: histlet[bkgs] = TH1F(bkgs, ";" + variable.titleX() + ";" + variable.titleY(), variable.nbins(), variable.mins(), variable.maxs())
+            else: histlet[bkgs]=TH1F(bkgs,";"+ variable.titleX() + ";" + variable.titleY(), len(variable.nbins())-1, array('f', variable.nbins()))
             histlet[bkgs].Sumw2()
 
             if 'data' in TAG:
-                if cfg.dataset()=="Run2_16_nanov0":
+                #Missing trigger in 2016 v4
+                if plt.cfg.era()=="Run2_2016_v4":
                     print col.OKBLUE+"DATA, NO HLT : ", bkgs+col.ENDC
                     subcut= CUT.replace(MuTrig if 'mu' in cut else EleTrig,"(1==1)")
                     print subcut
@@ -125,7 +128,7 @@ def ProjectDraw(var, cut, Lumi, samplelist, pd, ntupledir):
                 ExtW=weight[cut]
                 print col.MAGENTA+"MC, With HLT : ", bkgs+col.ENDC
 
-                tree.Draw("%s >> %s" %(VAR,bkgs),"%s*%s*(%s)" %(Weight,ExtW,CUT))
+                tree.Draw("%s >> %s" %(VAR,bkgs),"%s*(%s)" %(ExtW,CUT))
             if num==0:
                 histList[TAG]=histlet[bkgs]
             else:

@@ -9,18 +9,18 @@ class Config(object):
         #Analysis parameters
         self._era = era
         self._year = era.split('_')[1]
-        self._lumi = datasets['%s' %era.split('_')[1]]['lumi']
+        self._lumi = datasets[era]['lumi']
 
 
     def register(self,samples):
         self._samples=samples
-        
+
         #Cosmetics
         self._samplelist ={}
         for isample in self._samples:
             self._samplelist[isample]={}
-            self._samplelist[isample]['order']=0 if isample=='data_obs' else schemebkg[isample]['order']
-            self._samplelist[isample]['files']=map(lambda x : x.filename(), filter(lambda x : x.name()==isample , list(datasets[era]['data']) + list(datasets[era]['mc']) ))
+            self._samplelist[isample]['order']=0 if isample=='data_obs' else scheme[isample]['order']
+            self._samplelist[isample]['files']=map(lambda x : x.filename(), filter(lambda x : x.name()==isample , list(datasets[self._era]['data']) + list(datasets[self._era]['mc']) ))
             self._samplelist[isample]['fillcolor']= scheme[isample]['fillcolor']
             self._samplelist[isample]['fillstyle']= scheme[isample]['fillstyle']
             self._samplelist[isample]['linecolor']= scheme[isample]['fillcolor']
@@ -35,7 +35,7 @@ class Config(object):
     def lumi(self):
         return self._lumi
     def getSamplelist(self):
-        return self._samples
+        return self._samplelist
 
     def summary(self):
 
@@ -45,4 +45,3 @@ class Config(object):
         print YELLOW+"NTUPLE configured : "+ENDC, OKGREEN+ self._ntuple +ENDC
         #print col.YELLOW+"DATASET configured : "+col.ENDC, col.OKGREEN+ self._dataset +col.ENDC
         print "-"*80
-    

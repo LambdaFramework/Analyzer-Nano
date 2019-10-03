@@ -16,11 +16,15 @@ from collections import OrderedDict
 from PhysicsTools.NanoAODTools.LambPlot.Utils.configs import Config
 import PhysicsTools.NanoAODTools.LambPlot.Utils.color as col
 from PhysicsTools.NanoAODTools.LambPlot.Utils.drawLambda import *
-from PhysicsTools.NanoAODTools.LambPlot.Utils.variables import variable
+from PhysicsTools.NanoAODTools.postprocessing.data.vars.variables import br_all as variable
 from PhysicsTools.NanoAODTools.LambPlot.Utils.selections import *
-from PhysicsTools.NanoAODTools.LambPlot.Utils.sampleslist import *
+#from PhysicsTools.NanoAODTools.LambPlot.Utils.sampleslist import *
 
-gROOT.Macro('functions.C')
+if '%s' %os.getcwd().split('/')[-1] != 'LambPlot':
+    print('EXIT: Please run the plotter in LambPlot folder')
+    sys.exit()
+
+gROOT.Macro('%s/scripts/functions.C' %os.getcwd())
 
 ########## SETTINGS ##########
 import optparse
@@ -38,7 +42,7 @@ parser.add_option("-u", "--User_cutflow", action="store_true", dest="cutflow", d
 parser.add_option("-V", "--PrintVar", action="store_true", dest="printVar", default=False)
 parser.add_option("-m", "--multiprocessing", action="store_true", dest="multiprocessing", default=False)
 parser.add_option("-l", "--logy", action="store_true", dest="logy", default=False)
-parser.add_option("-d", "--dataset", action="store", type="string", dest="dataset", default="Run2_2016_v4")
+parser.add_option("-e", "--dataset", action="store", type="string", dest="dataset", default="Run2_2016_v4")
 (options, args) = parser.parse_args()
 if options.bash: gROOT.SetBatch(True)
 
@@ -49,12 +53,12 @@ else:
 
 cfg = Config(options.dataset)
 ########## PLOTTER SETTINGS ##########
-NTUPLEDIR   = '';
+NTUPLEDIR   = '/home/shoh/works/Projects/Analysis/LambdaNano/Run2_2016_v4-pilot/';
 PLOTDIR     = "plots/%s"%options.dataset
 LUMI        = cfg.lumi() #41860. #35800. # pb-1 Inquire via brilcalc lumi --begin 272007 --end 275376 -u /pb #https://twiki.cern.ch/twiki/bin/viewauth/CMS/PdmV2016Analysis
 #data = []
 data        = ["data_obs"]
-back        = [ "tZq", "WWJJ", "VVV", "ttV" , "WW", "VZ", "WZ", "Vg", "ST", "WJetsToLNu_HT", "TTbar", "DYJetsToLL_HT" ]
+back        = [ "tZq", "VVV", "ttV" , "WW", "VZ", "Vg", "ST", "WJetsToLNu_HT", "TTbar", "DYJetsToLL_HT" ]
 cfg.register(data+back)
 #back        = [ "tZq", "WWJJ", "VVV", "ttV" , "WW", "ZZ", "WZ", "Vg", "ST", "WJetsToLNu", "TTbar", "DYJetsToLL" ]
 #sign        = ['whww','WHWW','VH']
@@ -63,6 +67,9 @@ BLIND       = True if options.blind else False
 SIGNAL      = 1. #500. # rescaling factor 1/35800
 RATIO       = 4 if not BLIND else 0 #4 # default=4 # 0: No ratio plot; !=0: ratio between the top and bottom pads
 POISSON     = False
+selection=eval(cfg.era())['selection']
+weight=eval(cfg.era())['weight']
+
 #############################################
 # Check files
 '''

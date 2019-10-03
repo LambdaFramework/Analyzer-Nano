@@ -1,4 +1,4 @@
-from PhysicsTools.NanoAODTools.LambPlot.scripts.plotter import cfg
+#import PhysicsTools.NanoAODTools.LambPlot.scripts.plotter as plt
 from PhysicsTools.NanoAODTools.LambPlot.Utils.Misc import *
 from re import sub
 AND=' && '
@@ -110,5 +110,5 @@ Run2_2018_v4={
     },
 }
 
-selection=eval(cfg.era())['selection']
-weight=eval(cfg.era())['weight']
+#selection=eval(plt.cfg.era())['selection']
+#weight=eval(plt.cfg.era())['weight']
