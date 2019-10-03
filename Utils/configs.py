@@ -7,6 +7,7 @@ class Config(object):
     def __init__(self,era):
 
         #Analysis parameters
+        self._era = era
         self._year = era.split('_')[1]
         self._lumi = datasets['%s' %era.split('_')[1]]['lumi']
 
@@ -28,21 +29,9 @@ class Config(object):
             self._samplelist[isample]['label']= scheme[isample]['label']
             self._samplelist[isample]['weight']=1.
             self._samplelist[isample]['plot']=True
-            
-        #for idataset in datasets[era]['data']:
-        #    sample['%s'%idataset.filename()] ={}
-        #    sample['%s'%idataset.filename()]['nevents'] = idataset.nevent()
-        #    sample['%s'%idataset.filename()]['xsec'] = idataset.xsec()
-        #    sample['%s'%idataset.filename()]['kfactor'] = idataset.kfactor()
-        #    sample['%s'%idataset.filename()]['matcheff'] = idataset.matcheff()
-        #for idataset in datasets[era]['mc']:
-        #    sample['%s'%idataset.filename()] ={}
-        #    sample['%s'%idataset.filename()]['nevents'] = idataset.nevent()
-        #    sample['%s'%idataset.filename()]['xsec'] = idataset.xsec()
-        #    sample['%s'%idataset.filename()]['kfactor'] = idataset.kfactor()
-        #    sample['%s'%idataset.filename()]['matcheff'] = idataset.matcheff()
 
-
+    def era(self):
+        return self._era
     def lumi(self):
         return self._lumi
     def getSamplelist(self):
