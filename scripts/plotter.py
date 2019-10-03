@@ -28,21 +28,21 @@ gROOT.Macro('%s/scripts/functions.C' %os.getcwd())
 
 ########## SETTINGS ##########
 import optparse
-usage = "usage: %prog Variable [options]"
+usage = "usage: %prog [options]"
 parser = optparse.OptionParser(usage)
-#parser.add_option("-v", "--variable", action="store", type="string", dest="variable", default="")
+parser.add_option("-v", "--variable", action="store", type="string", dest="variable", default="")
 parser.add_option("-c", "--cut", action="store", type="string", dest="cut", default="")
 parser.add_option("-r", "--region", action="store", type="string", dest="region", default="")
 parser.add_option("-b", "--bash", action="store_true", default=False, dest="bash")
 parser.add_option("-B", "--blind", action="store_true", default=False, dest="blind")
-parser.add_option("-s", "--signal", action="store_true", default=False, dest="signal")
+#parser.add_option("-s", "--signal", action="store_true", default=False, dest="signal")
 parser.add_option("-x", "--Statebox", action="store_true", default=False, dest="Statebox")
 parser.add_option("-d", "--debug", action="store_true", default=False, dest="debug")
-parser.add_option("-u", "--User_cutflow", action="store_true", dest="cutflow", default=False)
+#parser.add_option("-u", "--User_cutflow", action="store_true", dest="cutflow", default=False)
 parser.add_option("-V", "--PrintVar", action="store_true", dest="printVar", default=False)
-parser.add_option("-m", "--multiprocessing", action="store_true", dest="multiprocessing", default=False)
+#parser.add_option("-m", "--multiprocessing", action="store_true", dest="multiprocessing", default=False)
 parser.add_option("-l", "--logy", action="store_true", dest="logy", default=False)
-parser.add_option("-e", "--dataset", action="store", type="string", dest="dataset", default="Run2_2016_v4")
+parser.add_option("-e", "--era", action="store", type="string", dest="dataset", default="Run2_2016_v4")
 (options, args) = parser.parse_args()
 if options.bash: gROOT.SetBatch(True)
 
@@ -53,7 +53,8 @@ else:
 
 cfg = Config(options.dataset)
 ########## PLOTTER SETTINGS ##########
-NTUPLEDIR   = '/home/shoh/works/Projects/Analysis/LambdaNano/Run2_2016_v4-pilot/';
+#NTUPLEDIR   = '/home/shoh/works/Projects/Analysis/LambdaNano/Run2_2016_v4-pilot/';
+NTUPLEDIR = '/home/shoh/works/Projects/Analysis/LambdaNano/dataset16-v26-WH/';
 PLOTDIR     = "plots/%s"%options.dataset
 LUMI        = cfg.lumi() #41860. #35800. # pb-1 Inquire via brilcalc lumi --begin 272007 --end 275376 -u /pb #https://twiki.cern.ch/twiki/bin/viewauth/CMS/PdmV2016Analysis
 #data = []
@@ -62,7 +63,7 @@ back        = [ "tZq", "VVV", "ttV" , "WW", "VZ", "Vg", "ST", "WJetsToLNu_HT", "
 cfg.register(data+back)
 #back        = [ "tZq", "WWJJ", "VVV", "ttV" , "WW", "ZZ", "WZ", "Vg", "ST", "WJetsToLNu", "TTbar", "DYJetsToLL" ]
 #sign        = ['whww','WHWW','VH']
-sign=['whww']
+sign=[]
 BLIND       = True if options.blind else False
 SIGNAL      = 1. #500. # rescaling factor 1/35800
 RATIO       = 4 if not BLIND else 0 #4 # default=4 # 0: No ratio plot; !=0: ratio between the top and bottom pads
@@ -468,6 +469,33 @@ def significancev0(cutlist, labellist):
 
 if __name__ == "__main__":
 
+    start_time = time.time()
+    if options.variable =="" and not options.printVar:
+        parser.print_help()
+        print(col.WARNING+'Example: python scripts/plotter.py -v MHT_pt -r OSmumu'+col.ENDC)
+        sys.exit(1)
+
+    if options.printVar:
+        print(col.OKGREEN+'Predefined Variables for plotting'+col.ENDC)
+        print(map(lambda x: x.name(), br_all))
+        print(col.OKGREEN+'Predefined region for plotting'+col.ENDC)
+        print(selection.keys())
+        sys.exit(1)
+
+    print col.OKGREEN+"PLOTTING variable ",options.variable+col.ENDC
+
+    if options.cut != "":
+        print col.CYAN+"with Cuts : ",options.cut+col.ENDC
+        plot( options.variable , options.cut )
+    else:
+        print col.CYAN+"In selection region : ",options.region+col.ENDC
+        plot( options.variable , options.region )
+
+    print("--- %s seconds ---" % (time.time() - start_time))
+    print("--- %s minutes ---" % ( (time.time() - start_time)/60. ))
+    print("--- %s hours ---" % ( (time.time() - start_time)/3600. ))
+
+'''
     if len(args) == 0 and not options.multiprocessing and not options.cutflow:
         print "None argument provided, plotting on all variables in ", VOI
         if options.cut=="":
@@ -525,3 +553,4 @@ if __name__ == "__main__":
         print("--- %s seconds ---" % (time.time() - start_time))
         print("--- %s minutes ---" % ( (time.time() - start_time)/60. ))
         print("--- %s hours ---" % ( (time.time() - start_time)/3600. ))
+'''
