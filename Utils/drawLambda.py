@@ -72,51 +72,6 @@ def ProjectDraw(var, cut, Lumi, samplelist, pd, ntupledir):
         histList[itag].SetFillStyle(samples[itag]['fillstyle'])
         histList[itag].SetLineColor(samples[itag]['linecolor'])
         histList[itag].SetLineStyle(samples[itag]['linestyle'])
-        '''
-        for num, bkgs in enumerate(filelist):
-            f = TFile.Open(ntupledir+bkgs+".root","READ")
-            tree = f.Get("Events")
-            gROOT.cd()
-            #Define histograms
-            if variable.nbins()>0: histlet[bkgs] = TH1F(bkgs, ";" + variable.titleX() + ";" + variable.titleY(), variable.nbins(), variable.mins(), variable.maxs())
-            else: histlet[bkgs]=TH1F(bkgs,";"+ variable.titleX() + ";" + variable.titleY(), len(variable.nbins())-1, array('f', variable.nbins()))
-            histlet[bkgs].Sumw2()
-
-            if 'data' in TAG:
-                #Missing trigger in 2016 v4
-                if plt.cfg.era()=="Run2_2016_v4":
-                    print col.OKBLUE+"DATA, NO HLT : ", bkgs+col.ENDC
-                    subcut= CUT.replace(MuTrig if 'mu' in cut else EleTrig,"(1==1)")
-                    print subcut
-                else:
-                    print col.MAGENTA+"MC, With HLT : ", bkgs+col.ENDC
-                    subcut=CUT
-                tree.Draw("%s >> %s" %(VAR,bkgs),"%s" %subcut)
-            elif not 'data' in TAG:
-                ExtW=weight[cut]
-                print col.MAGENTA+"MC, With HLT : ", bkgs+col.ENDC
-
-                tree.Draw("%s >> %s" %(VAR,bkgs),"%s*(%s)" %(ExtW,CUT))
-            if num==0:
-                histList[TAG]=histlet[bkgs]
-            else:
-                hnew = histlet[bkgs].Clone(bkgs)
-                histList[TAG].Add(hnew)
-
-            
-            #if 'data' in TAG:
-            ##on SSmumu:
-            #if cut == 'SSmumu' and var == "LepIso03[1]" :
-            #    for i in range(0,(histlet[TAG]).GetNbinsX()):
-            #        if i<=3:
-            #            histlet[TAG].SetBinContent(i,0)
-            
-
-        histList[TAG].SetFillColor(samples[TAG]['fillcolor'])
-        histList[TAG].SetFillStyle(samples[TAG]['fillstyle'])
-        histList[TAG].SetLineColor(samples[TAG]['linecolor'])
-        histList[TAG].SetLineStyle(samples[TAG]['linestyle'])
-    '''
     return histList
 pass
 

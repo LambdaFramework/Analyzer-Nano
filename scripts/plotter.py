@@ -58,9 +58,6 @@ LUMI        = cfg.lumi() #41860. #35800. # pb-1 Inquire via brilcalc lumi --begi
 #data = []
 data        = ["data_obs"]
 back        = [ "VVV", "ttV" , "WW", "VZ", "Vg", "ST", "WJetsToLNu", "TTbar", "DYJetsToLL" ]
-cfg.register(data+back)
-#back        = [ "tZq", "WWJJ", "VVV", "ttV" , "WW", "ZZ", "WZ", "Vg", "ST", "WJetsToLNu", "TTbar", "DYJetsToLL" ]
-#sign        = ['whww','WHWW','VH']
 sign=[]
 BLIND       = True if options.blind else False
 SIGNAL      = 1. #500. # rescaling factor 1/35800
@@ -68,19 +65,7 @@ RATIO       = 4 if not BLIND else 0 #4 # default=4 # 0: No ratio plot; !=0: rati
 POISSON     = False
 selection=eval(cfg.era())['selection']
 weight=eval(cfg.era())['weight']
-
-#############################################
-# Check files
-check=True
-filelist=cfg.getSamplelist()
-for itag in data+back:
-    for iroot in filelist[itag]['files']:
-        if not os.path.exists(NTUPLEDIR+iroot+".root"):
-            print col.FAIL+NTUPLEDIR+iroot+".root does not exit!", col.ENDC
-            check=False
-if not check:
-    exit()
-###############################################
+cfg.register(data+back)
 
 def plot(var, cut, norm=False):
 
@@ -148,6 +133,17 @@ def plot(var, cut, norm=False):
 
 if __name__ == "__main__":
 
+    check=True
+    filelist=cfg.getSamplelist()
+    for itag in data+back:
+        for iroot in filelist[itag]['files']:
+            if not os.path.exists(NTUPLEDIR+iroot+".root"):
+            print col.FAIL+NTUPLEDIR+iroot+".root does not exit!", col.ENDC
+            check=False
+    if not check:
+        exit()
+    #####
+    
     start_time = time.time()
     if options.variable =="" and not options.printVar:
         parser.print_help()
