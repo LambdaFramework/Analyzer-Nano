@@ -32,7 +32,7 @@ weight=eval(plt.cfg.era())['weight']
 
 def ProjectDraw(var, cut, Lumi, samplelist, pd, ntupledir):
 
-    variable=filter(lambda x: x.name() ==var, br_all)[0]
+    variable=filter(lambda x: x.name() ==var.split('[')[0], br_all)[0]
     histList={}
     histlet={}
     VAR=var
@@ -57,7 +57,7 @@ def ProjectDraw(var, cut, Lumi, samplelist, pd, ntupledir):
         #df = df.Filter( "%s" %CUT , "Selection here" ) if TAG=='data_obs' else df.Filter( "%s" %CUT , "Selection here" ).Define( "weights" %weight[cut] )
         df = df.Filter( "%s" %CUT , "Selection here" )
 
-        print col.MAGENTA+"MC, With HLT : ", TAG+col.ENDC
+        print col.MAGENTA+"Datasets : ", TAG+col.ENDC
         if variable.dimen()==1:
             histList[TAG] = df.Define('%s' %(VAR.split('[')[0]+VAR.split('[')[1].strip(']')) , VAR).\
                             Histo1D(('%s' %(VAR.split('[')[0]+VAR.split('[')[1].strip(']')) , ';'+ variable.titleX() + ";" + variable.titleY() , variable.nbins(), variable.mins(), variable.maxs() ),\

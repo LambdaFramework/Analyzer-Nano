@@ -117,7 +117,7 @@ def plot(var, cut, norm=False):
         for i, s in enumerate(back+['BkgSum']): hist[s].Scale(sfnorm)
 
     if len(data+back)>0:
-        out = draw(Histlist, data if not BLIND else [], back, sign, SIGNAL, RATIO, POISSON, True if options.logy else (filter(lambda x:x.name()==var,variable)[0]).log())
+        out = draw(Histlist, data if not BLIND else [], back, sign, SIGNAL, RATIO, POISSON, True if options.logy else (filter(lambda x:x.name()==var.split('[')[0],variable)[0]).log())
         out[0].cd(1)
         drawCMS(LUMI, "Preliminary")
         drawRegion(cut)
@@ -162,9 +162,8 @@ if __name__ == "__main__":
         print(selection.keys())
         sys.exit(1)
 
-    print col.OKGREEN+"PLOTTING variable ",options.variable+col.ENDC
-
     cfg.summary()
+    print(col.OKGREEN+"PLOTTING variable ",options.variable+col.ENDC)
     gROOT.Macro('%s/scripts/functions.C' %os.getcwd())
     if options.cut != "":
         print col.CYAN+"with Cuts : ",options.cut+col.ENDC
