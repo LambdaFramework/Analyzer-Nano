@@ -102,7 +102,8 @@ def plot(var, cut, norm=False):
         Histlist['BkgSum'].Reset("MICES")
         Histlist['BkgSum'].SetFillStyle(3003)
         Histlist['BkgSum'].SetFillColor(1)
-    for i, s in enumerate(back): Histlist['BkgSum'].Add(Histlist[s])
+
+    for i, s in enumerate(back): Histlist['BkgSum'].Add( Histlist[s].GetPtr() )
 
     if len(back)==0 and len(data)==0:
         for i, s in enumerate(sign):
