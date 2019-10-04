@@ -479,10 +479,10 @@ if __name__ == "__main__":
         print(selection.keys())
         sys.exit(1)
 
-    print col.OKGREEN+"PLOTTING variable ",options.variable+col.ENDC
-
     cfg.summary()
     gROOT.Macro('%s/scripts/functions.C' %os.getcwd())
+    print col.OKGREEN+"PLOTTING variable ",options.variable+col.ENDC
+
     if options.cut != "":
         print col.CYAN+"with Cuts : ",options.cut+col.ENDC
         plot( options.variable , options.cut )

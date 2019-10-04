@@ -29,7 +29,7 @@ weight=eval(plt.cfg.era())['weight']
 
 def ProjectDraw(var, cut, Lumi, samplelist, pd, ntupledir):
 
-    variable=filter(lambda x: x.name() ==var, br_all)[0]
+    variable= filter(lambda x: x.name() == var.split('[')[0], br_all)[0]
     histList={}
     histlet={}
 
