@@ -54,17 +54,17 @@ def ProjectDraw(var, cut, Lumi, samplelist, pd, ntupledir):
             CUT= CUT.replace(MuTrig if 'mu' in cut else EleTrig,"(1==1)")
             print CUT
 
-        #df = df.Filter( "%s" %CUT , "Selection here" ) if TAG=='data_obs' else df.Filter( "%s" %CUT , "Selection here" ).Define( "weights" %weight[cut] )
+        df = df.Define( "weights" , weight[cut] if TAG!='data_obs' else "1" )
         df = df.Filter( "%s" %CUT , "Selection here" )
 
         print col.MAGENTA+"Datasets : ", TAG+col.ENDC
         if variable.dimen()==1:
             histList[TAG] = df.Define('%s' %(VAR.split('[')[0]+VAR.split('[')[1].strip(']')) , VAR).\
                             Histo1D(('%s' %(VAR.split('[')[0]+VAR.split('[')[1].strip(']')) , ';'+ variable.titleX() + ";" + variable.titleY() , variable.nbins(), variable.mins(), variable.maxs() ),\
-                                    '%s'%(VAR.split('[')[0]+VAR.split('[')[1].strip(']'))  )
+                                    '%s'%(VAR.split('[')[0]+VAR.split('[')[1].strip(']')) , "weights"  )
         else:
             histList[TAG] = df.Histo1D(( VAR, ';'+ variable.titleX() + ";" + variable.titleY() , variable.nbins(), variable.mins(), variable.maxs() ),\
-                                       VAR )
+                                       VAR , "weights" )
 
     for itag in histList.keys():
         histList[itag].Sumw2()
