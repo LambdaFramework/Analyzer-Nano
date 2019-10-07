@@ -138,7 +138,7 @@ if __name__ == "__main__":
     for itag in data+back:
         for iroot in filelist[itag]['files']:
             if not os.path.exists(NTUPLEDIR+iroot+".root"):
-            print col.FAIL+NTUPLEDIR+iroot+".root does not exit!", col.ENDC
+                print col.FAIL+NTUPLEDIR+iroot+".root does not exit!", col.ENDC
             check=False
     if not check:
         exit()
