@@ -1,5 +1,5 @@
 from PhysicsTools.NanoAODTools.LambPlot.Utils.color import *
-from PhysicsTools.NanoAODTools.postprocessing.modules.datasets import *
+from PhysicsTools.NanoAODTools.postprocessing.modules.analysis.datasets import *
 import os
 
 class Config(object):
