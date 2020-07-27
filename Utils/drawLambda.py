@@ -1,6 +1,6 @@
 #! /usr/bin/env pythonAA
 
-import os, multiprocessing
+import os, multiprocessing, sys
 import copy
 import math
 from array import array
@@ -8,12 +8,16 @@ from ROOT import ROOT, gROOT, gStyle, gRandom, TSystemDirectory, gDirectory
 from ROOT import TFile, TChain, TTree, TCut, TH1, TH1F, TH1D, TH2F, THStack, TGraph, TGraphAsymmErrors, TObject
 from ROOT import TStyle, TCanvas, TPad
 from ROOT import TLegend, TLatex, TText, TLine, TBox
+from ROOT.std import vector
 
-import PhysicsTools.NanoAODTools.LambPlot.scripts.plotter as plt
+import PhysicsTools.NanoAODTools.LambPlot.whss.whss as plt
 import PhysicsTools.NanoAODTools.LambPlot.Utils.color as col
-from PhysicsTools.NanoAODTools.postprocessing.data.vars.variables import br_all
-from PhysicsTools.NanoAODTools.LambPlot.Utils.selections import *
-#from PhysicsTools.NanoAODTools.plotter.Utils.sampleslist import *
+
+from PhysicsTools.NanoAODTools.plotConfiguration.WH_SS.Full2016nanov6.variables import variables
+from PhysicsTools.NanoAODTools.plotConfiguration.WH_SS.Full2016nanov6.cuts import cuts as selection
+from PhysicsTools.NanoAODTools.plotConfiguration.WH_SS.Full2016nanov6.samples import samples
+from PhysicsTools.NanoAODTools.plotConfiguration.WH_SS.Full2016nanov6.aliases import aliases
+
 from collections import OrderedDict
 import pandas as pds
 import numpy as np
@@ -23,62 +27,144 @@ gROOT.SetBatch(True)
 gStyle.SetOptStat(0)
 
 #GO PARALLELISM!!!
-ROOT.EnableImplicitMT()
+ROOT.EnableImplicitMT(12)
 
-samples = plt.cfg.getSamplelist()
-selection=eval(plt.cfg.era())['selection']
-weight=eval(plt.cfg.era())['weight']
+def expressAliases(cut_):
 
+    newcut=[]
+    for icut in cut_.split('*') :
+        # level 1 expressing
+        if icut in aliases.keys() :
+            for jcut in aliases[icut]['expr'].split('*'):
+                # level 2 expressing
+                if jcut in aliases.keys() :
+                    for kcut in aliases[jcut]['expr'].split('*'):
+                        # level 3 expressing
+                        if kcut in aliases.keys() :
+                            for lcut in aliases[kcut]['expr'].split('*'):
+                                newcut.append('( %s )' %lcut)
+                        else :
+                            newcut.append('( %s )' %kcut)
+                else :
+                    newcut.append('( %s )' %jcut)
+        else :
+            newcut.append('( %s )' %icut)
+            
+    return ' * '.join(newcut)
 
-def ProjectDraw(var, cut, Lumi, samplelist, pd, ntupledir):
+def makeVectorList( filelist_ ):
+    files = vector("string")(len(filelist_))
+    for i , dataset in enumerate(filelist_): files[i] = dataset
+    return files
+pass
 
-    variable=filter(lambda x: x.name() ==var.split('[')[0], br_all)[0]
-    histList={}
-    histlet={}
-    VAR=var
-    #CUT=selection[cut]
+def makeHisto( df_ , var_ , cut_ , weights_ , isample_ ):
+
+    ### Report at histogram level
+    print col.OKGREEN+ "drawLambda::Variables : ", var_     + col.ENDC
+    print col.OKGREEN+ "drawLambda::Cut : "      , cut_     + col.ENDC
+    print col.OKGREEN+ "drawLambda::WEIGHTS : "  , weights_ + col.ENDC
+    print col.OKGREEN+ "drawLambda::Samples : "  , isample_ + col.ENDC
+    print ""
     
-    for TAG in samplelist:
-        CUT=selection[cut]
-        #make a ROOT std vector
-        files = ROOT.std.vector("string")(len(pd)) if 'data_obs' in TAG else ROOT.std.vector("string")(len(samples[TAG]['files']))
-        for i,dataset in enumerate(pd if 'data_obs' in TAG else samples[TAG]['files']):
-            files[i] = "%s/%s.root" %(ntupledir,dataset)
-        ##########################################
-        df = ROOT.RDataFrame("Events", files)
-        gROOT.cd()
-        #Filter
-        #missing trigger in 2016 data
-        if plt.cfg.era()=="Run2_2016_v4" and TAG=='data_obs':
-            print col.OKBLUE+"DATA, NO HLT : ", TAG+col.ENDC
-            CUT= CUT.replace(MuTrig if 'mu' in cut else EleTrig,"(1==1)")
-            print CUT
+    # Define column
+    df_ = df_.Define( "weights" , weights_ )
+    # Filter column
+    df_ = df_.Filter( cut_ )
 
-        df = df.Define( "weights" , weight[cut] if TAG!='data_obs' else "1" )
-        df = df.Filter( "%s" %CUT , "Selection here" )
+    ## Make histogram from column
+    range_ = variables[var_]['range']
+    if len(range_)==3:
+        hists = df_.Histo1D( ROOT.RDF.TH1DModel( var_ , ' ; ' + variables[var_]['xaxis'] + ' ; Events' , range_[0] , range_[1], range_[2] ) , var_ , "weights" )
+    else:
+        hists = df_.Histo1D( ROOT.RDF.TH1DModel( var_ , ' ; ' + variables[var_]['xaxis'] + ' ; Events' , len(range_[0])-1 , np.asarray(range_[0],'d') ) , var_ , "weights" )
+                            
+    return hists
+pass
 
-        print col.MAGENTA+"Datasets : ", TAG+col.ENDC
-        if variable.dimen()==1:
-            histList[TAG] = df.Define('%s' %(VAR.split('[')[0]+VAR.split('[')[1].strip(']')) , VAR).\
-                            Histo1D(('%s' %(VAR.split('[')[0]+VAR.split('[')[1].strip(']')) , ';'+ variable.titleX() + ";" + variable.titleY() , variable.nbins(), variable.mins(), variable.maxs() ),\
-                                    '%s'%(VAR.split('[')[0]+VAR.split('[')[1].strip(']')) , "weights"  )
+def sumHistoPtr( histo , name , isPtr ):
+    
+    hist={}
+    for i, ihist in enumerate(histo):
+        ##print( 'groupname :', name ,' ; name : ', ihist )
+        ihisto_ = histo[ihist]
+        if i == 0:
+            hist[name] = ihisto_.Clone(name)
         else:
-            histList[TAG] = df.Histo1D(( VAR, ';'+ variable.titleX() + ";" + variable.titleY() , variable.nbins(), variable.mins(), variable.maxs() ),\
-                                       VAR , "weights" )
+            hist[name].Add( ihisto_ if not isPtr else ihisto_.GetPtr() )
+    # TH1D
+    return hist[name]
+pass
 
-    for itag in histList.keys():
-        histList[itag].Sumw2()
-        histList[itag].SetFillColor(samples[itag]['fillcolor'])
-        histList[itag].SetFillStyle(samples[itag]['fillstyle'])
-        histList[itag].SetLineColor(samples[itag]['linecolor'])
-        histList[itag].SetLineStyle(samples[itag]['linestyle'])
+def ProjectDraw( var, cut, Lumi, samplelist, pd ):
+
+    plt.cfg.register(samplelist)
+    groupList = plt.cfg.getGroupPlot()
+    print("groupList : ", groupList)
+    
+    histList={}
+    VAR = var
+    # remove extra space
+    CUT = ' '.join(filter( None , selection[cut].split(" ") ))
+    
+    # group tag
+    for igroup in groupList:
+        CUT_=CUT
+        if igroup == 'BkgSum' : continue;
+        if igroup in [ 'Fake', 'DATA' ] : CUT_ =  CUT.replace("isbVeto && ","")
+        
+        print col.OKGREEN+ "drawLambda::GroupTag : "  , igroup + col.ENDC
+        #histList[igroup]={} ;
+        hists={}
+        ##sample tag
+        for isample in groupList[igroup]['samples'] :
+            hists[isample] = {} ; isptr= False
+            ## check if weights exist
+            if 'weights' in samples[isample].keys() :
+                ## sub-samples tag
+                subhists = {}
+                for jsample in samples[isample]['weights'].keys() :
+                    subhists[jsample]={}
+                    WEIGHTS = '(%s)*(%s)' %( expressAliases(samples[isample]['weight']) , expressAliases(samples[isample]['weights'][jsample]))
+                    if igroup not in [ 'Fake' , 'DATA' ]: WEIGHTS = "%s*(%s)" %( str(float(Lumi)/1000.) , WEIGHTS )
+                    #WEIGHTS = expressAliases(WEIGHTS)
+                    filelist = [ x for x in samples[isample]['name'] if os.path.basename(x).split('_',1)[-1].replace('.root','').split('__part')[0] == jsample ]
+                    files = makeVectorList(filelist)
+                    df = ROOT.RDataFrame("Events", files); gROOT.cd()
+                    subhists[jsample] = makeHisto( df , VAR , CUT_ , WEIGHTS , jsample )
+                # Wg = (Wg*w1,Wg*w2)
+                hists[isample] = sumHistoPtr( subhists , isample , True )
+            else:
+                ## all sub-samples share common weights
+                ###print col.OKGREEN+ "drawLambda::Sub-Samples : "  , samples[isample]['weights'].keys() + col.ENDC
+                isptr = True
+                WEIGHTS = expressAliases(samples[isample]['weight'])
+                if igroup not in [ 'Fake' , 'DATA' ]: WEIGHTS = "%s*(%s)" %( str(float(Lumi)/1000.) , WEIGHTS )
+                filelist = samples[isample]['name']
+                files = makeVectorList(filelist)
+                df = ROOT.RDataFrame("Events", files); gROOT.cd()
+                hists[isample] = makeHisto( df , VAR , CUT_ , WEIGHTS , isample )
+            
+        # Vg = sum(Wg,Zq)
+        histList[igroup] = sumHistoPtr( hists , igroup , isptr )
+        
+        print col.YELLOW + "group tag processed : " , histList.keys() , col.ENDC
+        
+        histList[igroup].Sumw2()
+        histList[igroup].SetFillColor(groupList[igroup]['fillcolor'])
+        histList[igroup].SetFillStyle(groupList[igroup]['fillstyle'])
+        histList[igroup].SetLineColor(groupList[igroup]['linecolor'])
+        histList[igroup].SetLineStyle(groupList[igroup]['linestyle'])
     return histList
 pass
 
 def draw(hist, data, back, sign, snorm=1, ratio=0, poisson=True, log=False):
+
+    groupList = plt.cfg.getGroupPlot()
+    
     # If not present, create BkgSum
     if not 'BkgSum' in hist.keys():
-        hist['BkgSum'] = hist['data_obs'].Clone("BkgSum") if 'data_obs' in hist else hist[back[0]].Clone("BkgSum")
+        hist['BkgSum'] = hist['DATA'].Clone("BkgSum") if 'DATA' in hist else hist[back[0]].Clone("BkgSum")
         hist['BkgSum'].Reset("MICES")
         for i, s in enumerate(back): hist['BkgSum'].Add(hist[s].GetPtr())
     hist['BkgSum'].SetMarkerStyle(0)
@@ -99,50 +185,50 @@ def draw(hist, data, back, sign, snorm=1, ratio=0, poisson=True, log=False):
     # Poisson error bars for data
     if poisson:
         alpha = 1 - 0.6827
-        hist['data_obs'].SetBinErrorOption(TH1.kPoisson)
-        data_graph = TGraphAsymmErrors(hist['data_obs'].GetNbinsX())
-        data_graph.SetMarkerStyle(hist['data_obs'].GetMarkerStyle())
-        data_graph.SetMarkerSize(hist['data_obs'].GetMarkerSize())
+        hist['DATA'].SetBinErrorOption(TH1.kPoisson)
+        data_graph = TGraphAsymmErrors(hist['DATA'].GetNbinsX())
+        data_graph.SetMarkerStyle(hist['DATA'].GetMarkerStyle())
+        data_graph.SetMarkerSize(hist['DATA'].GetMarkerSize())
         res_graph = data_graph.Clone()
-        for i in range(hist['data_obs'].GetNbinsX()):
-            N = hist['data_obs'].GetBinContent(i+1)
+        for i in range(hist['DATA'].GetNbinsX()):
+            N = hist['DATA'].GetBinContent(i+1)
             B = hist['BkgSum'].GetBinContent(i+1)
             L =  0 if N==0 else ROOT.Math.gamma_quantile(alpha/2,N,1.)
             U =  ROOT.Math.gamma_quantile_c(alpha/2,N+1,1)
-            data_graph.SetPoint(i, hist['data_obs'].GetXaxis().GetBinCenter(i+1), N if not N==0 else -1.e99)
-            data_graph.SetPointError(i, hist['data_obs'].GetXaxis().GetBinWidth(i+1)/2., hist['data_obs'].GetXaxis().GetBinWidth(i+1)/2., N-L, U-N)
-            res_graph.SetPoint(i, hist['data_obs'].GetXaxis().GetBinCenter(i+1), N/B if not B==0 and not N==0 else -1.e99)
-            res_graph.SetPointError(i, hist['data_obs'].GetXaxis().GetBinWidth(i+1)/2., hist['data_obs'].GetXaxis().GetBinWidth(i+1)/2., (N-L)/B if not B==0 else -1.e99, (U-N)/B if not B==0 else -1.e99)
+            data_graph.SetPoint(i, hist['DATA'].GetXaxis().GetBinCenter(i+1), N if not N==0 else -1.e99)
+            data_graph.SetPointError(i, hist['DATA'].GetXaxis().GetBinWidth(i+1)/2., hist['DATA'].GetXaxis().GetBinWidth(i+1)/2., N-L, U-N)
+            res_graph.SetPoint(i, hist['DATA'].GetXaxis().GetBinCenter(i+1), N/B if not B==0 and not N==0 else -1.e99)
+            res_graph.SetPointError(i, hist['DATA'].GetXaxis().GetBinWidth(i+1)/2., hist['DATA'].GetXaxis().GetBinWidth(i+1)/2., (N-L)/B if not B==0 else -1.e99, (U-N)/B if not B==0 else -1.e99)
 
     # Create stack
     #bkg = THStack("Bkg", ";"+hist['BkgSum'].GetXaxis().GetTitle()+";Events")
     bkg = THStack("Bkg", ";"+hist['BkgSum'].GetXaxis().GetTitle()+";"+hist['BkgSum'].GetYaxis().GetTitle())
-    for i, s in enumerate(back): bkg.Add(hist[s].GetPtr())
+    for i, s in enumerate(back): bkg.Add(hist[s])
 
     # Legend
-    n = len([x for x in data+back+['BkgSum']+sign if samples[x]['plot']])
+    n = len([x for x in data+back+['BkgSum']+sign if groupList[x]['plot']])
     for i, s in enumerate(sign):
-        if 'sublabel' in samples[s]: n+=1
-        if 'subsublabel' in samples[s]: n+=1
+        if 'sublabel' in groupList[s]: n+=1
+        if 'subsublabel' in groupList[s]: n+=1
     leg = TLegend(0.7, 0.9-0.05*n, 0.95, 0.9)
     leg.SetBorderSize(0)
     leg.SetFillStyle(0) #1001
     leg.SetFillColor(0)
     if len(data) > 0:
-        leg.AddEntry( hist[data[0]].GetPtr() , samples[data[0]]['label'], "pl")
+        leg.AddEntry( hist[data[0]] , groupList[data[0]]['label'], "pl")
     for i, s in reversed(list(enumerate(['BkgSum']+back))):
-        leg.AddEntry( hist[s] if s=='BkgSum' else hist[s].GetPtr() , samples[s]['label'], "f")
+        leg.AddEntry( hist[s] if s=='BkgSum' else hist[s] , groupList[s]['label'], "f")
     for i, s in enumerate(sign):
-        if samples[s]['plot']:
+        if groupList[s]['plot']:
             #leg.AddEntry(hist[s], samples[s]['label'].replace("m_{#Chi}=1 GeV", ""), "fl")
-            leg.AddEntry( hist[s] if s=='BkgSum' else hist[s].GetPtr() , samples[s]['label'], "fl")
+            leg.AddEntry( hist[s] if s=='BkgSum' else hist[s] , groupList[s]['label'], "fl")
             #leg.AddEntry(hist[s], "Scalar Mediator", "")
 
             #print samples[s]
-            if 'sublabel' in samples[s]:
-                leg.AddEntry( hist[s] if s=='BkgSum' else hist[s].GetPtr() , samples[s]['sublabel'].replace("m_{#Chi}=1 GeV", ""), "")
-            if 'subsublabel' in samples[s]:
-                leg.AddEntry( hist[s] if s=='BkgSum' else hist[s].GetPtr() , samples[s]['subsublabel'].replace("m_{#Chi}=1 GeV", ""), "")
+            if 'sublabel' in groupList[s]:
+                leg.AddEntry( hist[s] if s=='BkgSum' else hist[s] , groupList[s]['sublabel'].replace("m_{#Chi}=1 GeV", ""), "")
+            if 'subsublabel' in groupList[s]:
+                leg.AddEntry( hist[s] if s=='BkgSum' else hist[s] , groupList[s]['subsublabel'].replace("m_{#Chi}=1 GeV", ""), "")
 
      # --- Display ---
     c1 = TCanvas("c1", hist.values()[-1].GetXaxis().GetTitle(), 800, 800 if ratio else 600)
@@ -162,16 +248,16 @@ def draw(hist, data, back, sign, snorm=1, ratio=0, poisson=True, log=False):
     bkg.Draw("HIST") # stack
     hist['BkgSum'].Draw("SAME, E2") # sum of bkg
     if poisson: data_graph.Draw("SAME, PE")
-    elif len(data) > 0: hist['data_obs'].Draw("SAME, PE")
+    elif len(data) > 0: hist['DATA'].Draw("SAME, PE")
     for i, s in enumerate(sign):
-        if samples[s]['plot']:
+        if groupList[s]['plot']:
             hist[s].DrawNormalized("SAME, HIST", hist[s].Integral()*snorm) # signals
 
     bkg.GetYaxis().SetTitleOffset(bkg.GetYaxis().GetTitleOffset()*1) #1.075
 
-    if 'data_obs' in hist:
-        bkg.SetMaximum((3.0 if log else 1.5)*max(bkg.GetMaximum(), hist['data_obs'].GetBinContent(hist['data_obs'].GetMaximumBin())+hist['data_obs'].GetBinError(hist['data_obs'].GetMaximumBin())))
-        bkg.SetMinimum(max(min(hist['BkgSum'].GetBinContent(hist['BkgSum'].GetMinimumBin()), hist['data_obs'].GetMinimum()), 5.e-1)  if log else 0.)
+    if 'DATA' in hist:
+        bkg.SetMaximum((3.0 if log else 1.5)*max(bkg.GetMaximum(), hist['DATA'].GetBinContent(hist['DATA'].GetMaximumBin())+hist['DATA'].GetBinError(hist['DATA'].GetMaximumBin())))
+        bkg.SetMinimum(max(min(hist['BkgSum'].GetBinContent(hist['BkgSum'].GetMinimumBin()), hist['DATA'].GetMinimum()), 5.e-1)  if log else 0.)
     else:
         bkg.SetMaximum(bkg.GetMaximum()*(3.0 if log else 1.5)) #2.5 ; 1.2
         bkg.SetMinimum(5.e-1 if log else 0.)
@@ -206,8 +292,8 @@ def draw(hist, data, back, sign, snorm=1, ratio=0, poisson=True, log=False):
         #err.GetXaxis().SetTitleOffset(err.GetXaxis().GetTitleOffset()*2)
         err.Draw("E2")
         errLine.Draw("SAME, HIST")
-        if 'data_obs' in hist:
-            res = hist['data_obs'].Clone("Residues")
+        if 'DATA' in hist:
+            res = hist['DATA'].Clone("Residues")
             for i in range(0, res.GetNbinsX()+1):
                 if hist['BkgSum'].GetBinContent(i) > 0:
                     res.SetBinContent(i, res.GetBinContent(i)/hist['BkgSum'].GetBinContent(i))
@@ -216,9 +302,9 @@ def draw(hist, data, back, sign, snorm=1, ratio=0, poisson=True, log=False):
             if poisson: res_graph.Draw("SAME, PE0")
             else: res.Draw("SAME, PE0")
             if len(err.GetXaxis().GetBinLabel(1))==0: # Bin labels: not a ordinary plot
-                drawRatio( hist['data_obs'].GetPtr() , hist['BkgSum'] )
-                drawKolmogorov( hist['data_obs'].GetPtr() , hist['BkgSum'] )
-                drawRelativeYield( hist['data_obs'].GetPtr() , hist['BkgSum'] )
+                drawRatio( hist['DATA'].GetPtr() , hist['BkgSum'] )
+                drawKolmogorov( hist['DATA'].GetPtr() , hist['BkgSum'] )
+                drawRelativeYield( hist['DATA'].GetPtr() , hist['BkgSum'] )
         else: res = None
     c1.Update()
 
@@ -267,11 +353,11 @@ def drawRelativeYield(data,bkg):
 pass
 
 def printTable(hist, sign=[]):
-    samplelist = [x for x in hist.keys() if not 'data' in x and not 'BkgSum' in x and not x in sign and not x=="files"]
+    samplelist = [x for x in hist.keys() if not 'DATA' in x and not 'BkgSum' in x and not x in sign and not x=="files"]
     print "Sample                  Events          Entries         %"
     print "-"*80
-    for i, s in enumerate(['data_obs']+samplelist+['BkgSum'] if 'data_obs' in hist.keys() else samplelist+['BkgSum']):
-        if i==1 or s=="data_obs" or i==len(samplelist)+1: print "-"*80
+    for i, s in enumerate(['DATA']+samplelist+['BkgSum'] if 'DATA' in hist.keys() else samplelist+['BkgSum']):
+        if i==1 or s=="DATA" or i==len(samplelist)+1: print "-"*80
         #Events                           #Entries
         print "%-20s" % s, "\t%-10.2f" % hist[s].Integral(), "\t%-10.0f" % (hist[s].GetEntries()-2), "\t%-10.2f" % (100.*hist[s].Integral()/hist['BkgSum'].Integral()) if hist['BkgSum'].Integral() > 0 else 0, "%"
     print "-"*80
@@ -510,7 +596,7 @@ def getEntires(cutlist, Lumi, samplelist, pd, ntupledir, sign=[]):
     events={}
     ColumnCut=[]
     #Blind data if with signal
-    if sign: samplelist.remove('data_obs')
+    if sign: samplelist.remove('DATA')
     ##Looping on tag
     for num1,k in enumerate(samplelist):
         print "process = ", k
@@ -527,14 +613,14 @@ def getEntires(cutlist, Lumi, samplelist, pd, ntupledir, sign=[]):
                 file[filename] = TFile(ntupledir + filename + ".root", "READ") # Read TFile
                 tree[filename] = file[filename].Get("Events") # Read TTree
 
-                if k!='data_obs':
+                if k!='DATA':
                     nevents = float(sample[filename]['nevents'])
                     xs = float(sample[filename]['xsec'])*float(sample[filename]['kfactor'])
                     LumiMC = nevents/xs
                     Weight = float(Lumi) / float(LumiMC)
 
                 entries = tree[filename].GetEntries(cuts)
-                events[k][j]+= float(entries) * float(Weight) if k!='data_obs' else float(entries)
+                events[k][j]+= float(entries) * float(Weight) if k!='DATA' else float(entries)
 
             ##Customize cutstring
             if 'HLT' in cutlist[j]:
@@ -581,13 +667,13 @@ def getEntires(cutlist, Lumi, samplelist, pd, ntupledir, sign=[]):
                 pd2=pd2.join(pds.DataFrame({'Sig. '+j: (pd2[j] / np.sqrt(MCsum['MC']))}))
     ##ELSE, Show all the backgrounds vs DATA
     else:
-        dataCol=pd1.ix[['data_obs']]
-        pd1=pd1.drop(['data_obs'])
+        dataCol=pd1.ix[['DATA']]
+        pd1=pd1.drop(['DATA'])
         MCsum= pds.DataFrame({'MC': pd1.sum()})
         pd2=pds.DataFrame(pd1.to_dict(), columns=ColumnCut).T
         dataCol=pds.DataFrame(dataCol.to_dict(), columns=ColumnCut).T
         pd2=pd2.join(MCsum); pd2=pd2.join(dataCol)
-        norm = pds.DataFrame({'norm': (pd2['data_obs'] / pd2['MC'])*100})
+        norm = pds.DataFrame({'norm': (pd2['DATA'] / pd2['MC'])*100})
         pd2=pd2.join(norm)
         pd2=pd2.round(2)
     #pd2=pd2.round(2)
@@ -596,12 +682,12 @@ def getEntires(cutlist, Lumi, samplelist, pd, ntupledir, sign=[]):
 pass
 
 def printTable_html(hist,sign=[]):
-    samplelist = [x for x in hist.keys() if not 'data' in x and not 'BkgSum' in x and not x in sign and not x=="files"]
+    samplelist = [x for x in hist.keys() if not 'DATA' in x and not 'BkgSum' in x and not x in sign and not x=="files"]
 
     yesdata=False
     datalist=["0",1]
-    if 'data_obs' in hist.keys():
-        datalist=hist['data_obs']
+    if 'DATA' in hist.keys():
+        datalist=hist['DATA']
         yesdata=True
 
     print '<!DOCTYPE html>'
@@ -647,12 +733,15 @@ pass
 
 def drawSignal(hist, sign, log=False):
 
+    groupList = plt.cfg.getGroupPlot()
+    
     n = len(sign)
     leg = TLegend(0.7, 0.9-0.05*n, 0.95, 0.9)
     leg.SetBorderSize(0)
     leg.SetFillStyle(0)
     leg.SetFillColor(0)
-    for i, s in enumerate(sign): leg.AddEntry(hist[s], samples[s]['label'], "fl")
+    #for i, s in enumerate(sign): leg.AddEntry(hist[s], samples[s]['label'], "fl")
+    for i, s in enumerate(sign): leg.AddEntry(hist[s], groupList[s]['label'], "fl")
     # --- Display ---
     c1 = TCanvas("c1", hist.values()[-1].GetXaxis().GetTitle(), 800, 600)
     if log:
