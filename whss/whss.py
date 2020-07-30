@@ -18,11 +18,11 @@ import PhysicsTools.NanoAODTools.LambPlot.Utils.color as col
 from PhysicsTools.NanoAODTools.LambPlot.Utils.drawLambda import *
 #from PhysicsTools.NanoAODTools.postprocessing.data.vars.variables import br_all as variable
 
-from PhysicsTools.NanoAODTools.plotConfiguration.WH_SS.Full2016nanov6.samples import samples
-from PhysicsTools.NanoAODTools.plotConfiguration.WH_SS.Full2016nanov6.cuts import cuts as selection
-from PhysicsTools.NanoAODTools.plotConfiguration.WH_SS.Full2016nanov6.aliases import *
-from PhysicsTools.NanoAODTools.plotConfiguration.WH_SS.Full2016nanov6.variables import variables
-from PhysicsTools.NanoAODTools.plotConfiguration.WH_SS.Full2016nanov6.plot import groupPlot
+from PhysicsTools.NanoAODTools.LambPlot.plotConfiguration.WH_SS.Full2016nanov6.samples import samples
+from PhysicsTools.NanoAODTools.LambPlot.plotConfiguration.WH_SS.Full2016nanov6.cuts import cuts as selection
+from PhysicsTools.NanoAODTools.LambPlot.plotConfiguration.WH_SS.Full2016nanov6.aliases import *
+from PhysicsTools.NanoAODTools.LambPlot.plotConfiguration.WH_SS.Full2016nanov6.variables import variables
+from PhysicsTools.NanoAODTools.LambPlot.plotConfiguration.WH_SS.Full2016nanov6.plot import groupPlot
 
 if '%s' %os.getcwd().split('/')[-1] != 'LambPlot':
     print('EXIT: Please run the plotter in LambPlot folder')
@@ -61,9 +61,10 @@ PLOTDIR     = "plots/%s"%options.dataset
 LUMI        = cfg.lumi() #41860. #35800. # pb-1 Inquire via brilcalc lumi --begin 272007 --end 275376 -u /pb #https://twiki.cern.ch/twiki/bin/viewauth/CMS/PdmV2016Analysis
 data        = [ 'DATA' ]
 sign        = [ x for x in groupPlot if groupPlot[x]['isSignal'] == 1 ]
-#back        = [ x for x in groupPlot if groupPlot[x]['isSignal'] == 0 ]
-back = []
-BLIND       = True if options.blind else False
+back        = [ x for x in groupPlot if groupPlot[x]['isSignal'] == 0 ]
+#back.remove("Fake")
+#BLIND       = True if options.blind else False
+BLIND = False
 SIGNAL      = 1. #500. # rescaling factor 1/35800
 RATIO       = 4 if not BLIND else 0 #4 # default=4 # 0: No ratio plot; !=0: ratio between the top and bottom pads
 POISSON     = False
@@ -73,25 +74,23 @@ def plot(var, cut, norm=False):
     PD = getPrimaryDataset(selection[cut])
     if cut in selection: plotdir = cut
 
-    data = [] if BLIND else data
     PROC=data+back if not BLIND else back
-    PROC=PROC+sign if len(sign)>0 else PROC
     
     print col.OKGREEN+"Primary Dataset    : "+col.ENDC, PD
-    #print col.OKGREEN+"CUT    : "+col.ENDC, selection[cut]
-    #print col.OKGREEN+"WEIGHT : "+col.ENDC, weight[cut]
-    
     print col.OKGREEN+"PROC : "+col.ENDC, PROC
-    Histlist=ProjectDraw(var, cut, LUMI, PROC, PD)
+    
+    if not sign:
+        Histlist=ProjectDraw(var, cut, LUMI, PROC, PD)
+    else:
+        Histlist=ProjectDraw(var, cut, LUMI, PROC+sign, PD)
 
     if len(back)>0:
         #If data_obs present, dummy BkgSum == first background process
-        Histlist['BkgSum'] = Histlist['data_obs'].Clone("BkgSum") if 'data_obs' in Histlist else Histlist[back[0]].Clone("BkgSum")
+        Histlist['BkgSum'] = Histlist['DATA'].Clone("BkgSum") if 'DATA' in Histlist else Histlist[back[0]].Clone("BkgSum")
         Histlist['BkgSum'].Reset("MICES")
         Histlist['BkgSum'].SetFillStyle(3003)
         Histlist['BkgSum'].SetFillColor(1)
-
-        for i, s in enumerate(back): Histlist['BkgSum'].Add( Histlist[s] )
+    for i, s in enumerate(back): Histlist['BkgSum'].Add( Histlist[s] )
 
     if len(back)==0 and len(data)==0:
         for i, s in enumerate(sign):
@@ -140,38 +139,10 @@ if __name__ == "__main__":
     
     start_time = time.time()
     
-    '''
-    if options.variable == "" or options.variable not in variables:
-        parser.print_help()
-        print(col.WARNING+'Example:'+col.ENDC)
-        print(col.WARNING+'python scripts/plotter.py -v MHT_pt -r OSmumu -e Run2_2016_v4'+col.ENDC)
-        sys.exit(1)
-    
-    if options.region == "" or options.region not in cuts:
-        parser.print_help()
-        print(col.WARNING+'Example:'+col.ENDC)
-        print(col.WARNING+'python scripts/plotter.py -v MHT_pt -r OSmumu -e Run2_2016_v4'+col.ENDC)
-        sys.exit(1)
-        
-    if options.printVar:
-        print(col.OKGREEN+'Predefined Variables for plotting'+col.ENDC)
-        print(variables.keys())
-        print(col.OKGREEN+'Predefined region for plotting'+col.ENDC)
-        print(cuts.keys())
-        sys.exit(1)
-
-    if options.cut != "" and options.region != "":
-        print(col.WARNING+'cut and region cannot be defined at the same time'+col.ENDC)
-        sys.exit(1)
-    
-    print(col.OKGREEN+"PLOTTING variable ",options.variable+col.ENDC)    
-    print(col.CYAN+"with Cuts : ",options.cut+col.ENDC)
-    print(col.CYAN+"In selection region : ",options.region+col.ENDC)
-    '''
-    
     gROOT.Macro('%s/scripts/functions.C' %os.getcwd())
     #plot( options.variable , options.region )
     plot( 'mlljj20_whss' , 'hww2l2v_13TeV_of2j_WH_SS_eu_2j' )
+    #plot( 'mll' , 'OSmumu' )
     print("--- %s seconds ---" % (time.time() - start_time))
     print("--- %s minutes ---" % ( (time.time() - start_time)/60. ))
     print("--- %s hours ---" % ( (time.time() - start_time)/3600. ))

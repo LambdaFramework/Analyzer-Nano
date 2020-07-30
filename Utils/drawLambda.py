@@ -13,10 +13,11 @@ from ROOT.std import vector
 import PhysicsTools.NanoAODTools.LambPlot.whss.whss as plt
 import PhysicsTools.NanoAODTools.LambPlot.Utils.color as col
 
-from PhysicsTools.NanoAODTools.plotConfiguration.WH_SS.Full2016nanov6.variables import variables
-from PhysicsTools.NanoAODTools.plotConfiguration.WH_SS.Full2016nanov6.cuts import cuts as selection
-from PhysicsTools.NanoAODTools.plotConfiguration.WH_SS.Full2016nanov6.samples import samples
-from PhysicsTools.NanoAODTools.plotConfiguration.WH_SS.Full2016nanov6.aliases import aliases
+###
+from PhysicsTools.NanoAODTools.LambPlot.plotConfiguration.WH_SS.Full2016nanov6.variables import variables
+from PhysicsTools.NanoAODTools.LambPlot.plotConfiguration.WH_SS.Full2016nanov6.cuts import cuts as selection
+from PhysicsTools.NanoAODTools.LambPlot.plotConfiguration.WH_SS.Full2016nanov6.samples import samples
+from PhysicsTools.NanoAODTools.LambPlot.plotConfiguration.WH_SS.Full2016nanov6.aliases import aliases
 
 from collections import OrderedDict
 import pandas as pds
@@ -100,7 +101,6 @@ def ProjectDraw( var, cut, Lumi, samplelist, pd ):
 
     plt.cfg.register(samplelist)
     groupList = plt.cfg.getGroupPlot()
-    print("groupList : ", groupList)
     
     histList={}
     VAR = var
@@ -111,13 +111,14 @@ def ProjectDraw( var, cut, Lumi, samplelist, pd ):
     for igroup in groupList:
         CUT_=CUT
         if igroup == 'BkgSum' : continue;
-        if igroup in [ 'Fake', 'DATA' ] : CUT_ =  CUT.replace("isbVeto && ","")
+        #if igroup in [ 'Fake', 'DATA' ] : CUT_ =  CUT.replace("isbVeto && ","")
         
         print col.OKGREEN+ "drawLambda::GroupTag : "  , igroup + col.ENDC
         #histList[igroup]={} ;
         hists={}
         ##sample tag
         for isample in groupList[igroup]['samples'] :
+            print("isample : ", isample)
             hists[isample] = {} ; isptr= False
             ## check if weights exist
             if 'weights' in samples[isample].keys() :
@@ -125,9 +126,9 @@ def ProjectDraw( var, cut, Lumi, samplelist, pd ):
                 subhists = {}
                 for jsample in samples[isample]['weights'].keys() :
                     subhists[jsample]={}
-                    WEIGHTS = '(%s)*(%s)' %( expressAliases(samples[isample]['weight']) , expressAliases(samples[isample]['weights'][jsample]))
+                    WEIGHTS = '(%s)*(%s)' %( expressAliases(samples[isample]['weight']) , samples[isample]['weights'][jsample] )
+                    #WEIGHTS = '(%s)*(%s)' %( samples[isample]['weight'] , samples[isample]['weights'][jsample] )
                     if igroup not in [ 'Fake' , 'DATA' ]: WEIGHTS = "%s*(%s)" %( str(float(Lumi)/1000.) , WEIGHTS )
-                    #WEIGHTS = expressAliases(WEIGHTS)
                     filelist = [ x for x in samples[isample]['name'] if os.path.basename(x).split('_',1)[-1].replace('.root','').split('__part')[0] == jsample ]
                     files = makeVectorList(filelist)
                     df = ROOT.RDataFrame("Events", files); gROOT.cd()
@@ -139,7 +140,8 @@ def ProjectDraw( var, cut, Lumi, samplelist, pd ):
                 ###print col.OKGREEN+ "drawLambda::Sub-Samples : "  , samples[isample]['weights'].keys() + col.ENDC
                 isptr = True
                 WEIGHTS = expressAliases(samples[isample]['weight'])
-                if igroup not in [ 'Fake' , 'DATA' ]: WEIGHTS = "%s*(%s)" %( str(float(Lumi)/1000.) , WEIGHTS )
+                #WEIGHTS = samples[isample]['weight']
+                if igroup not in [ 'Fake' , 'DATA' ]: WEIGHTS = "%s*(%s)" %( str(float(Lumi)/1000.) , WEIGHTS ) 
                 filelist = samples[isample]['name']
                 files = makeVectorList(filelist)
                 df = ROOT.RDataFrame("Events", files); gROOT.cd()
@@ -163,10 +165,10 @@ def draw(hist, data, back, sign, snorm=1, ratio=0, poisson=True, log=False):
     groupList = plt.cfg.getGroupPlot()
     
     # If not present, create BkgSum
-    if not 'BkgSum' in hist.keys():
-        hist['BkgSum'] = hist['DATA'].Clone("BkgSum") if 'DATA' in hist else hist[back[0]].Clone("BkgSum")
-        hist['BkgSum'].Reset("MICES")
-        for i, s in enumerate(back): hist['BkgSum'].Add(hist[s].GetPtr())
+    #if not 'BkgSum' in hist.keys():
+    #    hist['BkgSum'] = hist['DATA'].Clone("BkgSum") if 'DATA' in hist else hist[back[0]].Clone("BkgSum")
+    #    hist['BkgSum'].Reset("MICES")
+    #    for i, s in enumerate(back): hist['BkgSum'].Add(hist[s].GetPtr())
     hist['BkgSum'].SetMarkerStyle(0)
 
     # Some style
@@ -256,7 +258,8 @@ def draw(hist, data, back, sign, snorm=1, ratio=0, poisson=True, log=False):
     bkg.GetYaxis().SetTitleOffset(bkg.GetYaxis().GetTitleOffset()*1) #1.075
 
     if 'DATA' in hist:
-        bkg.SetMaximum((3.0 if log else 1.5)*max(bkg.GetMaximum(), hist['DATA'].GetBinContent(hist['DATA'].GetMaximumBin())+hist['DATA'].GetBinError(hist['DATA'].GetMaximumBin())))
+        #bkg.SetMaximum((3.0 if log else 1.5)*max(bkg.GetMaximum(), hist['DATA'].GetBinContent(hist['DATA'].GetMaximumBin())+hist['DATA'].GetBinError(hist['DATA'].GetMaximumBin())))
+        bkg.SetMaximum((25.0 if log else 2.0)*max(bkg.GetMaximum(), hist['DATA'].GetBinContent(hist['DATA'].GetMaximumBin())+hist['DATA'].GetBinError(hist['DATA'].GetMaximumBin())))
         bkg.SetMinimum(max(min(hist['BkgSum'].GetBinContent(hist['BkgSum'].GetMinimumBin()), hist['DATA'].GetMinimum()), 5.e-1)  if log else 0.)
     else:
         bkg.SetMaximum(bkg.GetMaximum()*(3.0 if log else 1.5)) #2.5 ; 1.2
@@ -302,9 +305,9 @@ def draw(hist, data, back, sign, snorm=1, ratio=0, poisson=True, log=False):
             if poisson: res_graph.Draw("SAME, PE0")
             else: res.Draw("SAME, PE0")
             if len(err.GetXaxis().GetBinLabel(1))==0: # Bin labels: not a ordinary plot
-                drawRatio( hist['DATA'].GetPtr() , hist['BkgSum'] )
-                drawKolmogorov( hist['DATA'].GetPtr() , hist['BkgSum'] )
-                drawRelativeYield( hist['DATA'].GetPtr() , hist['BkgSum'] )
+                drawRatio( hist['DATA'] , hist['BkgSum'] )
+                drawKolmogorov( hist['DATA'] , hist['BkgSum'] )
+                drawRelativeYield( hist['DATA'] , hist['BkgSum'] )
         else: res = None
     c1.Update()
 
@@ -353,6 +356,9 @@ def drawRelativeYield(data,bkg):
 pass
 
 def printTable(hist, sign=[]):
+    
+    groupList = plt.cfg.getGroupPlot()
+        
     samplelist = [x for x in hist.keys() if not 'DATA' in x and not 'BkgSum' in x and not x in sign and not x=="files"]
     print "Sample                  Events          Entries         %"
     print "-"*80
@@ -362,8 +368,8 @@ def printTable(hist, sign=[]):
         print "%-20s" % s, "\t%-10.2f" % hist[s].Integral(), "\t%-10.0f" % (hist[s].GetEntries()-2), "\t%-10.2f" % (100.*hist[s].Integral()/hist['BkgSum'].Integral()) if hist['BkgSum'].Integral() > 0 else 0, "%"
     print "-"*80
     for i, s in enumerate(sign):
-        if not samples[s]['plot']: continue
-        #print "%-20s" % s, "\t%-10.2f" % hist[s].Integral(), "\t%-10.0f" % (hist[s].GetEntries()-2), "\t%-10.2f" % (100.*hist[s].GetEntries()/float(hist[s].GetOption())) if float(hist[s].GetOption()) > 0 else 0, "%"
+        if not groupList[s]['plot']: continue
+        #print "%-20s" % s, "\t%-10.2f" % hist[s].Integral(), "\t%-10.0f" % (hist[s].GetEntries()-2), "\t%-10.2f" % 100.*hist[s].GetEntries()/float(hist[s].GetOption()) if float(hist[s].GetOption()) > 0 else 0, "%"
         print "%-20s" % s, "\t%-10.2f" % hist[s].Integral(), "\t%-10.0f" % (hist[s].GetEntries()-2), "\t%-10.2f" % (hist[s].GetEntries()) if float(hist[s].GetEntries()) > 0 else 0, "%"
     print "-"*80
 pass
