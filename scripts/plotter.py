@@ -52,7 +52,6 @@ else:
 cfg = Config(options.dataset)
 ########## PLOTTER SETTINGS ##########
 NTUPLEDIR   = '/home/shoh/works/Projects/Analysis/LambdaNano/pilot/';
-#NTUPLEDIR = '/home/shoh/works/Projects/Analysis/LambdaNano/dataset16-v26-WH/';
 PLOTDIR     = "plots/%s"%options.dataset
 LUMI        = cfg.lumi() #41860. #35800. # pb-1 Inquire via brilcalc lumi --begin 272007 --end 275376 -u /pb #https://twiki.cern.ch/twiki/bin/viewauth/CMS/PdmV2016Analysis
 #data = []

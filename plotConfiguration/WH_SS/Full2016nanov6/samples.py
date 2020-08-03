@@ -2,54 +2,7 @@ import os
 import inspect
 from collections import Counter
 
-
-#configurations = os.path.realpath(inspect.getfile(inspect.currentframe())) # this file
-#configurations = os.path.dirname(configurations) # Full2016v6
-#configurations = os.path.dirname(configurations) # WH_SS
-#configurations = os.path.dirname(configurations) # Configurations
-
-#from LatinoAnalysis.Tools.commonTools import getSampleFiles, getBaseW, addSampleWeight
-
-def addSampleWeight(sampleDic,key,Sample,Weight): #samples ; tag ; sample name ; additional weights
-    
-    ## discreetized additional weight management
-    ## add new weight entry
-    if not 'weights' in sampleDic[key] :
-        sampleDic[key]['weights'] = {}
-
-        ## evaluate how many species
-        templist = map( lambda x : os.path.basename(x).split('_',1)[-1].replace('.root','').split('__part')[0] ,  sampleDic[key]['name'] )
-        templist = list(set(templist))
-
-        ## register weights for specific process
-        for i,tag in enumerate(templist): sampleDic[key]['weights'][tag] = '(1.)'
-        
-    sampleDic[key]['weights'][Sample] = '%s*(%s)' %( sampleDic[key]['weights'][Sample] , Weight )
-
-    '''
-    ### Add Weights in sampleDic if needed
-    if not 'weights' in sampleDic[key] :
-        sampleDic[key]['weights'] = []
-    if len(sampleDic[key]['weights']) == 0 :
-        for iEntry in range(len(sampleDic[key]['name'])) : sampleDic[key]['weights'].append('(1.)')
-
-    ### Now add the actual weight
-    for iEntry in range(len(sampleDic[key]['name'])):
-        name = sampleDic[key]['name'][iEntry]
-        if '/' in name : name = os.path.basename(name)
-        name = name.split('_',1)[-1].replace('.root','').split('__part')[0]
-        if name == Sample:
-            sampleDic[key]['weights'][iEntry] += '*(' + Weight + ')'
-    '''
-    
-def nanoGetSampleFiles(inputDir , sample , isFake=False):
-    
-    if 'Run' not in sample:
-        inputDir = inputDir+'/'+sample
-    elif 'Single' in sample :
-        inputDir = inputDir+'/Run2016_'+sample.split('_')[0] if not isFake else inputDir+'/Run2016_'+sample.split('_')[0]+'_fake/'
-        
-    return [ inputDir+'/'+x for x in os.listdir(inputDir) if 'nanoLatino_'+sample+'__' in x ]
+from PhysicsTools.NanoAODTools.LambPlot.plotConfiguration.helper import addSampleWeight, nanoGetSampleFiles
 
 # samples
 try:
@@ -80,15 +33,16 @@ DataRun = [
     ['H','Run2016H-Nano1June2019-v1']
 ]
 
-#DataSets = ['MuonEG','SingleMuon','SingleElectron','DoubleMuon', 'DoubleEG']
-DataSets = [ 'SingleMuon' , 'SingleElectron' ]
+DataSets = ['MuonEG','SingleMuon','SingleElectron','DoubleMuon', 'DoubleEG']
+#DataSets = [ 'SingleMuon' , 'SingleElectron' , 'DoubleMuon' , 'DoubleEG' ]
+#DataSets = [ 'SingleMuon' , 'SingleElectron' , 'DoubleMuon' , 'DoubleEG' ]
 
 DataTrig = {
-    #'MuonEG'         : ' Trigger_ElMu' ,
+    'MuonEG'         : ' Trigger_ElMu' ,
     'SingleMuon'     : '!Trigger_ElMu && Trigger_sngMu' ,
     'SingleElectron' : '!Trigger_ElMu && !Trigger_sngMu && Trigger_sngEl',
-    #'DoubleMuon'     : '!Trigger_ElMu && !Trigger_sngMu && !Trigger_sngEl && Trigger_dblMu',
-    #'DoubleEG'       : '!Trigger_ElMu && !Trigger_sngMu && !Trigger_sngEl && !Trigger_dblMu && Trigger_dblEl'
+    'DoubleMuon'     : '!Trigger_ElMu && !Trigger_sngMu && !Trigger_sngEl && Trigger_dblMu',
+    'DoubleEG'       : '!Trigger_ElMu && !Trigger_sngMu && !Trigger_sngEl && !Trigger_dblMu && Trigger_dblEl'
 }
 
 #########################################
@@ -362,22 +316,24 @@ samples['Fake_ee'] = {
 }
 
 for _, sd in DataRun:
-  for pd in DataSets:
-    # only this file is v3
-    if ('2016E' in sd and 'MuonEG' in pd):
-        files = nanoGetSampleFiles(fakeDirectory, pd + '_' + sd.replace('v1', 'v3') , True)  
-    else:
-        files = nanoGetSampleFiles(fakeDirectory, pd + '_' + sd , True)
+    for pd in DataSets:
+        # only this file is v3
+        if ('2016E' in sd and 'MuonEG' in pd):
+            files = nanoGetSampleFiles(fakeDirectory, pd + '_' + sd.replace('v1', 'v3') , True)  
+        else:
+            files = nanoGetSampleFiles(fakeDirectory, pd + '_' + sd , True)
 
-    samples['Fake_em']['name'].extend(files)
-    samples['Fake_mm']['name'].extend(files)
-    samples['Fake_ee']['name'].extend(files)
+        samples['Fake_em']['name'].extend(files)
+        samples['Fake_mm']['name'].extend(files)
+        samples['Fake_ee']['name'].extend(files)
 
 for _, sd in DataRun:
     for pd in DataSets:
-        addSampleWeight( samples , 'Fake_em' , pd + '_' + sd , DataTrig[pd]  )
-        addSampleWeight( samples , 'Fake_mm' , pd + '_' + sd , DataTrig[pd]  )
-        addSampleWeight( samples , 'Fake_ee' , pd + '_' + sd , DataTrig[pd]  )
+        pd_name = pd + '_' + sd
+        if ('2016E' in sd and 'MuonEG' in pd): pd_name = pd_name.replace('v1', 'v3') # only this file is v3
+        addSampleWeight( samples , 'Fake_em' , pd_name , DataTrig[pd]  )
+        addSampleWeight( samples , 'Fake_mm' , pd_name , DataTrig[pd]  )
+        addSampleWeight( samples , 'Fake_ee' , pd_name , DataTrig[pd]  )
 
 ###########################################
 ################## DATA ###################
@@ -397,11 +353,11 @@ for _, sd in DataRun:
         files = nanoGetSampleFiles(dataDirectory, pd + '_' + sd.replace('v1', 'v3'))
     else:
         files = nanoGetSampleFiles(dataDirectory, pd + '_' + sd)
-
+    
     samples['DATA']['name'].extend(files)
-    #addSampleWeight( samples , 'DATA' , pd + '_' + sd , DataTrig[pd]  )
-    #samples['DATA']['weights'].extend([DataTrig[pd]] * len(files))
 
 for _, sd in DataRun:
     for pd in DataSets:
-        addSampleWeight( samples , 'DATA' , pd + '_' + sd , DataTrig[pd]  )
+        pd_name = pd + '_' + sd
+        if ('2016E' in sd and 'MuonEG' in pd): pd_name = pd_name.replace('v1', 'v3') # only this file is v3
+        addSampleWeight( samples , 'DATA' , pd_name , DataTrig[pd]  )

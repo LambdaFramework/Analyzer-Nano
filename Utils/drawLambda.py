@@ -9,15 +9,15 @@ from ROOT import TFile, TChain, TTree, TCut, TH1, TH1F, TH1D, TH2F, THStack, TGr
 from ROOT import TStyle, TCanvas, TPad
 from ROOT import TLegend, TLatex, TText, TLine, TBox
 from ROOT.std import vector
-
-import PhysicsTools.NanoAODTools.LambPlot.whss.whss as plt
 import PhysicsTools.NanoAODTools.LambPlot.Utils.color as col
+import PhysicsTools.NanoAODTools.LambPlot.analyses.whss as plt
 
-###
-from PhysicsTools.NanoAODTools.LambPlot.plotConfiguration.WH_SS.Full2016nanov6.variables import variables
-from PhysicsTools.NanoAODTools.LambPlot.plotConfiguration.WH_SS.Full2016nanov6.cuts import cuts as selection
-from PhysicsTools.NanoAODTools.LambPlot.plotConfiguration.WH_SS.Full2016nanov6.samples import samples
-from PhysicsTools.NanoAODTools.LambPlot.plotConfiguration.WH_SS.Full2016nanov6.aliases import aliases
+#########################################
+samples = plt.cfg.getModule('samples')
+variables = plt.cfg.getModule('variables')
+selection = plt.cfg.getModule('selection')
+aliases = plt.cfg.getModule('aliases')
+########################################
 
 from collections import OrderedDict
 import pandas as pds
@@ -68,8 +68,11 @@ def makeHisto( df_ , var_ , cut_ , weights_ , isample_ ):
     print col.OKGREEN+ "drawLambda::Samples : "  , isample_ + col.ENDC
     print ""
     
-    # Define column
+    # Define column for weights
     df_ = df_.Define( "weights" , weights_ )
+    # Define column for variable expression
+    if any (x in variables[var_]['name'] for x in [ '*' , '[' , ']' , 'TMath::' ]):
+        df_ = df_.Define( var_ , variables[var_]['name'] )
     # Filter column
     df_ = df_.Filter( cut_ )
 
@@ -355,23 +358,33 @@ def drawRelativeYield(data,bkg):
     latex.DrawLatex(0.75, 0.85, "rel. Yield= %.3f" % ((data.Integral()/bkg.Integral())*100) )
 pass
 
-def printTable(hist, sign=[]):
+def printTable(hist , pathout , txtname , sign=[] ):
     
     groupList = plt.cfg.getGroupPlot()
-        
+
+    f = open( '%s/%s' %(pathout,txtname) ,'w')
+    
     samplelist = [x for x in hist.keys() if not 'DATA' in x and not 'BkgSum' in x and not x in sign and not x=="files"]
-    print "Sample                  Events          Entries         %"
-    print "-"*80
+    print >>f, txtname
+    print >>f, "-"*80
+    print >>f, "Sample                  Events          Entries         %"
+    print >>f, "-"*80
     for i, s in enumerate(['DATA']+samplelist+['BkgSum'] if 'DATA' in hist.keys() else samplelist+['BkgSum']):
-        if i==1 or s=="DATA" or i==len(samplelist)+1: print "-"*80
-        #Events                           #Entries
-        print "%-20s" % s, "\t%-10.2f" % hist[s].Integral(), "\t%-10.0f" % (hist[s].GetEntries()-2), "\t%-10.2f" % (100.*hist[s].Integral()/hist['BkgSum'].Integral()) if hist['BkgSum'].Integral() > 0 else 0, "%"
-    print "-"*80
+        if i==1 or s=="DATA" or i==len(samplelist)+1: print >>f, "-"*80
+        print >>f, "%-20s" % s, "\t%-10.2f" % hist[s].Integral(), "\t%-10.0f" % (hist[s].GetEntries()-2), "\t%-10.2f" % (100.*hist[s].Integral()/hist['BkgSum'].Integral()) if hist['BkgSum'].Integral() > 0 else 0
+    print >>f, "-"*80
     for i, s in enumerate(sign):
         if not groupList[s]['plot']: continue
         #print "%-20s" % s, "\t%-10.2f" % hist[s].Integral(), "\t%-10.0f" % (hist[s].GetEntries()-2), "\t%-10.2f" % 100.*hist[s].GetEntries()/float(hist[s].GetOption()) if float(hist[s].GetOption()) > 0 else 0, "%"
-        print "%-20s" % s, "\t%-10.2f" % hist[s].Integral(), "\t%-10.0f" % (hist[s].GetEntries()-2), "\t%-10.2f" % (hist[s].GetEntries()) if float(hist[s].GetEntries()) > 0 else 0, "%"
-    print "-"*80
+        print >>f, "%-20s" % s, "\t%-10.2f" % hist[s].Integral(), "\t%-10.0f" % (hist[s].GetEntries()-2), "\t%-10.2f" % (hist[s].GetEntries()) if float(hist[s].GetEntries()) > 0 else 0
+    print >>f, "-"*80
+
+    f.close()
+    # to printout
+    fcheck = open( '%s/%s' %(pathout,txtname) ,'r')
+    print(fcheck.read())
+    fcheck.close()
+    
 pass
 
 
@@ -436,9 +449,9 @@ def setHistStyle(hist, r=1.1):
     hist.GetXaxis().SetLabelOffset(hist.GetXaxis().GetLabelOffset()*r*r*r*r)
     hist.GetXaxis().SetTitleOffset(hist.GetXaxis().GetTitleOffset()*r)
     hist.GetYaxis().SetTitleOffset(hist.GetYaxis().GetTitleOffset())
-    if hist.GetXaxis().GetTitle().find("GeV") != -1: # and not hist.GetXaxis().IsVariableBinSize()
-        div = (hist.GetXaxis().GetXmax() - hist.GetXaxis().GetXmin()) / hist.GetXaxis().GetNbins()
-        hist.GetYaxis().SetTitle("Events / %.1f GeV" % div)
+    #if hist.GetXaxis().GetTitle().find("GeV") != -1: # and not hist.GetXaxis().IsVariableBinSize()
+    div = (hist.GetXaxis().GetXmax() - hist.GetXaxis().GetXmin()) / hist.GetXaxis().GetNbins() # here
+    hist.GetYaxis().SetTitle("Events / %.1f GeV" % div)
 pass
 
 def setBotStyle(h, r=4, fixRange=True):

@@ -1,4 +1,5 @@
 # variables
+# 0 = not fold (default), 1 = fold underflowbin, 2 = fold overflow bin, 3 = fold underflow and overflow
 
 variables = {}
     
@@ -12,6 +13,64 @@ variables['mll'] = { 'name' : 'mll' ,
                      'range' : ( 40 , 0. , 200. ) ,
                      'xaxis' : 'mll [GeV/c2]',
                      'fold' : 3
+}
+
+#############################
+variables['Ele1_dz'] = { 'name' : 'Electron_dz[Lepton_electronIdx[0]]' ,
+                         'range' : ( 100  , -0.05 , 0.05 ), # 10 micron in bin size
+                         'xaxis' : 'Lepton1 electron dz [cm]',
+                         'fold' : 3
+}
+
+variables['Ele2_dz'] = { 'name' : 'Electron_dz[Lepton_electronIdx[1]]' ,
+                         'range' : ( 100  , -0.05 , 0.05 ),
+                         'xaxis' : 'Lepton2 electron dz [cm]',
+                         'fold' : 3
+}
+
+variables['Ele1_dxy'] = { 'name' : 'Electron_dxy[Lepton_electronIdx[0]]' ,
+                          'range' : ( 100  , -0.05 , 0.05 ),
+                         'xaxis' : 'Lepton1 electron dxy [cm]',
+                         'fold' : 3
+}
+
+variables['Ele2_dxy'] = { 'name' : 'Electron_dxy[Lepton_electronIdx[1]]' ,
+                          'range' : ( 100  , -0.05 , 0.05 ),
+                         'xaxis' : 'Lepton2 electron dxy [cm]',
+                         'fold' : 3
+}
+
+##########################
+
+variables['Mu1_dz'] = { 'name' : 'Muon_dz[Lepton_muonIdx[0]]' ,
+                         'range' : ( 100  , -0.05 , 0.05 ),
+                         'xaxis' : 'Lepton1 muon dz [cm]',
+                         'fold' : 3
+}
+
+variables['Mu2_dz'] = { 'name' : 'Muon_dz[Lepton_muonIdx[1]]' ,
+                         'range' : ( 100  , -0.05 , 0.05 ),
+                         'xaxis' : 'Lepton2 muon dz [cm]',
+                         'fold' : 3
+}
+
+variables['Mu1_dxy'] = { 'name' : 'Muon_dxy[Lepton_muonIdx[0]]' ,
+                         'range' : ( 100  , -0.05 , 0.05 ),
+                         'xaxis' : 'Lepton1 muon dxy [cm]',
+                         'fold' : 3
+}
+
+variables['Mu2_dxy'] = { 'name' : 'Muon_dxy[Lepton_muonIdx[1]]' ,
+                         'range' : ( 100  , -0.05 , 0.05 ),
+                         'xaxis' : 'Lepton2 muon dxy [cm]',
+                         'fold' : 3
+}
+####################################
+
+variables['MinMjjl'] = { 'name' : 'TMath::Min(mjjL1,mjjL2)' ,
+                         'range' : ( 40 , 0. , 200. ),
+                         'xaxis' : 'Min(mjjl1,mjjl2) [GeV/c2]',
+                         'fold' : 3
 }
 
 variables['mlljj20_whss']  = {   'name': 'mlljj20_whss',
@@ -119,19 +178,19 @@ variables['eta2']  = {  'name': 'Lepton_eta[1]',
 
 variables['jetpt1']  = {
                         'name': 'CleanJet_pt[0]*(CleanJet_pt[0]>30)',     
-                        'range' : (40,0,200),   
+                        'range' : (60,0,600),   
                         'xaxis' : 'p_{T} 1st jet',
                         'fold' : 2   # 0 = not fold (default), 1 = fold underflowbin, 2 = fold overflow bin, 3 = fold underflow and overflow
                         }
 
 variables['jetpt2']  = {
                         'name': 'CleanJet_pt[1]*(CleanJet_pt[1]>30)',     
-                        'range' : (40,0,200),   
+                        'range' : (60,0,600),   
                         'xaxis' : 'p_{T} 2nd jet',
                         'fold' : 0   # 0 = not fold (default), 1 = fold underflowbin, 2 = fold overflow bin, 3 = fold underflow and overflow
                         }
 
-variables['mjj']  = {  'name': 'mjj*(CleanJet_pt[1]>30)',
+variables['mjj']  = {  'name': 'mjj',
                         'range' : (50,0,400),
                         'xaxis' : 'm_{jj} [GeV]',
                          'fold' : 3
@@ -239,7 +298,7 @@ variables['dphijjmet']  = {  'name': 'dphijjmet',
                         }
 
 variables['ht']  = {  'name': 'ht',
-                        'range' : (40,0,200),
+                        'range' : (100,0,1000),
                         'xaxis' : 'ht [GeV]',
                          'fold' : 3
                         }
